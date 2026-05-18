@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   BISINDO CSLR Demo — Global Styles
+   ============================================================ */
+
+@layer base {
+  :root {
+    --color-surface-bg: #F8FAFC;
+    --color-surface-panel: #FFFFFF;
+    --color-surface-panel-2: #F1F5F9;
+    --color-surface-border: #E2E8F0;
+    --color-surface-hover: #F1F5F9;
+    --color-text-primary: #0F172A;
+    --color-text-secondary: #475569;
+    --color-text-muted: #94A3B8;
+    --color-success-bg: #DCFCE7;
+    --color-gloss-pending: #F1F5F9;
+  }
+
+  .dark {
+    --color-surface-bg: #0B1120;
+    --color-surface-panel: #111827;
+    --color-surface-panel-2: #1A2332;
+    --color-surface-border: #1E2D45;
+    --color-surface-hover: #1E293B;
+    --color-text-primary: #F0F6FF;
+    --color-text-secondary: #8BACC8;
+    --color-text-muted: #4B6A8A;
+    --color-success-bg: #052E16;
+    --color-gloss-pending: #1E2D45;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-surface-bg text-text-primary font-sans;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-surface-bg);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-surface-border);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #2563EB;
+  }
+}
+
+@layer components {
+  /* ---- Panel Card Base ---- */
+  .panel-card {
+    @apply bg-surface-panel border border-surface-border rounded-xl shadow-panel;
+  }
+
+  .panel-card-label {
+    @apply text-[10px] font-semibold tracking-widest text-text-secondary uppercase flex items-center gap-2;
+  }
+
+  /* ---- Gradient text ---- */
+  .gradient-text {
+    @apply bg-gradient-to-r from-text-primary via-blue-200 to-brand-blue-light bg-clip-text text-transparent;
+  }
+
+  /* ---- Console text colors ---- */
+  .console-info    { @apply text-console-info; }
+  .console-process { @apply text-console-process; }
+  .console-error   { @apply text-console-error; }
+  .console-default { @apply text-text-secondary; }
+
+  /* ---- Pipeline step states ---- */
+  .step-idle      { @apply bg-surface-panel-2 border-surface-border text-text-muted; }
+  .step-running   { @apply bg-brand-blue border-brand-blue text-white animate-pulse-slow; }
+  .step-completed { @apply bg-brand-blue border-brand-blue text-white; }
+  .step-error     { @apply bg-red-900/40 border-red-600 text-red-300; }
+
+  /* ---- Gloss cards ---- */
+  .gloss-card-active {
+    @apply bg-brand-blue text-white shadow-panel-glow;
+  }
+  .gloss-card-pending {
+    @apply bg-gloss-pending text-text-secondary border border-surface-border;
+  }
+}
+
+@layer utilities {
+  /* Hero background grid */
+  .bg-hero-grid {
+    background-image: linear-gradient(rgba(37,99,235,0.04) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(37,99,235,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* Glow effect */
+  .glow-blue {
+    box-shadow: 0 0 24px rgba(37, 99, 235, 0.25);
+  }
+
+  /* Cursor blink for console */
+  .cursor-blink::after {
+    content: '▋';
+    @apply text-console-info animate-blink ml-0.5;
+  }
+
+  /* Progress bar fill animation */
+  .progress-fill {
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}

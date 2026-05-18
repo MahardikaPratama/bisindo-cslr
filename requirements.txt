@@ -1,0 +1,7 @@
+# Computer Vision & MediaPipe
+mediapipe==0.10.14
+opencv-python>=4.8.0
+matplotlib>=3.8.0
+
+# Numerical
+numpy>=1.24.0,<2.0.0
