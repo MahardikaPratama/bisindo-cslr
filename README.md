@@ -33,6 +33,42 @@ conda activate bisindo-cslr
 python main.py --input path/to/video.mp4
 ```
 
+## FastAPI Preview Backend
+
+Run the backend server:
+
+```bash
+uvicorn app:app --host 0.0.0.0 --port 8000 --reload
+```
+
+Available endpoints:
+
+- `GET /health`
+- `POST /api/preview/process` (multipart form-data with field name `video`)
+- `GET /preview/...` (static preview files)
+
+Example upload request:
+
+```bash
+curl -X POST "http://127.0.0.1:8000/api/preview/process" \
+  -F "video=@data/raw/RUMAH DIMANA KAMU/ACHMAD_RUMAH DIMANA KAMU_01.mp4"
+```
+
+Example response:
+
+```json
+{
+	"video_id": "P01_S023_R01",
+	"num_frames": 140,
+	"num_keypoints": 86,
+	"previews": {
+		"rgb": "/preview/rgb/P01_S023_R01_rgb.mp4",
+		"skeleton": "/preview/skeleton_only/P01_S023_R01_skeleton.mp4",
+		"overlay": "/preview/overlay_rgb_skeleton/P01_S023_R01_overlay.mp4"
+	}
+}
+```
+
 ## `rgb-to-skeleton` Module
 
 The `rgb-to-skeleton` module is responsible for the video-to-skeleton conversion pipeline.
@@ -40,10 +76,11 @@ The `rgb-to-skeleton` module is responsible for the video-to-skeleton conversion
 It contains:
 
 - `extractor/` for keypoint extraction from RGB video frames
-- `converter/` for optional exporting helpers (JSON, pickle) — persistence is controlled via CLI flags
+- `data/` for in-memory skeleton structure and optional disk writer helpers
 - `visualizer/` for generating RGB, skeleton, and overlay previews
 - `core/` for pipeline orchestration and command-line input handling
 - `config/` for shared paths, settings, and keypoint layouts
+- `utils/` for logging, exception helpers, and stderr noise filters
 
 ## Input
 
@@ -53,12 +90,11 @@ The pipeline accepts only one video file at a time.
 
 After processing, the pipeline saves:
 
-- one JSON file containing skeleton keypoints
 - one RGB preview video
 - one skeleton-only preview video
 - one overlay preview video
 
-These outputs can be used by the frontend and by the backend inference flow.
+The in-memory skeleton output is used by backend inference flow. JSON output is optional and only written when `--save-to-disk` is enabled.
 
 ## CLI Parameters
 

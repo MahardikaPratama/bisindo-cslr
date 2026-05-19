@@ -13,8 +13,6 @@ import importlib
 import sys
 import time
 import warnings
-import io
-import threading
 from datetime import timedelta
 from pathlib import Path
 
@@ -41,106 +39,9 @@ warnings.filterwarnings(
     message=r"SymbolDatabase\.GetPrototype\(\) is deprecated.*",
     category=UserWarning,
 )
-
-
-class _FilteredStderr(io.TextIOBase):
-    """Filter known noisy third-party stderr lines while preserving real errors."""
-
-    def __init__(self, wrapped):
-        self._wrapped = wrapped
-        self._buffer = ""
-
-    def write(self, text):
-        if not text:
-            return 0
-
-        self._buffer += text
-        written = len(text)
-
-        while "\n" in self._buffer:
-            line, self._buffer = self._buffer.split("\n", 1)
-            self._emit_line(line + "\n")
-
-        return written
-
-    def flush(self):
-        if self._buffer:
-            self._emit_line(self._buffer)
-            self._buffer = ""
-        self._wrapped.flush()
-
-    def _emit_line(self, line):
-        noisy_prefixes = (
-            "INFO: Created TensorFlow Lite XNNPACK delegate for CPU.",
-            "WARNING: All log messages before absl::InitializeLog() is called are written to STDERR",
-            "W0000 ",
-            "[libopenh264 ",
-            "Failed to load OpenH264 library:",
-        )
-        stripped = line.lstrip()
-        if stripped.startswith(noisy_prefixes):
-            return
-        self._wrapped.write(line)
-
-
-class _NativeStderrFilter:
-    """Capture OS-level stderr and filter known native library noise."""
-
-    def __init__(self):
-        self._original_fd = None
-        self._read_fd = None
-        self._write_fd = None
-        self._thread = None
-        self._stop_event = threading.Event()
-        self._wrapped_stderr = sys.__stderr__
-
-    def __enter__(self):
-        self._original_fd = os.dup(2)
-        self._read_fd, self._write_fd = os.pipe()
-        os.dup2(self._write_fd, 2)
-        os.close(self._write_fd)
-        self._write_fd = None
-        self._thread = threading.Thread(target=self._drain, daemon=True)
-        self._thread.start()
-        return self
-
-    def __exit__(self, exc_type, exc, tb):
-        if self._original_fd is not None:
-            os.dup2(self._original_fd, 2)
-            os.close(self._original_fd)
-            self._original_fd = None
-        self._stop_event.set()
-        if self._thread is not None:
-            self._thread.join(timeout=1.0)
-        if self._read_fd is not None:
-            try:
-                os.close(self._read_fd)
-            except OSError:
-                pass
-            self._read_fd = None
-
-    def _drain(self):
-        with os.fdopen(self._read_fd, "r", encoding="utf-8", errors="replace", closefd=False) as stream:
-            for line in stream:
-                if self._should_drop(line):
-                    continue
-                self._wrapped_stderr.write(line)
-                self._wrapped_stderr.flush()
-
-    @staticmethod
-    def _should_drop(line: str) -> bool:
-        noisy_prefixes = (
-            "INFO: Created TensorFlow Lite XNNPACK delegate for CPU.",
-            "WARNING: All log messages before absl::InitializeLog() is called are written to STDERR",
-            "W0000 ",
-            "[libopenh264 ",
-            "Failed to load OpenH264 library:",
-        )
-        stripped = line.lstrip()
-        return stripped.startswith(noisy_prefixes)
-
-
-sys.stderr = _FilteredStderr(sys.stderr)
+stderr_filters = importlib.import_module("utils.stderr_filters")
+NativeStderrFilter = stderr_filters.NativeStderrFilter
+stderr_filters.install_filtered_stderr()
 
 get_logger = importlib.import_module("utils.logger").get_logger
 SkeletonPipeline = importlib.import_module("core.pipeline").SkeletonPipeline
@@ -159,7 +60,7 @@ def main() -> int:
         raise FileNotFoundError(f"Input path does not exist or is not a file: {input_path}")
 
     start_time = time.time()
-    with _NativeStderrFilter():
+    with NativeStderrFilter():
         pipeline = SkeletonPipeline(save_to_disk=bool(getattr(args, "save_to_disk", False)), async_save=bool(getattr(args, "async_save", False)))
         result = pipeline.process_video(input_path)
 

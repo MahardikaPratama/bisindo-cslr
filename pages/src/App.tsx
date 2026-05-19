@@ -20,16 +20,26 @@ import Footer from './components/footer/Footer';
 
 import { useVideoUpload } from './hooks/useVideoUpload';
 import { useInference } from './hooks/useInference';
+import { useDemoExample } from './hooks/useDemoExample';
 import { useInferenceStore } from './store/useInferenceStore';
+import { useVideoStore } from './store/useVideoStore';
+import { useGroundTruthStore } from './store/useGroundTruthStore';
 
 function App() {
   const { fileInputRef, handleFileChange, triggerSelect } = useVideoUpload();
   const { startInference } = useInference();
+  const { loadDemo, demos } = useDemoExample();
   const { isRunning } = useInferenceStore();
+  const { videoFile } = useVideoStore();
+  const { selectedGroundTruth } = useGroundTruthStore();
 
-  const handleDemoClick = () => {
-    // Bisa digunakan untuk trigger inject dummy video file, lalu start inference
-    alert('Mock function: Try Demo Sample clicked!');
+  const handleDemoClick = async () => {
+    if (demos.length === 0) {
+      alert('No demo examples available');
+      return;
+    }
+    // Load first demo
+    await loadDemo(demos[0].id);
   };
 
   return (
@@ -61,17 +71,17 @@ function App() {
           {/* ── LEFT PANEL (4 columns) ── */}
           <div className="lg:col-span-4 flex flex-col gap-6">
             <VideoInputPanel />
-            <div className="flex-1">
-              <ConsoleLogPanel />
-            </div>
             {/* Start Pipeline Action */}
             <button
               onClick={startInference}
-              disabled={isRunning}
+              disabled={isRunning || !videoFile || !selectedGroundTruth}
               className="w-full bg-brand-blue hover:bg-brand-blue-light text-white font-semibold py-3.5 rounded-xl shadow-btn-primary hover:shadow-panel-glow transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isRunning ? 'Processing...' : 'Run Pipeline Inference'}
             </button>
+            <div className="flex-1">
+              <ConsoleLogPanel />
+            </div>
           </div>
 
           {/* ── RIGHT PANEL (8 columns) ── */}

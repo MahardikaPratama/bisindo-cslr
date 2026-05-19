@@ -5,3 +5,8 @@ matplotlib>=3.8.0
 
 # Numerical
 numpy>=1.24.0,<2.0.0
+
+# API
+fastapi>=0.111.0
+uvicorn>=0.30.0
+python-multipart>=0.0.9

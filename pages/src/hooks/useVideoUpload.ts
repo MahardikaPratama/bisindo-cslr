@@ -51,8 +51,6 @@ export function useVideoUpload() {
     videoElement.src = objectUrl;
 
     videoElement.onloadedmetadata = () => {
-      window.URL.revokeObjectURL(videoElement.src); // Cleanup for the temp video
-      
       const metadata = {
         filename: file.name,
         duration: videoElement.duration,

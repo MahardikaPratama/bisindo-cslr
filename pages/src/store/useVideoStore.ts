@@ -8,7 +8,7 @@
  */
 
 import { create } from 'zustand';
-import type { VideoMetadata, VideoStatus } from '../types/video.types';
+import type { VideoMetadata, VideoStatus, VideoPreviews } from '../types/video.types';
 
 interface VideoStore {
   /** File video yang diupload pengguna, null jika belum ada */
@@ -19,11 +19,15 @@ interface VideoStore {
   videoObjectUrl: string | null;
   /** Status lifecycle video */
   videoStatus: VideoStatus;
+  /** URL preview hasil pemrosesan API backend */
+  videoPreviews: VideoPreviews | null;
 
   /** Set video file beserta metadata-nya */
   setVideo: (file: File, metadata: VideoMetadata, objectUrl: string) => void;
   /** Update status video */
   setVideoStatus: (status: VideoStatus) => void;
+  /** Set preview URLs yang didapat dari backend */
+  setVideoPreviews: (previews: VideoPreviews | null) => void;
   /** Reset seluruh state video ke initial state */
   resetVideo: () => void;
 }
@@ -33,6 +37,7 @@ const INITIAL_STATE = {
   videoMetadata: null,
   videoObjectUrl: null,
   videoStatus: 'idle' as VideoStatus,
+  videoPreviews: null,
 };
 
 export const useVideoStore = create<VideoStore>((set, get) => ({
@@ -48,10 +53,13 @@ export const useVideoStore = create<VideoStore>((set, get) => ({
       videoMetadata: metadata,
       videoObjectUrl: objectUrl,
       videoStatus: 'ready',
+      videoPreviews: null, // Reset previews saat video baru diupload
     });
   },
 
   setVideoStatus: (status) => set({ videoStatus: status }),
+
+  setVideoPreviews: (previews) => set({ videoPreviews: previews }),
 
   resetVideo: () => {
     const prevUrl = get().videoObjectUrl;

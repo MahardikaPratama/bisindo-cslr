@@ -12,6 +12,7 @@ import { Video, FileVideo } from 'lucide-react';
 import Card from '../../common/Card/Card';
 import { useVideoStore } from '../../store/useVideoStore';
 import { formatDuration, formatFps } from '../../utils/formatters';
+import GroundTruthSelector from '../ground-truth-selector/GroundTruthSelector';
 import type { VideoInputPanelProps } from './VideoInputPanel.types';
 import { cn } from '../../utils/cn';
 
@@ -82,6 +83,9 @@ const VideoInputPanel = React.memo(function VideoInputPanel({ onFileInputRef }: 
           </span>
         </div>
       </div>
+
+      {/* Ground Truth Selector */}
+      <GroundTruthSelector />
     </Card>
   );
 });

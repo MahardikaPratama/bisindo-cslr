@@ -52,7 +52,7 @@ class PreviewGenerator:
             resolution = (width, height)
 
         res = (int(resolution[0]), int(resolution[1]))
-        writer = self._make_writer(output_path, PREVIEW_FPS, res, preferred_codecs=("mp4v", "XVID", "MJPG"))
+        writer = self._make_writer(output_path, PREVIEW_FPS, res, preferred_codecs=("avc1", "H264", "X264", "mp4v", "XVID", "MJPG"))
 
         while cap.isOpened():
             ret, frame = cap.read()
@@ -93,7 +93,7 @@ class PreviewGenerator:
         res = (int(resolution[0]), int(resolution[1]))
 
         # Prefer Windows-friendly MP4 codec and fall back if unavailable
-        writer = self._make_writer(output_path, PREVIEW_FPS, res, preferred_codecs=("mp4v", "XVID", "MJPG"))
+        writer = self._make_writer(output_path, PREVIEW_FPS, res, preferred_codecs=("avc1", "H264", "X264", "mp4v", "XVID", "MJPG"))
 
         drawer = SkeletonDrawer(res)
 
@@ -138,7 +138,7 @@ class PreviewGenerator:
 
         res = (int(resolution[0]), int(resolution[1]))
 
-        writer = self._make_writer(output_path, PREVIEW_FPS, res, preferred_codecs=("mp4v", "XVID", "MJPG"))
+        writer = self._make_writer(output_path, PREVIEW_FPS, res, preferred_codecs=("avc1", "H264", "X264", "mp4v", "XVID", "MJPG"))
 
         drawer = SkeletonDrawer(res)
 
@@ -163,7 +163,7 @@ class PreviewGenerator:
         logger.info("Overlay preview saved to %s", output_path)
         return output_path
 
-    def _make_writer(self, output_path: str, fps: int, res: tuple[int, int], preferred_codecs=("mp4v", "XVID", "MJPG")):
+    def _make_writer(self, output_path: str, fps: int, res: tuple[int, int], preferred_codecs=("avc1", "H264", "X264", "mp4v", "XVID", "MJPG")):
         """Try multiple fourcc codecs and return a working VideoWriter.
 
         This avoids hard-dependency on a single codec (e.g. libopenh264).

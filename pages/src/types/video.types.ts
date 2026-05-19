@@ -19,4 +19,10 @@ export interface VideoMetadata {
   fileSize: number;
 }
 
+export interface VideoPreviews {
+  rgb: string | null;
+  skeleton: string | null;
+  overlay: string | null;
+}
+
 export type VideoStatus = 'idle' | 'ready' | 'processing' | 'done' | 'error';
