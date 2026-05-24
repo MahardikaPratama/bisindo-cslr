@@ -46,11 +46,6 @@ export function useInference() {
       return;
     }
 
-    if (!selectedConfig) {
-      alert('Please select a preprocessing config first.');
-      return;
-    }
-
     // Reset state sebelum mulai
     resetInference();
     clearLogs();
@@ -78,7 +73,8 @@ export function useInference() {
       const formData = new FormData();
       formData.append('video', videoFile);
       formData.append('sentence_id', selectedGroundTruth.id);
-      formData.append('config_name', selectedConfig || '');
+      // Only append config_name if user explicitly selected one; otherwise let backend use its default
+      if (selectedConfig) formData.append('config_name', selectedConfig);
 
       const response = await fetch(`${API_BASE}/api/inference`, {
         method: 'POST',

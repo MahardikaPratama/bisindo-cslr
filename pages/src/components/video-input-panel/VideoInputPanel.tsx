@@ -13,7 +13,8 @@ import Card from '../../common/Card/Card';
 import { useVideoStore } from '../../store/useVideoStore';
 import { formatDuration, formatFps } from '../../utils/formatters';
 import GroundTruthSelector from '../ground-truth-selector/GroundTruthSelector';
-import ConfigSelector from '../config-selector/ConfigSelector';
+// ConfigSelector intentionally not rendered to avoid frontend-side config errors
+// import ConfigSelector from '../config-selector/ConfigSelector';
 import type { VideoInputPanelProps } from './VideoInputPanel.types';
 import { cn } from '../../utils/cn';
 
@@ -88,7 +89,7 @@ const VideoInputPanel = React.memo(function VideoInputPanel({ onFileInputRef }: 
       {/* Selectors */}
       <div className="flex flex-col gap-3">
         <GroundTruthSelector />
-        <ConfigSelector />
+        {/* Preprocessing config selector removed from UI — backend default will be used */}
       </div>
     </Card>
   );
