@@ -54,8 +54,8 @@ PREVIEW_RESOLUTION = (1920, 1080)
 DRAW_CONNECTIONS = True   # Draw skeleton edges
 DRAW_JOINTS      = True   # Draw joint circles
 
-JOINT_RADIUS    = 2       # Pixel radius
-LINE_THICKNESS  = 1       # Garis tipis agar tidak menutupi titik
+JOINT_RADIUS    = 4       # Pixel radius
+LINE_THICKNESS  = 2       # Garis lebih tebal agar skeleton mudah terlihat
 
 # Color per region — BGR format
 COLOR_LEFT_HAND  = (0,   255,  0)    # GL — green

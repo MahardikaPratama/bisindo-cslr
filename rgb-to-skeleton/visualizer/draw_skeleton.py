@@ -88,8 +88,8 @@ class SkeletonDrawer:
     def _draw_joints(self, canvas, points, color):
         for pt in points:
             if self._is_valid(pt):
-                # Thin outline circle — prevents adjacent dots from merging into blobs
-                cv2.circle(canvas, self._px(pt), JOINT_RADIUS, color, 1)
+                # Filled circle improves visibility on light or compressed outputs.
+                cv2.circle(canvas, self._px(pt), JOINT_RADIUS, color, -1)
 
     def _draw_edges(self, canvas, points, connections, color):
         for s, e in connections:
@@ -129,7 +129,9 @@ class SkeletonDrawer:
         """
 
         if background is None:
-            canvas = np.full((self.height, self.width, 3), 30, dtype=np.uint8)
+            # Use a light background so skeletons remain visible even when
+            # only a few keypoints are detected.
+            canvas = np.full((self.height, self.width, 3), 245, dtype=np.uint8)
         else:
             canvas = cv2.resize(background, (self.width, self.height))
 

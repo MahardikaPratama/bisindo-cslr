@@ -86,6 +86,22 @@ class SkeletonPipeline:
 
         logger.info("Frames extracted: %s", int(keypoints.shape[0]))
 
+        # Trace detection quality so blank previews / poor predictions are easier to diagnose.
+        xy = keypoints[:, :, :2]
+        valid_mask = np.any(np.abs(xy) > 1e-6, axis=-1)
+        valid_per_frame = valid_mask.sum(axis=1)
+        valid_ratio = float(valid_mask.mean()) if valid_mask.size else 0.0
+        logger.info(
+            "Keypoint coverage: valid_ratio=%.3f | per_frame(min/mean/max)=%s/%s/%s",
+            valid_ratio,
+            int(valid_per_frame.min()) if valid_per_frame.size else 0,
+            float(valid_per_frame.mean()) if valid_per_frame.size else 0.0,
+            int(valid_per_frame.max()) if valid_per_frame.size else 0,
+        )
+
+        if valid_ratio < 0.25:
+            logger.warning("Low keypoint coverage detected; previews and predictions may be poor.")
+
         skeleton_seq = SkeletonSequence.from_numpy(video_id, keypoints)
 
         result: ProcessingResult = {
