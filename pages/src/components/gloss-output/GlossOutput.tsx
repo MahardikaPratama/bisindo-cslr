@@ -29,7 +29,7 @@ interface SentenceBoxProps {
 
 const SentenceBox: React.FC<SentenceBoxProps> = ({ label, text, variant = 'default' }) => (
   <div className="flex flex-col gap-1.5">
-    <span className="text-xs font-semibold uppercase tracking-widest text-text-muted">
+    <span className="text-xs font-semibold tracking-widest uppercase text-text-muted">
       {label}
     </span>
     <div
@@ -41,7 +41,7 @@ const SentenceBox: React.FC<SentenceBoxProps> = ({ label, text, variant = 'defau
           : 'bg-surface-border/20 border border-surface-border text-text-primary'}
       `}
     >
-      {text || <span className="italic text-text-muted font-normal">—</span>}
+      {text || <span className="italic font-normal text-text-muted">—</span>}
     </div>
   </div>
 );
@@ -54,7 +54,7 @@ const GlossOutput = React.memo(function GlossOutput() {
   const isEmpty = !inferenceResult;
 
   return (
-    <Card className="flex flex-col h-full gap-4 relative" padding="md">
+    <Card className="relative flex flex-col gap-4 min-h-[160px] sm:min-h-[180px] md:min-h-[220px]" padding="md">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="panel-card-label">
@@ -67,8 +67,8 @@ const GlossOutput = React.memo(function GlossOutput() {
 
       {/* Body */}
       {isEmpty ? (
-        <div className="flex-1 flex items-center justify-center">
-          <p className="text-text-muted italic text-sm text-center">
+        <div className="flex items-center justify-center flex-1">
+          <p className="text-sm italic text-center text-text-muted">
             No inference result yet. Upload a video and run the pipeline.
           </p>
         </div>
@@ -90,7 +90,7 @@ const GlossOutput = React.memo(function GlossOutput() {
 
           {/* WER */}
           <div className="flex items-center justify-between pt-1">
-            <span className="text-xs font-semibold uppercase tracking-widest text-text-muted">
+            <span className="text-xs font-semibold tracking-widest uppercase text-text-muted">
               Word Error Rate (WER)
             </span>
             <span

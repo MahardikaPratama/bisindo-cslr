@@ -26,19 +26,19 @@ const Navbar = React.memo(function Navbar() {
         'animate-fade-in'
       )}
     >
-      <div className="max-w-screen-xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
+      <div className="flex items-center justify-between h-16 max-w-screen-xl gap-6 px-6 mx-auto">
         {/* ── Logo ── */}
-        <div className="flex items-center gap-3 flex-shrink-0">
-          <div className="w-9 h-9 rounded-lg bg-brand-blue/20 border border-brand-blue/30 flex items-center justify-center">
+        <div className="flex items-center flex-shrink-0 gap-3">
+          <div className="flex items-center justify-center border rounded-lg w-9 h-9 bg-brand-blue/20 border-brand-blue/30">
             <span className="text-xl leading-none" role="img" aria-label="sign language">🤟</span>
           </div>
-          <span className="font-semibold text-base text-text-primary tracking-tight whitespace-nowrap">
+          <span className="text-base font-semibold tracking-tight text-text-primary whitespace-nowrap">
             BISINDO CSLR Demo
           </span>
         </div>
 
         {/* ── Nav Links ── */}
-        <div className="hidden md:flex items-center gap-1">
+        <div className="items-center hidden gap-1 md:flex">
           {NAV_LINKS.map((link) => (
             <a
               key={link.label}
@@ -57,33 +57,14 @@ const Navbar = React.memo(function Navbar() {
         </div>
 
         {/* ── Status Badges + Icons ── */}
-        <div className="flex items-center gap-3 flex-shrink-0">
-          <Badge variant="success" dot>Model Loaded</Badge>
-          <div className="hidden sm:flex items-center gap-2 bg-surface-panel border border-surface-border rounded-lg px-3 py-1.5">
-            <Cpu size={13} className="text-text-secondary" />
-            <span className="text-xs font-medium text-text-primary">GPU: RTX 4090</span>
-          </div>
+        <div className="flex items-center flex-shrink-0 gap-3">
           <button
             id="btn-theme"
             aria-label="Toggle Theme"
             onClick={toggleTheme}
-            className="p-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-hover transition-colors duration-200"
+            className="p-2 transition-colors duration-200 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-hover"
           >
             {theme === 'dark' ? <Moon size={16} /> : <Sun size={16} />}
-          </button>
-          <button
-            id="btn-settings"
-            aria-label="Settings"
-            className="p-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-hover transition-colors duration-200"
-          >
-            <Settings size={16} />
-          </button>
-          <button
-            id="btn-user"
-            aria-label="User profile"
-            className="p-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-hover transition-colors duration-200"
-          >
-            <User size={16} />
           </button>
         </div>
       </div>

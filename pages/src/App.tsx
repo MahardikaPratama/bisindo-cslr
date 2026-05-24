@@ -14,7 +14,7 @@ import VideoInputPanel from './components/video-input-panel/VideoInputPanel';
 import ConsoleLogPanel from './components/console-log-panel/ConsoleLogPanel';
 import ProcessingPipeline from './components/processing-pipeline/ProcessingPipeline';
 import VisualizationPanel from './components/visualization-panel/VisualizationPanel';
-import SystemTelemetry from './components/system-telemetry/SystemTelemetry';
+// import SystemTelemetry from './components/system-telemetry/SystemTelemetry';
 import GlossOutput from './components/gloss-output/GlossOutput';
 import Footer from './components/footer/Footer';
 
@@ -43,9 +43,9 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-surface-bg flex flex-col relative overflow-hidden">
+    <div className="relative flex flex-col min-h-screen overflow-hidden bg-surface-bg">
       {/* Background Grid Decoration */}
-      <div className="absolute inset-0 z-0 bg-hero-grid pointer-events-none" />
+      <div className="absolute inset-0 z-0 pointer-events-none bg-hero-grid" />
 
       <Navbar />
 
@@ -58,7 +58,7 @@ function App() {
         accept="video/mp4,video/webm,video/avi,video/quicktime"
       />
 
-      <main className="flex-1 relative z-10 pb-20">
+      <main className="relative z-10 flex-1 pb-20">
         <HeroSection
           onUploadClick={() => {
             if (isRunning) return;
@@ -67,9 +67,9 @@ function App() {
           onDemoClick={handleDemoClick}
         />
 
-        <div className="max-w-screen-xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="grid max-w-screen-xl grid-cols-1 gap-6 px-6 mx-auto lg:grid-cols-12">
           {/* ── LEFT PANEL (4 columns) ── */}
-          <div className="lg:col-span-4 flex flex-col gap-6">
+          <div className="flex flex-col gap-6 lg:col-span-4">
             <VideoInputPanel />
             {/* Start Pipeline Action */}
             <button
@@ -85,15 +85,12 @@ function App() {
           </div>
 
           {/* ── RIGHT PANEL (8 columns) ── */}
-          <div className="lg:col-span-8 flex flex-col gap-6">
+          <div className="flex flex-col gap-6 lg:col-span-8">
             <ProcessingPipeline />
             <VisualizationPanel />
             
-            <div className="grid grid-cols-1 sm:grid-cols-12 gap-6">
-              <div className="sm:col-span-4">
-                <SystemTelemetry />
-              </div>
-              <div className="sm:col-span-8">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-12">
+              <div className="sm:col-span-12">
                 <GlossOutput />
               </div>
             </div>

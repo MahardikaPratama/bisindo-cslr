@@ -12,7 +12,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-import utils
+from mslr_iccv2025.utils import Decode
+import utils  # keep legacy access for other utilities if needed
 from modules.temporal_layers import BiLSTMLayer, TemporalConv
 from modules.visual_extractor import CoSign2s
 
@@ -116,7 +117,7 @@ class TwoStream_Cosign(nn.Module):
         # Jumlah kelas sudah termasuk token blank untuk CTC.
         self.num_classes = len(gloss_dict['id2gloss']) + 1
         # Decoder untuk mengubah logits menjadi prediksi gloss saat evaluasi.
-        self.decoder = utils.Decode(gloss_dict, self.num_classes, 'beam')
+        self.decoder = Decode(gloss_dict, self.num_classes, 'beam')
 
         # Setiap bagian menyumbang fitur 256 dimensi pada stream static/motion.
         part_num = len(visual_args['split'])
