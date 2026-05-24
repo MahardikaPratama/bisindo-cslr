@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 interface ConfigStore {
-  selectedConfig: string;
+  selectedConfig: string | null;
   availableConfigs: string[];
   
   setSelectedConfig: (config: string) => void;
@@ -9,7 +9,7 @@ interface ConfigStore {
 }
 
 export const useConfigStore = create<ConfigStore>((set) => ({
-  selectedConfig: 'Double_Cosign_sd.yaml', // default
+  selectedConfig: null,
   availableConfigs: [],
   
   setSelectedConfig: (config) => set({ selectedConfig: config }),

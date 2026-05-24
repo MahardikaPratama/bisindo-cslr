@@ -122,12 +122,26 @@ app.mount("/preview", StaticFiles(directory=str(PREVIEW_DIR)), name="preview")
 
 
 def _get_available_configs() -> list[str]:
-    configs = ["Double_Cosign_sd.yaml"]
+    configs = []
+    # Always include top-level config files in mslr_iccv2025/configs
+    top_dir = CSLR_PROJECT_DIR / "configs"
+    if top_dir.exists():
+        for f in top_dir.glob("*.yaml"):
+            configs.append(f.name)
+
+    # Also include normalization experiment configs
     norm_dir = CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "normalization"
     if norm_dir.exists():
         for f in norm_dir.glob("*.yaml"):
             configs.append(f.name)
-    return sorted(list(set(configs)))
+
+    # Deduplicate and sort
+    configs = sorted(list(dict.fromkeys(configs)))
+    logger.info("[API] Available configs discovered at %s: %s", norm_dir, configs)
+    # Fallback default if nothing found
+    if not configs:
+        configs = ["Double_Cosign_sd.yaml"]
+    return configs
 
 @app.get("/health")
 def health() -> Dict[str, str]:
@@ -135,7 +149,12 @@ def health() -> Dict[str, str]:
 
 @app.get("/api/configs")
 def get_configs() -> JSONResponse:
-    return JSONResponse({"configs": _get_available_configs(), "default": "Double_Cosign_sd.yaml"})
+    configs = _get_available_configs()
+    default = "Double_Cosign_sd.yaml"
+    if configs:
+        # prefer Double_Cosign if present, otherwise first discovered
+        default = "Double_Cosign_sd.yaml" if "Double_Cosign_sd.yaml" in configs else configs[0]
+    return JSONResponse({"configs": configs, "default": default})
 
 
 # ---------------------------------------------------------------------------
