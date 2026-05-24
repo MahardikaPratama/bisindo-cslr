@@ -85,7 +85,7 @@ mslr_iccv2025/model/best_dev_01.30_epoch39_model.pt
 
 ```bash
 cd pages
-npm install
+pnpm install
 ```
 
 ---
