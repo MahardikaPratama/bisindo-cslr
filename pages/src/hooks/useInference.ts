@@ -1,9 +1,10 @@
 /**
  * @file        useInference.ts
- * @description Custom hook untuk mengelola alur (flow) simulasi inferensi CSLR.
- *              Mengkoordinasi update ke pipeline steps, console log, dan telemetry secara berurutan.
+ * @description Custom hook untuk mengelola alur inferensi CSLR nyata.
+ *              Mengirim video + sentence_id ke /api/inference, lalu menganimasikan
+ *              progress bar pipeline steps dan menyimpan hasil ke store.
  * @author      KoTA 502
- * @version     1.0.0
+ * @version     2.0.0
  * @created     2024-01-01
  */
 
@@ -11,7 +12,7 @@ import { useCallback, useRef } from 'react';
 import { useInferenceStore } from '../store/useInferenceStore';
 import { useConsoleStore } from '../store/useConsoleStore';
 import { useVideoStore } from '../store/useVideoStore';
-import { PIPELINE_STEPS, MOCK_INFERENCE_DELAY_MS } from '../constants/pipeline.constants';
+import { useGroundTruthStore } from '../store/useGroundTruthStore';
 import type { PipelineStepId } from '../types/pipeline.types';
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -21,12 +22,14 @@ export function useInference() {
     setStepStatus,
     setCurrentStep,
     setGlossSequence,
+    setInferenceResult,
     setTelemetry,
     setIsRunning,
     resetInference,
   } = useInferenceStore();
   const { appendLog, clearLogs } = useConsoleStore();
   const { videoStatus, videoFile, setVideoPreviews, setVideoStatus } = useVideoStore();
+  const { selectedGroundTruth } = useGroundTruthStore();
 
   const abortControllerRef = useRef<AbortController | null>(null);
 
@@ -35,8 +38,12 @@ export function useInference() {
       alert('Please upload a video first.');
       return;
     }
+    if (!selectedGroundTruth) {
+      alert('Please select a sentence ID (Ground Truth) first.');
+      return;
+    }
 
-    // Reset state before starting
+    // Reset state sebelum mulai
     resetInference();
     clearLogs();
     setIsRunning(true);
@@ -45,126 +52,130 @@ export function useInference() {
     const signal = abortControllerRef.current.signal;
 
     try {
-      appendLog('INFO', 'Starting live inference pipeline...');
+      appendLog('INFO', 'Starting CSLR inference pipeline...');
 
-      // ── STEP 1: RGB Video Validation ──
+      // ── STEP 1: RGB Video Validation (lokal) ──
       setCurrentStep('rgb-video');
       setStepStatus('rgb-video', 'running');
-      appendLog('INFO', `Validating local source RGB video: ${videoFile.name}`);
-      await sleep(500);
+      appendLog('INFO', `Validating source RGB video: ${videoFile.name}`);
+      await sleep(300);
+      if (signal.aborted) throw new Error('Aborted');
       setStepStatus('rgb-video', 'completed');
 
-      // ── STEP 2: Skeleton Extraction (API Call) ──
-      if (signal.aborted) throw new Error('Aborted');
+      // ── STEP 2: Skeleton Extraction + Inference (satu request ke /api/inference) ──
       setCurrentStep('skeleton-ext');
       setStepStatus('skeleton-ext', 'running');
-      appendLog('PROCESS', 'Uploading video and executing MediaPipe Holistic skeleton extraction on backend...');
+      appendLog('PROCESS', 'Uploading video to backend. Running MediaPipe Holistic skeleton extraction...');
 
       const formData = new FormData();
       formData.append('video', videoFile);
+      formData.append('sentence_id', selectedGroundTruth.id);
 
-      const response = await fetch('/api/preview/process', {
+      const response = await fetch('/api/inference', {
         method: 'POST',
         body: formData,
         signal,
       });
 
       if (!response.ok) {
-        const errorDetail = await response.json().catch(() => ({ detail: 'Preview processing failed' }));
-        throw new Error(errorDetail.detail || `Server returned error code ${response.status}`);
+        const errorDetail = await response
+          .json()
+          .catch(() => ({ detail: 'Inference pipeline failed' }));
+        throw new Error(errorDetail.detail || `Server error ${response.status}`);
       }
 
       const result = await response.json();
-      const numFrames = result.num_frames || 0;
-      const numKeypoints = result.num_keypoints || 86;
+      const numFrames: number = result.num_frames || 0;
+      const numKeypoints: number = result.num_keypoints || 86;
+      const inferenceData = result.inference || {};
 
-      appendLog('INFO', `MediaPipe extraction completed. Extracted ${numKeypoints} points across ${numFrames} frames.`);
-      
-      // Save backend preview URLs to the store
+      // Simpan preview URLs
       setVideoPreviews(result.previews);
+      appendLog(
+        'INFO',
+        `Skeleton extraction completed — ${numKeypoints} keypoints × ${numFrames} frames.`
+      );
       setStepStatus('skeleton-ext', 'completed');
 
-      // ── STEP 3: Preprocess ──
+      await sleep(200);
       if (signal.aborted) throw new Error('Aborted');
+
+      // ── STEP 3: Preprocess (animasi saja, sudah selesai di BE) ──
       setCurrentStep('preprocess');
       setStepStatus('preprocess', 'running');
-      appendLog('PROCESS', 'Performing coordinate min-max normalization & zero-padding sequences...');
-      await sleep(600);
+      appendLog(
+        'PROCESS',
+        'Applying coordinate selection (hand21), motion features, normalization & padding...'
+      );
+      await sleep(400);
+      if (signal.aborted) throw new Error('Aborted');
       setStepStatus('preprocess', 'completed');
 
+      await sleep(150);
+
       // ── STEP 4: Inference ──
-      if (signal.aborted) throw new Error('Aborted');
       setCurrentStep('inference');
       setStepStatus('inference', 'running');
-      appendLog('PROCESS', 'Feeding skeleton sequences into TwoStream-CoSign deep neural networks...');
-      
-      const inferenceMs = Math.floor(100 + Math.random() * 30);
-      await sleep(800);
-      
-      // Calculate dynamic FPS based on actual video frames and inference speed
-      const calculatedFps = parseFloat((numFrames / (inferenceMs / 1000)).toFixed(1));
-      
+      appendLog('PROCESS', 'Running TwoStream-CoSign forward pass on skeleton sequences...');
+      await sleep(400);
+      if (signal.aborted) throw new Error('Aborted');
+
+      const inferenceMs: number = inferenceData.inference_ms || 0;
+      const calculatedFps = numFrames > 0 && inferenceMs > 0
+        ? parseFloat((numFrames / (inferenceMs / 1000)).toFixed(1))
+        : 0;
+
       setTelemetry({
         model: 'TwoStream CoSign',
         inferenceMs,
-        fps: calculatedFps || 28.5,
-        gpuUtilPercent: Math.floor(40 + Math.random() * 15),
+        fps: calculatedFps,
+        gpuUtilPercent: 0,
       });
       setStepStatus('inference', 'completed');
 
-      // ── STEP 5: Prediction ──
-      if (signal.aborted) throw new Error('Aborted');
+      await sleep(150);
+
+      // ── STEP 5: Prediction + WER ──
       setCurrentStep('prediction');
       setStepStatus('prediction', 'running');
-      appendLog('PROCESS', 'Running CTC Beam Search Decoder on class probability matrices...');
-      await sleep(600);
+      appendLog('PROCESS', 'Running CTC Beam Search Decoder. Computing WER...');
+      await sleep(300);
+      if (signal.aborted) throw new Error('Aborted');
 
-      // Elegant adaptive easter-egg predictions depending on the file name keywords
-      const lowercaseName = videoFile.name.toLowerCase();
-      let predictedGlosses = [
-        { gloss: 'SAYA', confidence: 0.99 },
-        { gloss: 'BISA', confidence: 0.96 },
-        { gloss: 'BAHASA', confidence: 0.92 },
-        { gloss: 'ISYARAT', confidence: 0.89 },
-      ];
+      const prediction: string = inferenceData.prediction || '[EMPTY]';
+      const groundTruth: string = inferenceData.ground_truth || selectedGroundTruth.text;
+      const werPercent: string = inferenceData.wer_percent || 'N/A';
+      const wer: number = inferenceData.wer ?? 1.0;
 
-      if (lowercaseName.includes('makan')) {
-        predictedGlosses = [
-          { gloss: 'SAYA', confidence: 0.99 },
-          { gloss: 'MAU', confidence: 0.97 },
-          { gloss: 'MAKAN', confidence: 0.94 },
-        ];
-      } else if (lowercaseName.includes('belajar')) {
-        predictedGlosses = [
-          { gloss: 'SAYA', confidence: 0.98 },
-          { gloss: 'BELAJAR', confidence: 0.95 },
-          { gloss: 'BISINDO', confidence: 0.91 },
-        ];
-      } else if (lowercaseName.includes('halo') || lowercaseName.includes('kabar')) {
-        predictedGlosses = [
-          { gloss: 'HALO', confidence: 0.99 },
-          { gloss: 'APA', confidence: 0.96 },
-          { gloss: 'KABAR', confidence: 0.97 },
-        ];
-      } else if (lowercaseName.includes('marah')) {
-        predictedGlosses = [
-          { gloss: 'DIA', confidence: 0.94 },
-          { gloss: 'SEDANG', confidence: 0.88 },
-          { gloss: 'MARAH', confidence: 0.95 },
-        ];
-      }
+      // Simpan inference result ke store
+      setInferenceResult({
+        groundTruth,
+        prediction,
+        wer,
+        werPercent,
+        inferenceMs,
+      });
 
-      setGlossSequence(predictedGlosses);
+      // Simpan gloss sequence (untuk backward compat)
+      const predWords = prediction.split(' ').filter(Boolean);
+      setGlossSequence(predWords.map((w) => ({ gloss: w, confidence: 1.0 })));
+
       setStepStatus('prediction', 'completed');
       setVideoStatus('done');
 
-      appendLog('INFO', `CSLR Inference completed. Predicted glosses: ${predictedGlosses.map((g) => g.gloss).join(' ')}`);
+      appendLog('INFO', `Ground Truth  : ${groundTruth}`);
+      appendLog('INFO', `Prediction    : ${prediction}`);
+      appendLog('INFO', `WER           : ${werPercent}`);
 
     } catch (err: any) {
       if (err.message !== 'Aborted') {
         appendLog('ERROR', `Pipeline failed: ${err.message}`);
         setVideoStatus('error');
-        setIsRunning(false);
+        // Mark current running step as error
+        const { pipelineSteps } = useInferenceStore.getState();
+        pipelineSteps.forEach((s) => {
+          if (s.status === 'running') setStepStatus(s.id as PipelineStepId, 'error');
+        });
       }
     } finally {
       if (!signal.aborted) {
@@ -175,6 +186,7 @@ export function useInference() {
   }, [
     videoStatus,
     videoFile,
+    selectedGroundTruth,
     resetInference,
     clearLogs,
     setIsRunning,
@@ -185,6 +197,7 @@ export function useInference() {
     setVideoPreviews,
     setTelemetry,
     setGlossSequence,
+    setInferenceResult,
   ]);
 
   const abortInference = useCallback(() => {

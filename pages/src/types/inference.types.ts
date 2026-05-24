@@ -3,7 +3,7 @@
  * @description TypeScript types untuk hasil inferensi CSLR: gloss sequence,
  *              system telemetry, dan log entries.
  * @author      KoTA 502
- * @version     1.0.0
+ * @version     2.0.0
  * @created     2024-01-01
  */
 
@@ -32,4 +32,18 @@ export interface LogEntry {
   type: LogType;
   message: string;
   timestamp: string;
+}
+
+/** Hasil inference CSLR dari backend */
+export interface InferenceResult {
+  /** Kalimat ground truth dari dataset */
+  groundTruth: string;
+  /** Kalimat hasil prediksi model */
+  prediction: string;
+  /** WER dalam rentang [0.0, ...] */
+  wer: number;
+  /** WER dalam format string persen, misal "12.50%" */
+  werPercent: string;
+  /** Waktu forward pass model dalam milidetik */
+  inferenceMs: number;
 }

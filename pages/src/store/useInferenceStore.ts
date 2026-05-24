@@ -1,15 +1,16 @@
 /**
  * @file        useInferenceStore.ts
  * @description Zustand store untuk domain inferensi CSLR.
- *              Mengelola pipeline steps, gloss sequence hasil prediksi, dan system telemetry.
+ *              Mengelola pipeline steps, inference result (GT, prediction, WER),
+ *              dan system telemetry.
  * @author      KoTA 502
- * @version     1.0.0
+ * @version     2.0.0
  * @created     2024-01-01
  */
 
 import { create } from 'zustand';
 import type { PipelineStep, PipelineStepId, PipelineStatus } from '../types/pipeline.types';
-import type { GlossItem, SystemTelemetry } from '../types/inference.types';
+import type { GlossItem, SystemTelemetry, InferenceResult } from '../types/inference.types';
 import { PIPELINE_STEPS } from '../constants/pipeline.constants';
 
 interface InferenceStore {
@@ -17,8 +18,10 @@ interface InferenceStore {
   pipelineSteps: PipelineStep[];
   /** ID step yang sedang aktif/berjalan */
   currentStepId: PipelineStepId | null;
-  /** Urutan gloss hasil prediksi model */
+  /** Urutan gloss hasil prediksi model (legacy, masih digunakan GlossOutput) */
   glossSequence: GlossItem[];
+  /** Hasil inference lengkap: ground truth, prediction, WER */
+  inferenceResult: InferenceResult | null;
   /** Data performa sistem saat inferensi */
   telemetry: SystemTelemetry | null;
   /** Flag apakah sedang dalam proses inferensi */
@@ -30,6 +33,8 @@ interface InferenceStore {
   setCurrentStep: (stepId: PipelineStepId | null) => void;
   /** Set hasil gloss sequence */
   setGlossSequence: (glosses: GlossItem[]) => void;
+  /** Set hasil inference lengkap */
+  setInferenceResult: (result: InferenceResult | null) => void;
   /** Set data telemetry sistem */
   setTelemetry: (telemetry: SystemTelemetry) => void;
   /** Set flag running state */
@@ -45,6 +50,7 @@ const INITIAL_STATE = {
   pipelineSteps: buildInitialSteps(),
   currentStepId: null,
   glossSequence: [],
+  inferenceResult: null,
   telemetry: null,
   isRunning: false,
 };
@@ -62,6 +68,8 @@ export const useInferenceStore = create<InferenceStore>((set) => ({
   setCurrentStep: (stepId) => set({ currentStepId: stepId }),
 
   setGlossSequence: (glosses) => set({ glossSequence: glosses }),
+
+  setInferenceResult: (result) => set({ inferenceResult: result }),
 
   setTelemetry: (telemetry) => set({ telemetry }),
 

@@ -3,11 +3,12 @@ from __future__ import annotations
 import importlib
 import os
 import shutil
+import time
 import uuid
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
-from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -21,6 +22,8 @@ os.environ.setdefault("ABSL_MIN_LOG_LEVEL", "3")
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 PROJECT_MODULE_DIR = PROJECT_ROOT / "rgb-to-skeleton"
+CSLR_PROJECT_DIR = PROJECT_ROOT / "mslr_iccv2025"
+
 if str(PROJECT_MODULE_DIR) not in os.sys.path:
     os.sys.path.insert(0, str(PROJECT_MODULE_DIR))
 
@@ -38,7 +41,74 @@ PREVIEW_DIR = PROJECT_ROOT / "data" / "preview"
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 PREVIEW_DIR.mkdir(parents=True, exist_ok=True)
 
-app = FastAPI(title="BISINDO Preview API", version="1.0.0")
+# ---------------------------------------------------------------------------
+# Ground Truth Table (synced with pages/src/constants/ground-truth.constants.ts)
+# ---------------------------------------------------------------------------
+GROUND_TRUTH_TABLE: Dict[str, str] = {
+    "S001": "AYAH SAMA IBU MANA",
+    "S002": "DIA ANAK BAIK SAMPAI BANYAK ORANG SUKA",
+    "S003": "APA KAMU PERNAH BACA BUKU BAHASA INGGRIS",
+    "S004": "BADAN AKU GEMUK TAPI BADAN ADIK KURUS",
+    "S005": "AKU PUSING AKU HARUS PERIKSA MANA",
+    "S006": "SANA ENAK NASI PADANG TAPI MAHAL",
+    "S007": "IBU AKU PUNYA KUCING SAMA IKAN",
+    "S008": "AKU CIUM BADAN DIA",
+    "S009": "AKU LIHAT ADA ULAR MASUK KELAS",
+    "S010": "OBAT BISA BELI TOKO MANA",
+    "S011": "GAK BOLEH PULANG SEKARANG KAMU",
+    "S012": "ORANG JAHAT SANA PUKUL AKU BERULANG",
+    "S013": "KENAPA KAMU GAK MASUK KULIAH KEMARIN",
+    "S014": "POLISI SANA PUKUL PENCURI",
+    "S015": "SANA BERITA SUDAH BANYAK RIBUAN ORANG LIHAT",
+    "S016": "BUKU AKU SOBEK GEGARA DIA",
+    "S017": "TONG-SAMPAH ADA SEMUT BANYAK",
+    "S018": "ULAR SANA MAKAN KAMBING",
+    "S019": "KAMU PERGI MANA",
+    "S020": "KITA ISTIRAHAT JAM BERAPA",
+    "S021": "KAMU PUNYA ANGGOTA KELUARGA BERAPA",
+    "S022": "MANA IBU KAMU BAIK-BAIK ATAU TIDAK",
+    "S023": "KAMU BELAJAR BISINDO KAPAN",
+    "S024": "AKU NILAI JELEK",
+    "S025": "ULANG TAHUN SELAMAT",
+    "S026": "KAKAK AKU KASIH HADIAH BUAT AKU",
+    "S027": "SANA TOILET KOTOR",
+    "S028": "SEPATU DIA KOTOR",
+    "S029": "RUMAH DIMANA KAMU",
+    "S030": "DIA MENGEJEK AKU",
+}
+
+# ---------------------------------------------------------------------------
+# Lazy-loaded InferenceRunner (loaded on first request)
+# ---------------------------------------------------------------------------
+_inference_runner: Optional[Any] = None
+
+CHECKPOINT_PATH = str(
+    CSLR_PROJECT_DIR / "model" / "best_dev_01.30_epoch39_model.pt"
+)
+CSLR_CONFIG_PATH = str(
+    CSLR_PROJECT_DIR / "configs" / "Double_Cosign_sd.yaml"
+)
+
+
+def _get_inference_runner():
+    global _inference_runner
+    if _inference_runner is None:
+        logger.info("[API] Loading InferenceRunner (first request)...")
+        from inference import InferenceRunner
+        _inference_runner = InferenceRunner(
+            cslr_project_dir=str(CSLR_PROJECT_DIR),
+            config_path=CSLR_CONFIG_PATH,
+            checkpoint_path=CHECKPOINT_PATH,
+            annotation_split="test_sd",
+        )
+        logger.info("[API] InferenceRunner loaded.")
+    return _inference_runner
+
+
+# ---------------------------------------------------------------------------
+# FastAPI App
+# ---------------------------------------------------------------------------
+app = FastAPI(title="BISINDO CSLR API", version="2.0.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -56,22 +126,44 @@ def health() -> Dict[str, str]:
     return {"status": "ok"}
 
 
+# ---------------------------------------------------------------------------
+# Helper
+# ---------------------------------------------------------------------------
+def _to_preview_url(path_value: Any) -> Optional[str]:
+    if not path_value:
+        return None
+    path_obj = Path(str(path_value)).resolve()
+    try:
+        rel = path_obj.relative_to(PREVIEW_DIR.resolve())
+    except ValueError:
+        return None
+    return f"/preview/{rel.as_posix()}"
+
+
+def _save_upload(video: UploadFile) -> Path:
+    """Simpan file upload ke temp dir dan kembalikan path-nya."""
+    suffix = Path(video.filename or "video.mp4").suffix.lower()
+    if suffix not in {".mp4", ".mov", ".avi", ".mkv", ".webm"}:
+        raise HTTPException(status_code=400, detail="Unsupported video format")
+    request_id = uuid.uuid4().hex[:12]
+    temp_path = UPLOAD_DIR / f"{request_id}_{Path(video.filename or 'video').name}"
+    with temp_path.open("wb") as buf:
+        shutil.copyfileobj(video.file, buf)
+    return temp_path
+
+
+# ---------------------------------------------------------------------------
+# Endpoint 1: Preview only (backward-compat, masih dipakai FE lama jika ada)
+# ---------------------------------------------------------------------------
 @app.post("/api/preview/process")
 async def process_preview(video: UploadFile = File(...)) -> JSONResponse:
+    """Skeleton extraction + preview generation saja (tanpa inference CSLR)."""
     if not video.filename:
         raise HTTPException(status_code=400, detail="Filename is required")
 
-    suffix = Path(video.filename).suffix.lower()
-    if suffix not in {".mp4", ".mov", ".avi", ".mkv", ".webm"}:
-        raise HTTPException(status_code=400, detail="Unsupported video format")
-
-    request_id = uuid.uuid4().hex[:12]
-    temp_filename = f"{request_id}_{Path(video.filename).name}"
-    temp_path = UPLOAD_DIR / temp_filename
-
+    temp_path: Optional[Path] = None
     try:
-        with temp_path.open("wb") as buffer:
-            shutil.copyfileobj(video.file, buffer)
+        temp_path = _save_upload(video)
 
         with NativeStderrFilter():
             pipeline = SkeletonPipeline(save_to_disk=False, async_save=False)
@@ -82,36 +174,19 @@ async def process_preview(video: UploadFile = File(...)) -> JSONResponse:
             raise HTTPException(status_code=500, detail="Failed to produce skeleton output")
 
         summary = skeleton.summary()
-
-        def to_preview_url(path_value: Any) -> str | None:
-            if not path_value:
-                return None
-            path_obj = Path(str(path_value)).resolve()
-            try:
-                rel = path_obj.relative_to(PREVIEW_DIR.resolve())
-            except ValueError:
-                return None
-            return f"/preview/{rel.as_posix()}"
-
         payload = {
             "video_id": summary.get("video_id"),
             "num_frames": summary.get("num_frames"),
             "num_keypoints": summary.get("num_keypoints"),
             "previews": {
-                "rgb": to_preview_url(result.get("preview_rgb_path")),
-                "skeleton": to_preview_url(result.get("preview_skeleton_path")),
-                "overlay": to_preview_url(result.get("preview_overlay_path")),
+                "rgb": _to_preview_url(result.get("preview_rgb_path")),
+                "skeleton": _to_preview_url(result.get("preview_skeleton_path")),
+                "overlay": _to_preview_url(result.get("preview_overlay_path")),
             },
         }
-
-        logger.info(
-            "API done video_id=%s frames=%s previews=%s",
-            payload["video_id"],
-            payload["num_frames"],
-            payload["previews"],
-        )
-
+        logger.info("API /preview done video_id=%s frames=%s", payload["video_id"], payload["num_frames"])
         return JSONResponse(payload)
+
     except HTTPException:
         raise
     except Exception as exc:
@@ -122,7 +197,112 @@ async def process_preview(video: UploadFile = File(...)) -> JSONResponse:
             video.file.close()
         except Exception:
             pass
-        if temp_path.exists():
+        if temp_path and temp_path.exists():
+            try:
+                temp_path.unlink()
+            except OSError:
+                pass
+
+
+# ---------------------------------------------------------------------------
+# Endpoint 2: Full inference pipeline (skeleton + inference + WER)
+# ---------------------------------------------------------------------------
+@app.post("/api/inference")
+async def run_inference(
+    video: UploadFile = File(...),
+    sentence_id: str = Form(...),
+) -> JSONResponse:
+    """Full pipeline: skeleton extraction → CSLR inference → WER.
+
+    Form fields:
+        video       : file video RGB (mp4/webm/avi/mov/mkv)
+        sentence_id : ID kalimat ground truth, contoh: 'S001'
+
+    Returns JSON dengan:
+        video_id, num_frames, num_keypoints, previews,
+        inference.{ground_truth, prediction, wer, wer_percent, inference_ms}
+    """
+    if not video.filename:
+        raise HTTPException(status_code=400, detail="Filename is required")
+
+    if sentence_id not in GROUND_TRUTH_TABLE:
+        raise HTTPException(
+            status_code=400,
+            detail=f"sentence_id '{sentence_id}' tidak dikenal. Pilih S001–S030.",
+        )
+
+    temp_path: Optional[Path] = None
+    try:
+        temp_path = _save_upload(video)
+        t_start = time.perf_counter()
+
+        # ── Step 1-2: Skeleton extraction ──
+        logger.info("[API] Skeleton extraction: %s | sentence_id=%s", video.filename, sentence_id)
+        with NativeStderrFilter():
+            pipeline = SkeletonPipeline(save_to_disk=False, async_save=False)
+            result: Dict[str, Any] = pipeline.process_video(str(temp_path))
+
+        skeleton = result.get("skeleton")
+        if skeleton is None:
+            raise HTTPException(status_code=500, detail="Failed to produce skeleton output")
+
+        summary = skeleton.summary()
+        previews = {
+            "rgb": _to_preview_url(result.get("preview_rgb_path")),
+            "skeleton": _to_preview_url(result.get("preview_skeleton_path")),
+            "overlay": _to_preview_url(result.get("preview_overlay_path")),
+        }
+
+        # ── Step 3-5: Preprocessing + Inference + WER ──
+        logger.info("[API] Running CSLR inference for sentence_id=%s", sentence_id)
+        runner = _get_inference_runner()
+
+        # Override GT lookup dengan GROUND_TRUTH_TABLE agar tidak bergantung JSON file
+        ground_truth_text = GROUND_TRUTH_TABLE[sentence_id]
+        inference_result = runner.run_return(skeleton.to_numpy(), sentence_id)
+
+        # Jika GT dari runner adalah [NOT FOUND] (JSON tidak tersedia),
+        # override dengan nilai dari GROUND_TRUTH_TABLE yang hardcoded
+        if inference_result["ground_truth"] == "[NOT FOUND]":
+            from inference.cslr_runner import compute_wer_single
+            inference_result["ground_truth"] = ground_truth_text
+            wer_val = compute_wer_single(ground_truth_text, inference_result["prediction"])
+            inference_result["wer"] = round(wer_val, 6)
+            inference_result["wer_percent"] = f"{wer_val * 100:.2f}%"
+
+        total_ms = int((time.perf_counter() - t_start) * 1000)
+
+        payload = {
+            "video_id": summary.get("video_id"),
+            "num_frames": summary.get("num_frames"),
+            "num_keypoints": summary.get("num_keypoints"),
+            "previews": previews,
+            "inference": inference_result,
+            "total_ms": total_ms,
+        }
+
+        logger.info(
+            "[API] /inference done video_id=%s frames=%s gt='%s' pred='%s' wer=%s",
+            payload["video_id"],
+            payload["num_frames"],
+            inference_result["ground_truth"],
+            inference_result["prediction"],
+            inference_result["wer_percent"],
+        )
+
+        return JSONResponse(payload)
+
+    except HTTPException:
+        raise
+    except Exception as exc:
+        logger.exception("[API] Inference failed: %s", exc)
+        raise HTTPException(status_code=500, detail=f"Inference pipeline failed: {str(exc)}") from exc
+    finally:
+        try:
+            video.file.close()
+        except Exception:
+            pass
+        if temp_path and temp_path.exists():
             try:
                 temp_path.unlink()
             except OSError:

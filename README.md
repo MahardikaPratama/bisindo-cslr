@@ -1,123 +1,254 @@
 # bisindo-cslr
 
-Simple pipeline for BISINDO Continuous Sign Language Recognition.
+Pipeline inference **Continuous Sign Language Recognition (CSLR)** berbasis skeleton untuk dataset BISINDO, dilengkapi dengan demo web app interaktif.
 
 ## Overview
 
-This project processes **one input video** and converts it into skeleton data for downstream inference.
+Project ini menerima satu file video RGB dan menjalankan pipeline lengkap:
 
-The main outputs are:
+1. **Skeleton Extraction** — konversi video RGB ke keypoint skeleton 86 titik menggunakan MediaPipe Holistic
+2. **Preprocessing** — seleksi keypoint, fitur motion, normalisasi, dan padding sesuai konfigurasi model
+3. **CSLR Inference** — inferensi model `TwoStream CoSign` untuk menghasilkan prediksi gloss sequence
+4. **WER Evaluation** — perhitungan Word Error Rate terhadap ground truth kalimat
 
-- In-memory `SkeletonSequence` containing `(x, y, confidence)` per keypoint (JSON persistence is optional via `--save-to-disk`)
-- RGB preview video
-- Skeleton-only preview video
-- Overlay preview video that combines RGB and skeleton
+Tersedia dua mode operasi: **CLI** (`main.py`) dan **Web App** (`app.py` + `pages/`).
+
+---
+
+## Struktur Project
+
+```
+bisindo-cslr/
+├── app.py                  # FastAPI backend (REST API)
+├── main.py                 # CLI entry point
+├── inference/              # Modul inference CSLR
+│   ├── __init__.py
+│   └── cslr_runner.py      # SkeletonPreprocessor, InferenceRunner, WER
+├── rgb-to-skeleton/        # Modul konversi video → skeleton
+│   ├── core/               # Pipeline orchestration & CLI
+│   ├── extractor/          # MediaPipe Holistic 86-keypoint extractor
+│   ├── data/               # SkeletonSequence in-memory container
+│   ├── visualizer/         # Generator preview video (RGB, skeleton, overlay)
+│   ├── utils/              # Logger, stderr filters
+│   └── config/             # Path & keypoint layout config
+├── mslr_iccv2025/          # Model CSLR TwoStream CoSign
+│   ├── configs/            # YAML konfigurasi model & dataset
+│   ├── datasets/           # SkeletonFeeder & data loader
+│   ├── model/              # Checkpoint model (.pt)
+│   ├── modules/            # Temporal conv & BiLSTM layers
+│   ├── slr_network.py      # Definisi model TwoStream_Cosign
+│   └── evaluation/         # WER evaluation (python + sclite)
+├── pages/                  # Frontend React + TypeScript (Vite)
+│   └── src/
+│       ├── components/     # UI components (pipeline, visualization, result)
+│       ├── hooks/          # useInference, useVideoUpload
+│       ├── store/          # Zustand state management
+│       └── constants/      # Ground truth sentences, pipeline steps
+└── data/
+    ├── uploads/            # Temp upload (dibersihkan otomatis)
+    └── preview/            # Preview video output
+```
+
+---
 
 ## Setup
 
-### 1. Create the Conda environment
+### 1. Buat environment Conda
 
 ```bash
 conda env create -f environment.yml
-```
-
-### 2. Activate the environment
-
-```bash
 conda activate bisindo-cslr
 ```
 
-### 3. Run the pipeline
+### 2. Install frontend dependencies
 
 ```bash
-python main.py --input path/to/video.mp4
+cd pages
+npm install
 ```
 
-## FastAPI Preview Backend
+---
 
-Run the backend server:
+## Menjalankan Web App (Cara Utama)
+
+### Terminal 1 — Backend API
 
 ```bash
-uvicorn app:app --host 0.0.0.0 --port 8000 --reload
+uvicorn app:app --host 127.0.0.1 --port 8000 --reload
 ```
 
-Available endpoints:
-
-- `GET /health`
-- `POST /api/preview/process` (multipart form-data with field name `video`)
-- `GET /preview/...` (static preview files)
-
-Example upload request:
+### Terminal 2 — Frontend Dev Server
 
 ```bash
-curl -X POST "http://127.0.0.1:8000/api/preview/process" \
-  -F "video=@data/raw/RUMAH DIMANA KAMU/ACHMAD_RUMAH DIMANA KAMU_01.mp4"
+cd pages
+npm run dev
 ```
 
-Example response:
+Buka browser di `http://localhost:5173`.
+
+### Alur penggunaan
+
+1. Upload file video RGB (.mp4 / .webm / .avi / .mov)
+2. Pilih **Sentence ID** (S001–S030) dari dropdown
+3. Klik **Run Pipeline Inference**
+4. Pantau progress di **Processing Pipeline** bar
+5. Lihat hasil di panel **Inference Result**:
+   - Kalimat Ground Truth
+   - Kalimat Hasil Prediksi
+   - Word Error Rate (WER)
+
+---
+
+## REST API
+
+Backend berjalan di `http://127.0.0.1:8000`.
+
+### `GET /health`
+
+Cek status server.
+
+```bash
+curl http://127.0.0.1:8000/health
+```
+
+```json
+{ "status": "ok" }
+```
+
+---
+
+### `POST /api/inference`
+
+**Full pipeline**: skeleton extraction → preprocessing → inference → WER.
+
+| Field | Type | Keterangan |
+|---|---|---|
+| `video` | file | File video RGB (mp4/webm/avi/mov/mkv) |
+| `sentence_id` | string | ID kalimat ground truth, contoh: `S001` |
+
+```bash
+curl -X POST "http://127.0.0.1:8000/api/inference" \
+  -F "video=@data/raw/sample.mp4" \
+  -F "sentence_id=S001"
+```
+
+**Response:**
 
 ```json
 {
-	"video_id": "P01_S023_R01",
-	"num_frames": 140,
-	"num_keypoints": 86,
-	"previews": {
-		"rgb": "/preview/rgb/P01_S023_R01_rgb.mp4",
-		"skeleton": "/preview/skeleton_only/P01_S023_R01_skeleton.mp4",
-		"overlay": "/preview/overlay_rgb_skeleton/P01_S023_R01_overlay.mp4"
-	}
+  "video_id": "P01_S001",
+  "num_frames": 94,
+  "num_keypoints": 86,
+  "previews": {
+    "rgb": "/preview/rgb/P01_S001_rgb.mp4",
+    "skeleton": "/preview/skeleton_only/P01_S001_skeleton.mp4",
+    "overlay": "/preview/overlay_rgb_skeleton/P01_S001_overlay.mp4"
+  },
+  "inference": {
+    "ground_truth": "AYAH SAMA IBU MANA",
+    "prediction": "AYAH SAMA IBU MANA",
+    "wer": 0.0,
+    "wer_percent": "0.00%",
+    "inference_ms": 312
+  },
+  "total_ms": 4821
 }
 ```
 
-## `rgb-to-skeleton` Module
+---
 
-The `rgb-to-skeleton` module is responsible for the video-to-skeleton conversion pipeline.
+### `POST /api/preview/process`
 
-It contains:
-
-- `extractor/` for keypoint extraction from RGB video frames
-- `data/` for in-memory skeleton structure and optional disk writer helpers
-- `visualizer/` for generating RGB, skeleton, and overlay previews
-- `core/` for pipeline orchestration and command-line input handling
-- `config/` for shared paths, settings, and keypoint layouts
-- `utils/` for logging, exception helpers, and stderr noise filters
-
-## Input
-
-The pipeline accepts only one video file at a time.
-
-## Output
-
-After processing, the pipeline saves:
-
-- one RGB preview video
-- one skeleton-only preview video
-- one overlay preview video
-
-The in-memory skeleton output is used by backend inference flow. JSON output is optional and only written when `--save-to-disk` is enabled.
-
-## CLI Parameters
-
-The pipeline exposes a small set of command-line parameters for controlling input and persistence behavior:
-
-- `--input` / `-i`: (required) Path to a single video file to process.
-- `--save-to-disk`: When present, the pipeline will persist the extracted skeleton data (JSON) to disk. Previews (RGB, skeleton-only, overlay) are generated by default and saved to disk so the frontend can display them even when skeletons are kept in memory.
-- `--async-save`: Use with `--save-to-disk` to perform disk writes and preview generation in background threads. This reduces blocking latency for the main process; background tasks are submitted as Futures and can be waited on programmatically if desired.
-
-Usage examples:
+Skeleton extraction dan preview saja (tanpa inference CSLR).
 
 ```bash
-# Process and keep everything in-memory (fastest for inference):
-python main.py --input path/to/video.mp4
-
-# Persist results to disk (JSON + preview files) synchronously:
-python main.py --input path/to/video.mp4 --save-to-disk
-
-# Persist results to disk asynchronously (non-blocking writes):
-python main.py --input path/to/video.mp4 --save-to-disk --async-save
+curl -X POST "http://127.0.0.1:8000/api/preview/process" \
+  -F "video=@data/raw/sample.mp4"
 ```
 
-Notes:
+---
 
-- The default mode (no `--save-to-disk`) keeps a `SkeletonSequence` in memory and is recommended for low-latency backend inference pipelines.
-- When using `--async-save`, the process may exit before background tasks complete unless you explicitly wait for the returned Futures; consider adding a coordination step in callers that need the files to be guaranteed on disk.
+## CLI (`main.py`)
+
+Jalankan pipeline dari terminal tanpa web app.
+
+### Tanpa inference (skeleton + preview saja)
+
+```bash
+python main.py --input data/raw/sample.mp4
+```
+
+### Dengan inference CSLR
+
+```bash
+python main.py \
+  --input data/raw/sample.mp4 \
+  --checkpoint mslr_iccv2025/model/best_dev_01.30_epoch39_model.pt \
+  --sentence-id S001 \
+  --annotation-split test_sd \
+  --cslr-config mslr_iccv2025/configs/Double_Cosign_sd.yaml
+```
+
+**Output:**
+
+```text
+============================================================
+CSLR INFERENCE RESULT
+============================================================
+Sentence ID          : S001
+Ground Truth         : AYAH SAMA IBU MANA
+Inference Prediction : AYAH SAMA IBU MANA
+WER                  : 0.00%
+============================================================
+```
+
+### CLI Parameters
+
+| Parameter | Wajib | Default | Keterangan |
+|---|---|---|---|
+| `--input` / `-i` | ✅ | — | Path ke file video input |
+| `--checkpoint` | — | — | Path ke file `.pt` bobot model. Jika tidak diisi, inference dilewati |
+| `--sentence-id` | — | `UNKNOWN` | ID kalimat ground truth (S001–S030) |
+| `--cslr-config` | — | `Double_Cosign_sd.yaml` | Path ke config YAML model |
+| `--annotation-split` | — | `test_sd` | Split anotasi untuk lookup ground truth |
+| `--save-to-disk` | — | `False` | Simpan skeleton JSON ke disk |
+| `--async-save` | — | `False` | Disk write secara background thread |
+
+---
+
+## Model
+
+| Property | Value |
+|---|---|
+| Arsitektur | TwoStream CoSign (Two-Stream + CTC) |
+| Input | Skeleton keypoint 86 titik (hand21 = 42 titik) |
+| Dataset | BISINDO (Signer Dependent) |
+| Checkpoint | `mslr_iccv2025/model/best_dev_01.30_epoch39_model.pt` |
+| Config | `mslr_iccv2025/configs/Double_Cosign_sd.yaml` |
+| WER terbaik | 1.30% (dev set) |
+
+---
+
+## Ground Truth Sentences
+
+Tersedia 30 kalimat (S001–S030) yang dapat dipilih sebagai ground truth. Daftar lengkap tersedia di:
+
+- Frontend: `pages/src/constants/ground-truth.constants.ts`
+- Backend: `GROUND_TRUTH_TABLE` di `app.py`
+
+---
+
+## `rgb-to-skeleton` Module
+
+Modul ini bertanggung jawab atas konversi video RGB ke skeleton keypoint.
+
+| Submodul | Fungsi |
+|---|---|
+| `extractor/` | Ekstraksi keypoint menggunakan MediaPipe Holistic (86 titik) |
+| `data/` | `SkeletonSequence` — container in-memory `(T, K, C)` |
+| `visualizer/` | Generator preview: RGB, skeleton-only, overlay |
+| `core/pipeline.py` | Orkestrasi pipeline |
+| `core/cli.py` | Argument parser CLI |
+| `utils/` | Logger, stderr filters |
+
+> **Catatan:** MediaPipe Holistic membutuhkan versi `<= 0.10.14`.
