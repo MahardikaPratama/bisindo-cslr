@@ -84,8 +84,8 @@ def _build_extended_parser():
     )
     parser.add_argument(
         "--cslr-config",
-        default=str(CSLR_PROJECT_DIR / "configs" / "Double_Cosign_sd.yaml"),
-        help="Path ke config YAML model CSLR (default: Double_Cosign_sd.yaml).",
+        default=str(CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "normalization" / "Baseline+TN.yaml"),
+        help="Path ke config YAML model CSLR (default: Baseline+TN.yaml).",
     )
     parser.add_argument(
         "--annotation-split",
@@ -130,7 +130,7 @@ def main() -> int:
 
             sentence_id = getattr(args, "sentence_id", None) or "UNKNOWN"
             cslr_config = getattr(args, "cslr_config", None) or str(
-                CSLR_PROJECT_DIR / "configs" / "Double_Cosign_sd.yaml"
+                CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "normalization" / "Baseline+TN.yaml"
             )
             annotation_split = getattr(args, "annotation_split", "test_sd")
 

@@ -88,6 +88,7 @@ CHECKPOINT_PATH = str(
 CSLR_CONFIG_PATH = str(
     CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "normalization" / "Baseline+TN.yaml"
 )
+DEFAULT_CSLR_CONFIG_NAME = "Baseline+TN.yaml"
 
 
 def _get_inference_runner():
@@ -140,7 +141,7 @@ def _get_available_configs() -> list[str]:
     logger.info("[API] Available configs discovered at %s: %s", norm_dir, configs)
     # Fallback default if nothing found
     if not configs:
-        configs = ["Double_Cosign_sd.yaml"]
+        configs = [DEFAULT_CSLR_CONFIG_NAME]
     return configs
 
 @app.get("/health")
@@ -150,10 +151,7 @@ def health() -> Dict[str, str]:
 @app.get("/api/configs")
 def get_configs() -> JSONResponse:
     configs = _get_available_configs()
-    default = "Double_Cosign_sd.yaml"
-    if configs:
-        # prefer Double_Cosign if present, otherwise first discovered
-        default = "Double_Cosign_sd.yaml" if "Double_Cosign_sd.yaml" in configs else configs[0]
+    default = DEFAULT_CSLR_CONFIG_NAME if DEFAULT_CSLR_CONFIG_NAME in configs else (configs[0] if configs else DEFAULT_CSLR_CONFIG_NAME)
     return JSONResponse({"configs": configs, "default": default})
 
 
@@ -242,14 +240,16 @@ async def process_preview(video: UploadFile = File(...)) -> JSONResponse:
 async def run_inference(
     video: UploadFile = File(...),
     sentence_id: str = Form(...),
-    config_name: str = Form("Double_Cosign_sd.yaml"),
+    config_name: Optional[str] = Form(None),
 ) -> JSONResponse:
     """Full pipeline: skeleton extraction → CSLR inference → WER.
 
     Form fields:
         video       : file video RGB (mp4/webm/avi/mov/mkv)
         sentence_id : ID kalimat ground truth, contoh: 'S001'
-        config_name : Nama file konfigurasi preprocessing (opsional, default 'Double_Cosign_sd.yaml')
+        config_name : Nama file konfigurasi preprocessing (opsional).
+                  Jika tidak dikirim, backend memakai preprocessor default
+                  yang sudah dimuat saat InferenceRunner dibuat.
 
     Returns JSON dengan:
         video_id, num_frames, num_keypoints, previews,
@@ -287,16 +287,24 @@ async def run_inference(
         }
 
         # ── Step 3-5: Preprocessing + Inference + WER ──
-        logger.info("[API] Running CSLR inference for sentence_id=%s with config=%s", sentence_id, config_name)
+        logger.info(
+            "[API] Running CSLR inference for sentence_id=%s with config=%s",
+            sentence_id,
+            config_name or "<backend-default>",
+        )
         runner = _get_inference_runner()
-        
-        # Resolve config path
-        if config_name == "Double_Cosign_sd.yaml":
-            config_path = str(CSLR_PROJECT_DIR / "configs" / "Double_Cosign_sd.yaml")
+
+        # Jika frontend mengirim config_name, update preprocessor.
+        # Jika tidak, biarkan backend memakai preprocessor default yang sudah
+        # dimuat saat InferenceRunner dibuat.
+        if config_name:
+            if config_name == "Double_Cosign_sd.yaml":
+                config_path = str(CSLR_PROJECT_DIR / "configs" / "Double_Cosign_sd.yaml")
+            else:
+                config_path = str(CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "normalization" / config_name)
+            runner.update_preprocessor(config_path)
         else:
-            config_path = str(CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "normalization" / config_name)
-        
-        runner.update_preprocessor(config_path)
+            logger.info("[API] Using backend default preprocessor from InferenceRunner initialization.")
 
         # Override GT lookup dengan GROUND_TRUTH_TABLE agar tidak bergantung JSON file
         ground_truth_text = GROUND_TRUTH_TABLE[sentence_id]

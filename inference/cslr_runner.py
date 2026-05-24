@@ -169,10 +169,13 @@ class SkeletonPreprocessor:
                 self.pose_idx += list(range(42, 61))
 
         logger.info(
-            "[Preprocessor] used_part=%s | pose_idx_len=%d | normalization=%s",
+            "[Preprocessor] used_part=%s | pose_idx_len=%d | normalization=%s | downsampling=%s | ratio=%.3f | temporal_length=%d",
             self.used_part,
             len(self.pose_idx),
             self.normalization_types,
+            self.downsampling,
+            float(self.downsampling_ratio),
+            int(self.temporal_length),
         )
 
     # ------------------------------------------------------------------
