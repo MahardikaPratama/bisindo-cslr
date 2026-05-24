@@ -26,15 +26,35 @@ const ConfigSelector = React.memo(function ConfigSelector({ className }: ConfigS
     let isMounted = true;
     const fetchConfigs = async () => {
       try {
-        const res = await fetch(`${API_BASE}/api/configs`);
-        if (!res.ok) throw new Error('Failed to fetch configs');
-        const data = await res.json();
-        
+        // Try multiple endpoints: prefer API_BASE if set, then fall back to relative /api/configs
+        const endpoints = [];
+        if (API_BASE) endpoints.push(`${API_BASE.replace(/\/$/, '')}/api/configs`);
+        endpoints.push('/api/configs');
+
+        let data = null;
+        let lastErr: any = null;
+        for (const ep of endpoints) {
+          try {
+            const res = await fetch(ep);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            data = await res.json();
+            // stop at first successful response
+            break;
+          } catch (e: any) {
+            lastErr = e;
+            // try next
+          }
+        }
+
+        if (!data) throw lastErr || new Error('Failed to fetch configs');
+
         if (isMounted) {
-          setAvailableConfigs(data.configs || []);
+          const cfgs = Array.isArray(data.configs) ? data.configs : [];
+          setAvailableConfigs(cfgs);
           if (!selectedConfig && data.default) {
             setSelectedConfig(data.default);
           }
+          appendLog('INFO', `Loaded configs: ${cfgs.length} items`);
         }
       } catch (err: any) {
         appendLog('ERROR', `Failed to load configs: ${err.message}`);
