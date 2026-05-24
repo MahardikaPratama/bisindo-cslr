@@ -178,6 +178,17 @@ class SkeletonPreprocessor:
             int(self.temporal_length),
         )
 
+    def summary(self) -> dict:
+        return {
+            "used_part": list(self.used_part),
+            "pose_idx_len": len(self.pose_idx),
+            "norm_point": list(self.norm_point) if self.norm_point is not None else None,
+            "normalization_types": list(self.normalization_types),
+            "downsampling": bool(self.downsampling),
+            "downsampling_ratio": float(self.downsampling_ratio),
+            "temporal_length": int(self.temporal_length),
+        }
+
     # ------------------------------------------------------------------
     # Public API
     # ------------------------------------------------------------------
@@ -192,6 +203,7 @@ class SkeletonPreprocessor:
             torch.Tensor shape (T_out, K_selected, 7) — siap untuk collate.
         """
         logger.info("[Preprocessor] Input shape: %s", frames.shape)
+        logger.info("[Preprocessor] Summary: %s", self.summary())
 
         # Step 1-2: Pilih keypoint dan ambil koordinat xy
         input_data = frames[:, self.pose_idx, :2]   # (T, K, 2)
@@ -414,6 +426,7 @@ class InferenceRunner:
 
         feeder_args = self.cfg.get("feeder_args", {})
         self.preprocessor = SkeletonPreprocessor(feeder_args)
+        logger.info("[InferenceRunner] Preprocessor summary: %s", self.preprocessor.summary())
 
         # Load gloss dict
         gloss_dict_path = self._resolve_dataset_path("dict_path")
@@ -457,7 +470,15 @@ class InferenceRunner:
             
             feeder_args = new_cfg.get("feeder_args", {})
             self.preprocessor = SkeletonPreprocessor(feeder_args)
+            logger.info("[InferenceRunner] Updated preprocessor summary: %s", self.preprocessor.summary())
             self.config_path = config_path
+
+    def describe_preprocessor(self) -> dict:
+        """Return current preprocessing summary for API/debug logging."""
+        return {
+            "config_path": self.config_path,
+            **self.preprocessor.summary(),
+        }
 
     def run_return(self, frames: np.ndarray, sentence_id: str) -> dict:
         """Jalankan inference dan kembalikan hasil sebagai dict (untuk API endpoint).
@@ -488,6 +509,7 @@ class InferenceRunner:
             }
 
         logger.info("[InferenceRunner] Mulai preprocessing skeleton.")
+        logger.info("[InferenceRunner] Active preprocessing: %s", self.describe_preprocessor())
         tensor = self.preprocessor.preprocess(frames)
         batch = self.preprocessor.make_batch(tensor)
         batch["x"] = batch["x"].to(self.device)

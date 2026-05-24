@@ -1,4 +1,5 @@
 import logging
+import os
 import sys
 
 
@@ -9,7 +10,9 @@ def get_logger(name: str, level: str = "INFO") -> logging.Logger:
     on repeated calls for the same logger name).
     """
     logger = logging.getLogger(name)
-    numeric_level = getattr(logging, level.upper(), logging.INFO)
+    env_level = os.getenv("LOG_LEVEL", "").strip().upper()
+    effective_level = env_level or level.upper()
+    numeric_level = getattr(logging, effective_level, logging.INFO)
     logger.setLevel(numeric_level)
 
     if not logger.handlers:

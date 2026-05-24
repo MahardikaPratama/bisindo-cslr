@@ -169,6 +169,15 @@ def _to_preview_url(path_value: Any) -> Optional[str]:
     return f"/preview/{rel.as_posix()}"
 
 
+def _preview_file_size(path_value: Any) -> Optional[int]:
+    if not path_value:
+        return None
+    try:
+        return Path(str(path_value)).stat().st_size
+    except OSError:
+        return None
+
+
 def _save_upload(video: UploadFile) -> Path:
     """Simpan file upload ke temp dir dan kembalikan path-nya."""
     suffix = Path(video.filename or "video.mp4").suffix.lower()
@@ -213,6 +222,15 @@ async def process_preview(video: UploadFile = File(...)) -> JSONResponse:
                 "overlay": _to_preview_url(result.get("preview_overlay_path")),
             },
         }
+        logger.info(
+            "[API] Preview artifacts: rgb=%s (%s bytes) skeleton=%s (%s bytes) overlay=%s (%s bytes)",
+            result.get("preview_rgb_path"),
+            _preview_file_size(result.get("preview_rgb_path")),
+            result.get("preview_skeleton_path"),
+            _preview_file_size(result.get("preview_skeleton_path")),
+            result.get("preview_overlay_path"),
+            _preview_file_size(result.get("preview_overlay_path")),
+        )
         logger.info("API /preview done video_id=%s frames=%s", payload["video_id"], payload["num_frames"])
         return JSONResponse(payload)
 
@@ -285,6 +303,18 @@ async def run_inference(
             "skeleton": _to_preview_url(result.get("preview_skeleton_path")),
             "overlay": _to_preview_url(result.get("preview_overlay_path")),
         }
+        logger.info(
+            "[API] Preview URLs: rgb=%s skeleton=%s overlay=%s",
+            previews["rgb"],
+            previews["skeleton"],
+            previews["overlay"],
+        )
+        logger.info(
+            "[API] Preview file sizes: rgb=%s skeleton=%s overlay=%s",
+            _preview_file_size(result.get("preview_rgb_path")),
+            _preview_file_size(result.get("preview_skeleton_path")),
+            _preview_file_size(result.get("preview_overlay_path")),
+        )
 
         # ── Step 3-5: Preprocessing + Inference + WER ──
         logger.info(
@@ -293,6 +323,7 @@ async def run_inference(
             config_name or "<backend-default>",
         )
         runner = _get_inference_runner()
+        logger.info("[API] Current preprocessor before optional update: %s", runner.describe_preprocessor())
 
         # Jika frontend mengirim config_name, update preprocessor.
         # Jika tidak, biarkan backend memakai preprocessor default yang sudah
@@ -305,6 +336,8 @@ async def run_inference(
             runner.update_preprocessor(config_path)
         else:
             logger.info("[API] Using backend default preprocessor from InferenceRunner initialization.")
+
+        logger.info("[API] Active preprocessor for this request: %s", runner.describe_preprocessor())
 
         # Override GT lookup dengan GROUND_TRUTH_TABLE agar tidak bergantung JSON file
         ground_truth_text = GROUND_TRUTH_TABLE[sentence_id]
