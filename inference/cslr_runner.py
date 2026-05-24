@@ -441,6 +441,21 @@ class InferenceRunner:
     # Public API
     # ------------------------------------------------------------------
 
+    def update_preprocessor(self, config_path: str) -> None:
+        """Update preprocessor dynamically based on a new config without reloading the model."""
+        if config_path != self.config_path:
+            logger.info("[InferenceRunner] Mengganti config preprocessing ke: %s", config_path)
+            if not os.path.isfile(config_path):
+                logger.warning("[InferenceRunner] Config tidak ditemukan: %s. Abaikan.", config_path)
+                return
+                
+            with open(config_path, "r", encoding="utf-8") as f:
+                new_cfg = yaml.load(f, Loader=yaml.FullLoader)
+            
+            feeder_args = new_cfg.get("feeder_args", {})
+            self.preprocessor = SkeletonPreprocessor(feeder_args)
+            self.config_path = config_path
+
     def run_return(self, frames: np.ndarray, sentence_id: str) -> dict:
         """Jalankan inference dan kembalikan hasil sebagai dict (untuk API endpoint).
 

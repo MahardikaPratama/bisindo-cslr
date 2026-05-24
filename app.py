@@ -86,7 +86,7 @@ CHECKPOINT_PATH = str(
     CSLR_PROJECT_DIR / "model" / "best_dev_01.30_epoch39_model.pt"
 )
 CSLR_CONFIG_PATH = str(
-    CSLR_PROJECT_DIR / "configs" / "Double_Cosign_sd.yaml"
+    CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "normalization" / "Baseline+TN.yaml"
 )
 
 
@@ -113,7 +113,7 @@ app = FastAPI(title="BISINDO CSLR API", version="2.0.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -121,9 +121,21 @@ app.add_middleware(
 app.mount("/preview", StaticFiles(directory=str(PREVIEW_DIR)), name="preview")
 
 
+def _get_available_configs() -> list[str]:
+    configs = ["Double_Cosign_sd.yaml"]
+    norm_dir = CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "normalization"
+    if norm_dir.exists():
+        for f in norm_dir.glob("*.yaml"):
+            configs.append(f.name)
+    return sorted(list(set(configs)))
+
 @app.get("/health")
 def health() -> Dict[str, str]:
     return {"status": "ok"}
+
+@app.get("/api/configs")
+def get_configs() -> JSONResponse:
+    return JSONResponse({"configs": _get_available_configs(), "default": "Double_Cosign_sd.yaml"})
 
 
 # ---------------------------------------------------------------------------
@@ -211,12 +223,14 @@ async def process_preview(video: UploadFile = File(...)) -> JSONResponse:
 async def run_inference(
     video: UploadFile = File(...),
     sentence_id: str = Form(...),
+    config_name: str = Form("Double_Cosign_sd.yaml"),
 ) -> JSONResponse:
     """Full pipeline: skeleton extraction → CSLR inference → WER.
 
     Form fields:
         video       : file video RGB (mp4/webm/avi/mov/mkv)
         sentence_id : ID kalimat ground truth, contoh: 'S001'
+        config_name : Nama file konfigurasi preprocessing (opsional, default 'Double_Cosign_sd.yaml')
 
     Returns JSON dengan:
         video_id, num_frames, num_keypoints, previews,
@@ -254,8 +268,16 @@ async def run_inference(
         }
 
         # ── Step 3-5: Preprocessing + Inference + WER ──
-        logger.info("[API] Running CSLR inference for sentence_id=%s", sentence_id)
+        logger.info("[API] Running CSLR inference for sentence_id=%s with config=%s", sentence_id, config_name)
         runner = _get_inference_runner()
+        
+        # Resolve config path
+        if config_name == "Double_Cosign_sd.yaml":
+            config_path = str(CSLR_PROJECT_DIR / "configs" / "Double_Cosign_sd.yaml")
+        else:
+            config_path = str(CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "normalization" / config_name)
+        
+        runner.update_preprocessor(config_path)
 
         # Override GT lookup dengan GROUND_TRUTH_TABLE agar tidak bergantung JSON file
         ground_truth_text = GROUND_TRUTH_TABLE[sentence_id]

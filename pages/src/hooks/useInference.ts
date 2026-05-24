@@ -13,8 +13,10 @@ import { useInferenceStore } from '../store/useInferenceStore';
 import { useConsoleStore } from '../store/useConsoleStore';
 import { useVideoStore } from '../store/useVideoStore';
 import { useGroundTruthStore } from '../store/useGroundTruthStore';
+import { useConfigStore } from '../store/useConfigStore';
 import type { PipelineStepId } from '../types/pipeline.types';
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export function useInference() {
@@ -30,6 +32,7 @@ export function useInference() {
   const { appendLog, clearLogs } = useConsoleStore();
   const { videoStatus, videoFile, setVideoPreviews, setVideoStatus } = useVideoStore();
   const { selectedGroundTruth } = useGroundTruthStore();
+  const { selectedConfig } = useConfigStore();
 
   const abortControllerRef = useRef<AbortController | null>(null);
 
@@ -70,8 +73,9 @@ export function useInference() {
       const formData = new FormData();
       formData.append('video', videoFile);
       formData.append('sentence_id', selectedGroundTruth.id);
+      formData.append('config_name', selectedConfig);
 
-      const response = await fetch('/api/inference', {
+      const response = await fetch(`${API_BASE}/api/inference`, {
         method: 'POST',
         body: formData,
         signal,
@@ -198,6 +202,7 @@ export function useInference() {
     setTelemetry,
     setGlossSequence,
     setInferenceResult,
+    selectedConfig,
   ]);
 
   const abortInference = useCallback(() => {

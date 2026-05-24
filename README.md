@@ -11,7 +11,7 @@ Project ini menerima satu file video RGB dan menjalankan pipeline lengkap:
 3. **CSLR Inference** — inferensi model `TwoStream CoSign` untuk menghasilkan prediksi gloss sequence
 4. **WER Evaluation** — perhitungan Word Error Rate terhadap ground truth kalimat
 
-Tersedia dua mode operasi: **CLI** (`main.py`) dan **Web App** (`app.py` + `pages/`).
+Tersedia tiga mode operasi: **CLI** (`main.py`), **Web App** (`app.py` + `pages/`), dan **Google Colab** (`bisindo_cslr_colab.ipynb`).
 
 ---
 
@@ -19,48 +19,69 @@ Tersedia dua mode operasi: **CLI** (`main.py`) dan **Web App** (`app.py` + `page
 
 ```
 bisindo-cslr/
-├── app.py                  # FastAPI backend (REST API)
-├── main.py                 # CLI entry point
-├── inference/              # Modul inference CSLR
+├── app.py                       # FastAPI backend (REST API)
+├── main.py                      # CLI entry point
+├── bisindo_cslr_colab.ipynb     # Notebook untuk menjalankan backend di Google Colab
+├── inference/                   # Modul inference CSLR
 │   ├── __init__.py
-│   └── cslr_runner.py      # SkeletonPreprocessor, InferenceRunner, WER
-├── rgb-to-skeleton/        # Modul konversi video → skeleton
-│   ├── core/               # Pipeline orchestration & CLI
-│   ├── extractor/          # MediaPipe Holistic 86-keypoint extractor
-│   ├── data/               # SkeletonSequence in-memory container
-│   ├── visualizer/         # Generator preview video (RGB, skeleton, overlay)
-│   ├── utils/              # Logger, stderr filters
-│   └── config/             # Path & keypoint layout config
-├── mslr_iccv2025/          # Model CSLR TwoStream CoSign
-│   ├── configs/            # YAML konfigurasi model & dataset
-│   ├── datasets/           # SkeletonFeeder & data loader
-│   ├── model/              # Checkpoint model (.pt)
-│   ├── modules/            # Temporal conv & BiLSTM layers
-│   ├── slr_network.py      # Definisi model TwoStream_Cosign
-│   └── evaluation/         # WER evaluation (python + sclite)
-├── pages/                  # Frontend React + TypeScript (Vite)
+│   └── cslr_runner.py           # SkeletonPreprocessor, InferenceRunner, WER
+├── rgb-to-skeleton/             # Modul konversi video → skeleton
+│   ├── core/                    # Pipeline orchestration & CLI
+│   ├── extractor/               # MediaPipe Holistic 86-keypoint extractor
+│   ├── data/                    # SkeletonSequence in-memory container
+│   ├── visualizer/              # Generator preview video (RGB, skeleton, overlay)
+│   ├── utils/                   # Logger, stderr filters
+│   └── config/                  # Path & keypoint layout config
+├── mslr_iccv2025/               # Model CSLR TwoStream CoSign
+│   ├── configs/                 # YAML konfigurasi model & dataset
+│   ├── datasets/                # SkeletonFeeder & data loader
+│   ├── model/                   # Checkpoint model (.pt)  ← tidak di-commit ke git
+│   ├── modules/                 # Temporal conv & BiLSTM layers
+│   ├── slr_network.py           # Definisi model TwoStream_Cosign
+│   └── evaluation/              # WER evaluation (python + sclite)
+├── pages/                       # Frontend React + TypeScript (Vite)
 │   └── src/
-│       ├── components/     # UI components (pipeline, visualization, result)
-│       ├── hooks/          # useInference, useVideoUpload
-│       ├── store/          # Zustand state management
-│       └── constants/      # Ground truth sentences, pipeline steps
+│       ├── components/          # UI components (pipeline, visualization, result)
+│       ├── hooks/               # useInference, useVideoUpload
+│       ├── store/               # Zustand state management
+│       └── constants/           # Ground truth sentences, pipeline steps
 └── data/
-    ├── uploads/            # Temp upload (dibersihkan otomatis)
-    └── preview/            # Preview video output
+    ├── uploads/                 # Temp upload (dibersihkan otomatis)
+    └── preview/                 # Preview video output
 ```
+
 
 ---
 
-## Setup
+## Setup (Lokal)
 
-### 1. Buat environment Conda
+### 1. Clone repository
+
+```bash
+git clone --recursive https://github.com/MahardikaPratama/bisindo-cslr.git
+cd bisindo-cslr
+```
+
+> **`--recursive`** wajib digunakan karena project ini mengandung submodule (`rgb-to-skeleton`).
+
+### 2. Buat environment Conda
 
 ```bash
 conda env create -f environment.yml
 conda activate bisindo-cslr
 ```
 
-### 2. Install frontend dependencies
+### 3. Download model checkpoint
+
+Unduh file model (±680 MB) dari Google Drive dan letakkan di:
+
+```
+mslr_iccv2025/model/best_dev_01.30_epoch39_model.pt
+```
+
+🔗 **Link download:** [best_dev_01.30_epoch39_model.pt](https://drive.google.com/file/d/1Uw6nJnR74DtNp3xhGi5kCT702I8II_As/view?usp=drive_link)
+
+### 4. Install frontend dependencies
 
 ```bash
 cd pages
@@ -68,6 +89,62 @@ npm install
 ```
 
 ---
+
+## 🚀 Menjalankan Backend di Google Colab (Direkomendasikan)
+
+Untuk memanfaatkan GPU T4 gratis dari Google Colab sebagai backend inference:
+
+### Langkah 1 — Buka Notebook
+
+Import file `bisindo_cslr_colab.ipynb` ke Google Colab:
+
+1. Buka [Google Colab](https://colab.research.google.com)
+2. **File → Upload notebook** → pilih `bisindo_cslr_colab.ipynb`
+3. Atur runtime ke **GPU**: Runtime → Change runtime type → **T4 GPU**
+
+### Langkah 2 — Jalankan Sel Secara Berurutan
+
+| Sel | Deskripsi |
+|---|---|
+| Step 0 | Verifikasi GPU tersedia |
+| Step 1 | Clone repo dengan `--recursive` |
+| Step 2 | Install semua dependencies |
+| Step 3 | Download model (~680 MB) dari Google Drive |
+| Step 4 | Input ngrok authtoken |
+| Step 5 | Jalankan uvicorn server di background |
+| Step 6 | Buat tunnel ngrok → dapatkan **URL publik** |
+| Step 7 | Verifikasi endpoint (opsional) |
+
+### Langkah 3 — Hubungkan Frontend ke Colab
+
+Setelah Step 6 selesai, Anda akan mendapat URL publik seperti:
+
+```
+https://xxxx-xx-xx-xxx-xx.ngrok-free.app
+```
+
+Update `pages/vite.config.ts` di komputer lokal:
+
+```ts
+proxy: {
+  '/api'    : { target: 'https://xxxx-xx-xx-xxx-xx.ngrok-free.app', changeOrigin: true },
+  '/preview': { target: 'https://xxxx-xx-xx-xxx-xx.ngrok-free.app', changeOrigin: true },
+},
+```
+
+Lalu jalankan frontend:
+
+```bash
+cd pages
+npm run dev
+```
+
+Buka `http://localhost:5173` — frontend akan terhubung ke backend Colab dengan GPU.
+
+> **Catatan ngrok free tier:** URL berubah setiap sesi. Perbarui `vite.config.ts` setiap kali memulai Colab baru.
+
+---
+
 
 ## Menjalankan Web App (Cara Utama)
 

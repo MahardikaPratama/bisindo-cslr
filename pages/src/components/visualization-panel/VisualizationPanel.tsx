@@ -15,6 +15,8 @@ import { useThemeStore } from '../../store/useThemeStore';
 import { cn } from '../../utils/cn';
 import type { ViewMode } from './VisualizationPanel.types';
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+
 const VisualizationPanel = React.memo(function VisualizationPanel() {
   const { videoObjectUrl, videoStatus, videoPreviews, videoMetadata } = useVideoStore();
   const theme = useThemeStore((state) => state.theme);
@@ -173,7 +175,7 @@ const VisualizationPanel = React.memo(function VisualizationPanel() {
               {videoPreviews?.overlay && (
                 <video
                   ref={overlayVideoRef}
-                  src={videoPreviews.overlay}
+                  src={`${API_BASE}${videoPreviews.overlay}`}
                   className={cn(
                     'absolute inset-0 w-full h-full object-cover transition-opacity duration-300',
                     viewMode === 'overlay' ? 'opacity-100' : 'opacity-0 pointer-events-none'
@@ -208,7 +210,7 @@ const VisualizationPanel = React.memo(function VisualizationPanel() {
           {videoPreviews?.skeleton ? (
             <video
               ref={skeletonVideoRef}
-              src={videoPreviews.skeleton}
+              src={`${API_BASE}${videoPreviews.skeleton}`}
               className="absolute inset-0 w-full h-full object-cover"
               playsInline
               muted

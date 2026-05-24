@@ -13,6 +13,7 @@ import Card from '../../common/Card/Card';
 import { useVideoStore } from '../../store/useVideoStore';
 import { formatDuration, formatFps } from '../../utils/formatters';
 import GroundTruthSelector from '../ground-truth-selector/GroundTruthSelector';
+import ConfigSelector from '../config-selector/ConfigSelector';
 import type { VideoInputPanelProps } from './VideoInputPanel.types';
 import { cn } from '../../utils/cn';
 
@@ -84,8 +85,11 @@ const VideoInputPanel = React.memo(function VideoInputPanel({ onFileInputRef }: 
         </div>
       </div>
 
-      {/* Ground Truth Selector */}
-      <GroundTruthSelector />
+      {/* Selectors */}
+      <div className="flex flex-col gap-3">
+        <GroundTruthSelector />
+        <ConfigSelector />
+      </div>
     </Card>
   );
 });
