@@ -21,7 +21,7 @@ export const DEMO_EXAMPLES: DemoExample[] = [
     name: 'Demo Sample 1',
     description: 'Contoh video BISINDO untuk testing',
     videoPath: 'demos/videos/ANDRI_RUMAH DIMANA KAMU_01.mp4',
-    groundTruthId: 'S029', // AYAH SAMA IBU MANA
+    groundTruthId: 'S023', // RUMAH DIMANA KAMU
     duration: 5,
   },
 ];

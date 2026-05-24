@@ -88,7 +88,7 @@ CHECKPOINT_PATH = str(
 CSLR_CONFIG_PATH = str(
     CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "normalization" / "Baseline+TN.yaml"
 )
-DEFAULT_CSLR_CONFIG_NAME = "Baseline+TN.yaml"
+DEFAULT_CSLR_CONFIG_NAME = "Baseline+MKR+TN.yaml"
 
 
 def _get_inference_runner():
