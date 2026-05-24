@@ -46,4 +46,6 @@ export interface InferenceResult {
   werPercent: string;
   /** Waktu forward pass model dalam milidetik */
   inferenceMs: number;
+  /** Kecepatan inference dalam frames per second */
+  inferenceFps: number;
 }

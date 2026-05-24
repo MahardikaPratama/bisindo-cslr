@@ -494,6 +494,7 @@ class InferenceRunner:
                 'wer'          : float — WER [0.0, ...],
                 'wer_percent'  : str  — misal '12.50%',
                 'inference_ms' : int  — waktu forward pass dalam milidetik,
+                'inference_fps': float — inference speed hasil hitung di backend,
             }
         """
         import time as _time
@@ -506,6 +507,7 @@ class InferenceRunner:
                 "wer": 1.0,
                 "wer_percent": "100.00%",
                 "inference_ms": 0,
+                "inference_fps": 0.0,
             }
 
         logger.info("[InferenceRunner] Mulai preprocessing skeleton.")
@@ -521,6 +523,7 @@ class InferenceRunner:
         with torch.no_grad():
             ret_dict = self.model(batch)
         inference_ms = int(((_time.perf_counter() - t0) * 1000))
+        inference_fps = float(frames.shape[0] / (inference_ms / 1000.0)) if inference_ms > 0 else 0.0
 
         prediction_bilstm = self._decode_prediction(ret_dict, key="recognized_sents_fusion")
         prediction_conv = self._decode_prediction(ret_dict, key="conv_sents_fusion")
@@ -550,6 +553,7 @@ class InferenceRunner:
             "wer": round(wer_val, 6),
             "wer_percent": wer_percent,
             "inference_ms": inference_ms,
+            "inference_fps": round(inference_fps, 3),
         }
 
     def run(self, frames: np.ndarray, sentence_id: str) -> None:

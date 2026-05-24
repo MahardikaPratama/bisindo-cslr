@@ -126,14 +126,12 @@ export function useInference() {
       if (signal.aborted) throw new Error('Aborted');
 
       const inferenceMs: number = inferenceData.inference_ms || 0;
-      const calculatedFps = numFrames > 0 && inferenceMs > 0
-        ? parseFloat((numFrames / (inferenceMs / 1000)).toFixed(1))
-        : 0;
+      const inferenceFps: number = inferenceData.inference_fps || 0;
 
       setTelemetry({
         model: 'TwoStream CoSign',
         inferenceMs,
-        fps: calculatedFps,
+        fps: inferenceFps,
         gpuUtilPercent: 0,
       });
       setStepStatus('inference', 'completed');
@@ -159,6 +157,7 @@ export function useInference() {
         wer,
         werPercent,
         inferenceMs,
+        inferenceFps,
       });
 
       // Simpan gloss sequence (untuk backward compat)

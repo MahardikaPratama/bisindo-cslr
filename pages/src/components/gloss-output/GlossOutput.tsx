@@ -11,6 +11,7 @@ import React from 'react';
 import Card from '../../common/Card/Card';
 import Badge from '../../common/Badge/Badge';
 import { useInferenceStore } from '../../store/useInferenceStore';
+import { formatFps } from '../../utils/formatters';
 
 // ── WER badge colour helper ──────────────────────────────────────────────────
 function werBadgeClass(wer: number): string {
@@ -103,12 +104,25 @@ const GlossOutput = React.memo(function GlossOutput() {
             </span>
           </div>
 
-          {/* Inference time (subtle) */}
-          {inferenceResult.inferenceMs > 0 && (
-            <p className="text-[11px] text-text-muted font-mono text-right -mt-2">
-              model forward pass: {inferenceResult.inferenceMs} ms
-            </p>
-          )}
+          {/* Inference telemetry */}
+          <div className="grid grid-cols-1 gap-3 pt-1 sm:grid-cols-2">
+            <div className="flex items-center justify-between rounded-xl border border-surface-border bg-surface-border/10 px-3 py-2">
+              <span className="text-xs font-semibold tracking-widest uppercase text-text-muted">
+                Inference Time
+              </span>
+              <span className="text-sm font-bold font-mono text-text-primary">
+                {inferenceResult.inferenceMs > 0 ? `${inferenceResult.inferenceMs} ms` : '-'}
+              </span>
+            </div>
+            <div className="flex items-center justify-between rounded-xl border border-brand-blue/20 bg-brand-blue/10 px-3 py-2">
+              <span className="text-xs font-semibold tracking-widest uppercase text-text-muted">
+                Inference Speed
+              </span>
+              <span className="text-sm font-bold font-mono text-brand-blue-light">
+                {inferenceResult.inferenceFps > 0 ? `${formatFps(inferenceResult.inferenceFps)} fps` : '-'}
+              </span>
+            </div>
+          </div>
         </div>
       )}
     </Card>

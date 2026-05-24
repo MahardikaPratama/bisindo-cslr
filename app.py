@@ -271,7 +271,7 @@ async def run_inference(
 
     Returns JSON dengan:
         video_id, num_frames, num_keypoints, previews,
-        inference.{ground_truth, prediction, wer, wer_percent, inference_ms}
+        inference.{ground_truth, prediction, wer, wer_percent, inference_ms, inference_fps}
     """
     if not video.filename:
         raise HTTPException(status_code=400, detail="Filename is required")
