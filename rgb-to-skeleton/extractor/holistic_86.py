@@ -33,6 +33,31 @@ from utils.logger import get_logger
 logger = get_logger(__name__)
 
 
+def pad_to_16_9(frame: np.ndarray) -> np.ndarray:
+    """Pad the video frame to 16:9 aspect ratio to maintain MediaPipe coordinate scales."""
+    h, w = frame.shape[:2]
+    target_aspect = 16.0 / 9.0
+    current_aspect = w / h
+
+    if abs(current_aspect - target_aspect) < 0.01:
+        return frame
+
+    if current_aspect < target_aspect:
+        # Pillarbox (add left/right padding)
+        new_w = int(h * target_aspect)
+        pad_w = new_w - w
+        left = pad_w // 2
+        right = pad_w - left
+        return cv2.copyMakeBorder(frame, 0, 0, left, right, cv2.BORDER_CONSTANT, value=[0, 0, 0])
+    else:
+        # Letterbox (add top/bottom padding)
+        new_h = int(w / target_aspect)
+        pad_h = new_h - h
+        top = pad_h // 2
+        bottom = pad_h - top
+        return cv2.copyMakeBorder(frame, top, bottom, 0, 0, cv2.BORDER_CONSTANT, value=[0, 0, 0])
+
+
 class Holistic86Extractor:
     """Extract 86 keypoints from RGB videos using MediaPipe Holistic."""
 
@@ -98,6 +123,7 @@ class Holistic86Extractor:
                 ret, frame = cap.read()
                 if not ret:
                     break
+                frame = pad_to_16_9(frame)
                 all_frames.append(self.extract_frame(frame))
 
             if len(all_frames) == 0:
