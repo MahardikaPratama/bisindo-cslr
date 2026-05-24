@@ -1,0 +1,1219 @@
+
+
+		DUMP OF SYSTEM ALIGNMENT STRUCTURE
+
+System name:   ./work_dir/Baseline+TN/train/dev/out.output-hypothesis-fusion-dev.ctm
+
+Speakers: 
+    0:  p01
+    1:  p02
+    2:  p03
+    3:  p04
+    4:  p05
+
+Speaker sentences   0:  p01   #utts: 30
+id: (p01-000)
+File: p01_s001_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  ayah sama ibu mana 
+HYP:  ayah sama ibu mana 
+Eval:                    
+
+id: (p01-001)
+File: p01_s002_r04
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  dia anak baik sampai banyak orang suka 
+HYP:  dia anak baik sampai banyak orang suka 
+Eval:                                        
+
+id: (p01-002)
+File: p01_s003_r04
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  apa kamu pernah baca buku bahasa inggris 
+HYP:  apa kamu pernah baca buku bahasa inggris 
+Eval:                                          
+
+id: (p01-003)
+File: p01_s004_r04
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  badan aku gemuk tapi badan adik kurus 
+HYP:  badan aku gemuk tapi badan adik kurus 
+Eval:                                       
+
+id: (p01-004)
+File: p01_s005_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  aku pusing aku harus periksa mana 
+HYP:  aku pusing aku harus periksa mana 
+Eval:                                   
+
+id: (p01-005)
+File: p01_s006_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  sana enak nasi padang tapi mahal 
+HYP:  sana enak nasi padang tapi mahal 
+Eval:                                  
+
+id: (p01-006)
+File: p01_s007_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  ibu aku punya kucing sama ikan 
+HYP:  ibu aku punya kucing sama ikan 
+Eval:                                
+
+id: (p01-007)
+File: p01_s008_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  aku cium badan dia 
+HYP:  aku cium badan dia 
+Eval:                    
+
+id: (p01-008)
+File: p01_s009_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  aku lihat ada ular masuk kelas 
+HYP:  aku lihat ada ular masuk kelas 
+Eval:                                
+
+id: (p01-009)
+File: p01_s010_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 0 0 0
+REF:  obat bisa beli toko mana 
+HYP:  obat bisa beli toko mana 
+Eval:                          
+
+id: (p01-010)
+File: p01_s011_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  gakboleh pulang sekarang kamu 
+HYP:  gakboleh pulang sekarang kamu 
+Eval:                               
+
+id: (p01-011)
+File: p01_s012_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  orang jahat sana pukul aku berulang 
+HYP:  orang jahat sana pukul aku berulang 
+Eval:                                     
+
+id: (p01-012)
+File: p01_s013_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  kenapa kamu gak masuk kuliah kemarin 
+HYP:  kenapa kamu gak masuk kuliah kemarin 
+Eval:                                      
+
+id: (p01-013)
+File: p01_s014_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 1
+REF:  polisi sana pukul **** pencuri 
+HYP:  polisi sana pukul TOKO pencuri 
+Eval:                   I            
+
+id: (p01-014)
+File: p01_s015_r04
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  sana berita sudah banyak ribuan orang lihat 
+HYP:  sana berita sudah banyak ribuan orang lihat 
+Eval:                                             
+
+id: (p01-015)
+File: p01_s016_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 0 0 0
+REF:  buku aku sobek gegara dia 
+HYP:  buku aku sobek gegara dia 
+Eval:                           
+
+id: (p01-016)
+File: p01_s017_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  tong-sampah ada semut banyak 
+HYP:  tong-sampah ada semut banyak 
+Eval:                              
+
+id: (p01-017)
+File: p01_s018_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  ular sana makan kambing 
+HYP:  ular sana makan kambing 
+Eval:                         
+
+id: (p01-018)
+File: p01_s019_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  kamu pergi mana 
+HYP:  kamu pergi mana 
+Eval:                 
+
+id: (p01-019)
+File: p01_s020_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  kita istirahat jam berapa 
+HYP:  kita istirahat jam berapa 
+Eval:                           
+
+id: (p01-020)
+File: p01_s021_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 0 0 0
+REF:  kamu punya anggota keluarga berapa 
+HYP:  kamu punya anggota keluarga berapa 
+Eval:                                    
+
+id: (p01-021)
+File: p01_s022_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  mana ibu kamu baik-baik atau tidak 
+HYP:  mana ibu kamu baik-baik atau tidak 
+Eval:                                    
+
+id: (p01-022)
+File: p01_s023_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  kamu belajar bisindo kapan 
+HYP:  kamu belajar bisindo kapan 
+Eval:                            
+
+id: (p01-023)
+File: p01_s024_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  aku nilai jelek 
+HYP:  aku nilai jelek 
+Eval:                 
+
+id: (p01-024)
+File: p01_s025_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 0 0 0
+REF:  ulangtahun selamat 
+HYP:  ulangtahun selamat 
+Eval:                    
+
+id: (p01-025)
+File: p01_s026_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  kakak aku kasih hadiah buat aku 
+HYP:  kakak aku kasih hadiah buat aku 
+Eval:                                 
+
+id: (p01-026)
+File: p01_s027_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  sana toilet kotor 
+HYP:  sana toilet kotor 
+Eval:                   
+
+id: (p01-027)
+File: p01_s028_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  sepatu dia kotor 
+HYP:  sepatu dia kotor 
+Eval:                  
+
+id: (p01-028)
+File: p01_s029_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  rumah dimana kamu 
+HYP:  rumah dimana kamu 
+Eval:                   
+
+id: (p01-029)
+File: p01_s030_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  dia mengejek aku 
+HYP:  dia mengejek aku 
+Eval:                  
+
+Speaker sentences   1:  p02   #utts: 30
+id: (p02-000)
+File: p02_s001_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  ayah sama ibu mana 
+HYP:  ayah sama ibu mana 
+Eval:                    
+
+id: (p02-001)
+File: p02_s002_r04
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  dia anak baik sampai banyak orang suka 
+HYP:  dia anak baik sampai banyak orang suka 
+Eval:                                        
+
+id: (p02-002)
+File: p02_s003_r04
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  apa kamu pernah baca buku bahasa inggris 
+HYP:  apa kamu pernah baca buku bahasa inggris 
+Eval:                                          
+
+id: (p02-003)
+File: p02_s004_r04
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  badan aku gemuk tapi badan adik kurus 
+HYP:  badan aku gemuk tapi badan adik kurus 
+Eval:                                       
+
+id: (p02-004)
+File: p02_s005_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  aku pusing aku harus periksa mana 
+HYP:  aku pusing aku harus periksa mana 
+Eval:                                   
+
+id: (p02-005)
+File: p02_s006_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  sana enak nasi padang tapi mahal 
+HYP:  sana enak nasi padang tapi mahal 
+Eval:                                  
+
+id: (p02-006)
+File: p02_s007_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  ibu aku punya kucing sama ikan 
+HYP:  ibu aku punya kucing sama ikan 
+Eval:                                
+
+id: (p02-007)
+File: p02_s008_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  aku cium badan dia 
+HYP:  aku cium badan dia 
+Eval:                    
+
+id: (p02-008)
+File: p02_s009_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  aku lihat ada ular masuk kelas 
+HYP:  aku lihat ada ular masuk kelas 
+Eval:                                
+
+id: (p02-009)
+File: p02_s010_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 0 0 0
+REF:  obat bisa beli toko mana 
+HYP:  obat bisa beli toko mana 
+Eval:                          
+
+id: (p02-010)
+File: p02_s011_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  gakboleh pulang sekarang kamu 
+HYP:  gakboleh pulang sekarang kamu 
+Eval:                               
+
+id: (p02-011)
+File: p02_s012_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  orang jahat sana pukul aku berulang 
+HYP:  orang jahat sana pukul aku berulang 
+Eval:                                     
+
+id: (p02-012)
+File: p02_s013_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  kenapa kamu gak masuk kuliah kemarin 
+HYP:  kenapa kamu gak masuk kuliah kemarin 
+Eval:                                      
+
+id: (p02-013)
+File: p02_s014_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  polisi sana pukul pencuri 
+HYP:  polisi sana pukul pencuri 
+Eval:                           
+
+id: (p02-014)
+File: p02_s015_r04
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  sana berita sudah banyak ribuan orang lihat 
+HYP:  sana berita sudah banyak ribuan orang lihat 
+Eval:                                             
+
+id: (p02-015)
+File: p02_s016_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 0 0 0
+REF:  buku aku sobek gegara dia 
+HYP:  buku aku sobek gegara dia 
+Eval:                           
+
+id: (p02-016)
+File: p02_s017_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  tong-sampah ada semut banyak 
+HYP:  tong-sampah ada semut banyak 
+Eval:                              
+
+id: (p02-017)
+File: p02_s018_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  ular sana makan kambing 
+HYP:  ular sana makan kambing 
+Eval:                         
+
+id: (p02-018)
+File: p02_s019_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  kamu pergi mana 
+HYP:  kamu pergi mana 
+Eval:                 
+
+id: (p02-019)
+File: p02_s020_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  kita istirahat jam berapa 
+HYP:  kita istirahat jam berapa 
+Eval:                           
+
+id: (p02-020)
+File: p02_s021_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 0 0 0
+REF:  kamu punya anggota keluarga berapa 
+HYP:  kamu punya anggota keluarga berapa 
+Eval:                                    
+
+id: (p02-021)
+File: p02_s022_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  mana ibu kamu baik-baik atau tidak 
+HYP:  mana ibu kamu baik-baik atau tidak 
+Eval:                                    
+
+id: (p02-022)
+File: p02_s023_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  kamu belajar bisindo kapan 
+HYP:  kamu belajar bisindo kapan 
+Eval:                            
+
+id: (p02-023)
+File: p02_s024_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  aku nilai jelek 
+HYP:  aku nilai jelek 
+Eval:                 
+
+id: (p02-024)
+File: p02_s025_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 0 0 0
+REF:  ulangtahun selamat 
+HYP:  ulangtahun selamat 
+Eval:                    
+
+id: (p02-025)
+File: p02_s026_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  kakak aku kasih hadiah buat aku 
+HYP:  kakak aku kasih hadiah buat aku 
+Eval:                                 
+
+id: (p02-026)
+File: p02_s027_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  sana toilet kotor 
+HYP:  sana toilet kotor 
+Eval:                   
+
+id: (p02-027)
+File: p02_s028_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  sepatu dia kotor 
+HYP:  sepatu dia kotor 
+Eval:                  
+
+id: (p02-028)
+File: p02_s029_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  rumah dimana kamu 
+HYP:  rumah dimana kamu 
+Eval:                   
+
+id: (p02-029)
+File: p02_s030_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  dia mengejek aku 
+HYP:  dia mengejek aku 
+Eval:                  
+
+Speaker sentences   2:  p03   #utts: 30
+id: (p03-000)
+File: p03_s001_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  ayah sama ibu mana 
+HYP:  ayah sama ibu mana 
+Eval:                    
+
+id: (p03-001)
+File: p03_s002_r04
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  dia anak baik sampai banyak orang suka 
+HYP:  dia anak baik sampai banyak orang suka 
+Eval:                                        
+
+id: (p03-002)
+File: p03_s003_r04
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  apa kamu pernah baca buku bahasa inggris 
+HYP:  apa kamu pernah baca buku bahasa inggris 
+Eval:                                          
+
+id: (p03-003)
+File: p03_s004_r04
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  badan aku gemuk tapi badan adik kurus 
+HYP:  badan aku gemuk tapi badan adik kurus 
+Eval:                                       
+
+id: (p03-004)
+File: p03_s005_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  aku pusing aku harus periksa mana 
+HYP:  aku pusing aku harus periksa mana 
+Eval:                                   
+
+id: (p03-005)
+File: p03_s006_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  sana enak nasi padang tapi mahal 
+HYP:  sana enak nasi padang tapi mahal 
+Eval:                                  
+
+id: (p03-006)
+File: p03_s007_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  ibu aku punya kucing sama ikan 
+HYP:  ibu aku punya kucing sama ikan 
+Eval:                                
+
+id: (p03-007)
+File: p03_s008_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  aku cium badan dia 
+HYP:  aku cium badan dia 
+Eval:                    
+
+id: (p03-008)
+File: p03_s009_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  aku lihat ada ular masuk kelas 
+HYP:  aku lihat ada ular masuk kelas 
+Eval:                                
+
+id: (p03-009)
+File: p03_s010_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 0 0 0
+REF:  obat bisa beli toko mana 
+HYP:  obat bisa beli toko mana 
+Eval:                          
+
+id: (p03-010)
+File: p03_s011_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  gakboleh pulang sekarang kamu 
+HYP:  gakboleh pulang sekarang kamu 
+Eval:                               
+
+id: (p03-011)
+File: p03_s012_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  orang jahat sana pukul aku berulang 
+HYP:  orang jahat sana pukul aku berulang 
+Eval:                                     
+
+id: (p03-012)
+File: p03_s013_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  kenapa kamu gak masuk kuliah kemarin 
+HYP:  kenapa kamu gak masuk kuliah kemarin 
+Eval:                                      
+
+id: (p03-013)
+File: p03_s014_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  polisi sana pukul pencuri 
+HYP:  polisi sana pukul pencuri 
+Eval:                           
+
+id: (p03-014)
+File: p03_s015_r04
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  sana berita sudah banyak ribuan orang lihat 
+HYP:  sana berita sudah banyak ribuan orang lihat 
+Eval:                                             
+
+id: (p03-015)
+File: p03_s016_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 0 0 0
+REF:  buku aku sobek gegara dia 
+HYP:  buku aku sobek gegara dia 
+Eval:                           
+
+id: (p03-016)
+File: p03_s017_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  tong-sampah ada semut banyak 
+HYP:  tong-sampah ada semut banyak 
+Eval:                              
+
+id: (p03-017)
+File: p03_s018_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  ular sana makan kambing 
+HYP:  ular sana makan kambing 
+Eval:                         
+
+id: (p03-018)
+File: p03_s019_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  kamu pergi mana 
+HYP:  kamu pergi mana 
+Eval:                 
+
+id: (p03-019)
+File: p03_s020_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  kita istirahat jam berapa 
+HYP:  kita istirahat jam berapa 
+Eval:                           
+
+id: (p03-020)
+File: p03_s021_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 0 0 0
+REF:  kamu punya anggota keluarga berapa 
+HYP:  kamu punya anggota keluarga berapa 
+Eval:                                    
+
+id: (p03-021)
+File: p03_s022_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  mana ibu kamu baik-baik atau tidak 
+HYP:  mana ibu kamu baik-baik atau tidak 
+Eval:                                    
+
+id: (p03-022)
+File: p03_s023_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  kamu belajar bisindo kapan 
+HYP:  kamu belajar bisindo kapan 
+Eval:                            
+
+id: (p03-023)
+File: p03_s024_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  aku nilai jelek 
+HYP:  aku nilai jelek 
+Eval:                 
+
+id: (p03-024)
+File: p03_s025_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 0 0 0
+REF:  ulangtahun selamat 
+HYP:  ulangtahun selamat 
+Eval:                    
+
+id: (p03-025)
+File: p03_s026_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 1 0 0
+REF:  kakak aku kasih hadiah buat AKU   
+HYP:  kakak aku kasih hadiah buat TIDAK 
+Eval:                             S     
+
+id: (p03-026)
+File: p03_s027_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  sana toilet kotor 
+HYP:  sana toilet kotor 
+Eval:                   
+
+id: (p03-027)
+File: p03_s028_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 1 0 0
+REF:  sepatu dia KOTOR  
+HYP:  sepatu dia BANYAK 
+Eval:            S      
+
+id: (p03-028)
+File: p03_s029_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  rumah dimana kamu 
+HYP:  rumah dimana kamu 
+Eval:                   
+
+id: (p03-029)
+File: p03_s030_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  dia mengejek aku 
+HYP:  dia mengejek aku 
+Eval:                  
+
+Speaker sentences   3:  p04   #utts: 30
+id: (p04-000)
+File: p04_s001_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  ayah sama ibu mana 
+HYP:  ayah sama ibu mana 
+Eval:                    
+
+id: (p04-001)
+File: p04_s002_r04
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  dia anak baik sampai banyak orang suka 
+HYP:  dia anak baik sampai banyak orang suka 
+Eval:                                        
+
+id: (p04-002)
+File: p04_s003_r04
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  apa kamu pernah baca buku bahasa inggris 
+HYP:  apa kamu pernah baca buku bahasa inggris 
+Eval:                                          
+
+id: (p04-003)
+File: p04_s004_r04
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  badan aku gemuk tapi badan adik kurus 
+HYP:  badan aku gemuk tapi badan adik kurus 
+Eval:                                       
+
+id: (p04-004)
+File: p04_s005_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  aku pusing aku harus periksa mana 
+HYP:  aku pusing aku harus periksa mana 
+Eval:                                   
+
+id: (p04-005)
+File: p04_s006_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  sana enak nasi padang tapi mahal 
+HYP:  sana enak nasi padang tapi mahal 
+Eval:                                  
+
+id: (p04-006)
+File: p04_s007_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 2 0 0
+REF:  ibu aku punya kucing SAMA    IKAN 
+HYP:  ibu aku punya kucing PERIKSA MANA 
+Eval:                      S       S    
+
+id: (p04-007)
+File: p04_s008_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  aku cium badan dia 
+HYP:  aku cium badan dia 
+Eval:                    
+
+id: (p04-008)
+File: p04_s009_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  aku lihat ada ular masuk kelas 
+HYP:  aku lihat ada ular masuk kelas 
+Eval:                                
+
+id: (p04-009)
+File: p04_s010_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 0 0 0
+REF:  obat bisa beli toko mana 
+HYP:  obat bisa beli toko mana 
+Eval:                          
+
+id: (p04-010)
+File: p04_s011_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  gakboleh pulang sekarang kamu 
+HYP:  gakboleh pulang sekarang kamu 
+Eval:                               
+
+id: (p04-011)
+File: p04_s012_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  orang jahat sana pukul aku berulang 
+HYP:  orang jahat sana pukul aku berulang 
+Eval:                                     
+
+id: (p04-012)
+File: p04_s013_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  kenapa kamu gak masuk kuliah kemarin 
+HYP:  kenapa kamu gak masuk kuliah kemarin 
+Eval:                                      
+
+id: (p04-013)
+File: p04_s014_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  polisi sana pukul pencuri 
+HYP:  polisi sana pukul pencuri 
+Eval:                           
+
+id: (p04-014)
+File: p04_s015_r04
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  sana berita sudah banyak ribuan orang lihat 
+HYP:  sana berita sudah banyak ribuan orang lihat 
+Eval:                                             
+
+id: (p04-015)
+File: p04_s016_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 0 0 0
+REF:  buku aku sobek gegara dia 
+HYP:  buku aku sobek gegara dia 
+Eval:                           
+
+id: (p04-016)
+File: p04_s017_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  tong-sampah ada semut banyak 
+HYP:  tong-sampah ada semut banyak 
+Eval:                              
+
+id: (p04-017)
+File: p04_s018_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  ular sana makan kambing 
+HYP:  ular sana makan kambing 
+Eval:                         
+
+id: (p04-018)
+File: p04_s019_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  kamu pergi mana 
+HYP:  kamu pergi mana 
+Eval:                 
+
+id: (p04-019)
+File: p04_s020_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  kita istirahat jam berapa 
+HYP:  kita istirahat jam berapa 
+Eval:                           
+
+id: (p04-020)
+File: p04_s021_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 0 0 0
+REF:  kamu punya anggota keluarga berapa 
+HYP:  kamu punya anggota keluarga berapa 
+Eval:                                    
+
+id: (p04-021)
+File: p04_s022_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  mana ibu kamu baik-baik atau tidak 
+HYP:  mana ibu kamu baik-baik atau tidak 
+Eval:                                    
+
+id: (p04-022)
+File: p04_s023_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  kamu belajar bisindo kapan 
+HYP:  kamu belajar bisindo kapan 
+Eval:                            
+
+id: (p04-023)
+File: p04_s024_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  aku nilai jelek 
+HYP:  aku nilai jelek 
+Eval:                 
+
+id: (p04-024)
+File: p04_s025_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 0 0 0
+REF:  ulangtahun selamat 
+HYP:  ulangtahun selamat 
+Eval:                    
+
+id: (p04-025)
+File: p04_s026_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  kakak aku kasih hadiah buat aku 
+HYP:  kakak aku kasih hadiah buat aku 
+Eval:                                 
+
+id: (p04-026)
+File: p04_s027_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  sana toilet kotor 
+HYP:  sana toilet kotor 
+Eval:                   
+
+id: (p04-027)
+File: p04_s028_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  sepatu dia kotor 
+HYP:  sepatu dia kotor 
+Eval:                  
+
+id: (p04-028)
+File: p04_s029_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  rumah dimana kamu 
+HYP:  rumah dimana kamu 
+Eval:                   
+
+id: (p04-029)
+File: p04_s030_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  dia mengejek aku 
+HYP:  dia mengejek aku 
+Eval:                  
+
+Speaker sentences   4:  p05   #utts: 30
+id: (p05-000)
+File: p05_s001_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  ayah sama ibu mana 
+HYP:  ayah sama ibu mana 
+Eval:                    
+
+id: (p05-001)
+File: p05_s002_r04
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  dia anak baik sampai banyak orang suka 
+HYP:  dia anak baik sampai banyak orang suka 
+Eval:                                        
+
+id: (p05-002)
+File: p05_s003_r04
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  apa kamu pernah baca buku bahasa inggris 
+HYP:  apa kamu pernah baca buku bahasa inggris 
+Eval:                                          
+
+id: (p05-003)
+File: p05_s004_r04
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  badan aku gemuk tapi badan adik kurus 
+HYP:  badan aku gemuk tapi badan adik kurus 
+Eval:                                       
+
+id: (p05-004)
+File: p05_s005_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  aku pusing aku harus periksa mana 
+HYP:  aku pusing aku harus periksa mana 
+Eval:                                   
+
+id: (p05-005)
+File: p05_s006_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  sana enak nasi padang tapi mahal 
+HYP:  sana enak nasi padang tapi mahal 
+Eval:                                  
+
+id: (p05-006)
+File: p05_s007_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  ibu aku punya kucing sama ikan 
+HYP:  ibu aku punya kucing sama ikan 
+Eval:                                
+
+id: (p05-007)
+File: p05_s008_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  aku cium badan dia 
+HYP:  aku cium badan dia 
+Eval:                    
+
+id: (p05-008)
+File: p05_s009_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 1 3 0
+REF:  aku LIHAT ADA ULAR MASUK kelas 
+HYP:  aku ***** *** **** DIA   kelas 
+Eval:     D     D   D    S           
+
+id: (p05-009)
+File: p05_s010_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 0 0 0
+REF:  obat bisa beli toko mana 
+HYP:  obat bisa beli toko mana 
+Eval:                          
+
+id: (p05-010)
+File: p05_s011_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  gakboleh pulang sekarang kamu 
+HYP:  gakboleh pulang sekarang kamu 
+Eval:                               
+
+id: (p05-011)
+File: p05_s012_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  orang jahat sana pukul aku berulang 
+HYP:  orang jahat sana pukul aku berulang 
+Eval:                                     
+
+id: (p05-012)
+File: p05_s013_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  kenapa kamu gak masuk kuliah kemarin 
+HYP:  kenapa kamu gak masuk kuliah kemarin 
+Eval:                                      
+
+id: (p05-013)
+File: p05_s014_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  polisi sana pukul pencuri 
+HYP:  polisi sana pukul pencuri 
+Eval:                           
+
+id: (p05-014)
+File: p05_s015_r04
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  sana berita sudah banyak ribuan orang lihat 
+HYP:  sana berita sudah banyak ribuan orang lihat 
+Eval:                                             
+
+id: (p05-015)
+File: p05_s016_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 0 0 0
+REF:  buku aku sobek gegara dia 
+HYP:  buku aku sobek gegara dia 
+Eval:                           
+
+id: (p05-016)
+File: p05_s017_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  tong-sampah ada semut banyak 
+HYP:  tong-sampah ada semut banyak 
+Eval:                              
+
+id: (p05-017)
+File: p05_s018_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  ular sana makan kambing 
+HYP:  ular sana makan kambing 
+Eval:                         
+
+id: (p05-018)
+File: p05_s019_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  kamu pergi mana 
+HYP:  kamu pergi mana 
+Eval:                 
+
+id: (p05-019)
+File: p05_s020_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  kita istirahat jam berapa 
+HYP:  kita istirahat jam berapa 
+Eval:                           
+
+id: (p05-020)
+File: p05_s021_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 0 0 0
+REF:  kamu punya anggota keluarga berapa 
+HYP:  kamu punya anggota keluarga berapa 
+Eval:                                    
+
+id: (p05-021)
+File: p05_s022_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  mana ibu kamu baik-baik atau tidak 
+HYP:  mana ibu kamu baik-baik atau tidak 
+Eval:                                    
+
+id: (p05-022)
+File: p05_s023_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  kamu belajar bisindo kapan 
+HYP:  kamu belajar bisindo kapan 
+Eval:                            
+
+id: (p05-023)
+File: p05_s024_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  aku nilai jelek 
+HYP:  aku nilai jelek 
+Eval:                 
+
+id: (p05-024)
+File: p05_s025_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 0 0 0
+REF:  ulangtahun selamat 
+HYP:  ulangtahun selamat 
+Eval:                    
+
+id: (p05-025)
+File: p05_s026_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  kakak aku kasih hadiah buat aku 
+HYP:  kakak aku kasih hadiah buat aku 
+Eval:                                 
+
+id: (p05-026)
+File: p05_s027_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  sana toilet kotor 
+HYP:  sana toilet kotor 
+Eval:                   
+
+id: (p05-027)
+File: p05_s028_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  sepatu dia kotor 
+HYP:  sepatu dia kotor 
+Eval:                  
+
+id: (p05-028)
+File: p05_s029_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  rumah dimana kamu 
+HYP:  rumah dimana kamu 
+Eval:                   
+
+id: (p05-029)
+File: p05_s030_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  dia mengejek aku 
+HYP:  dia mengejek aku 
+Eval:                  
+
+

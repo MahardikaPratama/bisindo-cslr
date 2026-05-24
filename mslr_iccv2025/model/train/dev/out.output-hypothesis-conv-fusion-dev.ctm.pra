@@ -1,0 +1,1219 @@
+
+
+		DUMP OF SYSTEM ALIGNMENT STRUCTURE
+
+System name:   ./work_dir/Baseline+TN/train/dev/out.output-hypothesis-conv-fusion-dev.ctm
+
+Speakers: 
+    0:  p01
+    1:  p02
+    2:  p03
+    3:  p04
+    4:  p05
+
+Speaker sentences   0:  p01   #utts: 30
+id: (p01-000)
+File: p01_s001_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 1 0 0
+REF:  AYAH sama ibu mana 
+HYP:  AKU  sama ibu mana 
+Eval: S                  
+
+id: (p01-001)
+File: p01_s002_r04
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  dia anak baik sampai banyak orang suka 
+HYP:  dia anak baik sampai banyak orang suka 
+Eval:                                        
+
+id: (p01-002)
+File: p01_s003_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 1 2 0
+REF:  APA  kamu pernah BACA buku BAHASA inggris 
+HYP:  SANA kamu pernah **** buku ****** inggris 
+Eval: S                D         D              
+
+id: (p01-003)
+File: p01_s004_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 0 1 0
+REF:  badan aku gemuk tapi BADAN adik kurus 
+HYP:  badan aku gemuk tapi ***** adik kurus 
+Eval:                      D                
+
+id: (p01-004)
+File: p01_s005_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 1 2 0
+REF:  AKU PUSING AKU  harus periksa mana 
+HYP:  *** ****** KAMU harus periksa mana 
+Eval: D   D      S                       
+
+id: (p01-005)
+File: p01_s006_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 2 3 0
+REF:  SANA ENAK  nasi PADANG TAPI MAHAL 
+HYP:  **** KAKAK nasi ****** **** AKU   
+Eval: D    S          D      D    S     
+
+id: (p01-006)
+File: p01_s007_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 1 0 0
+REF:  ibu aku punya kucing sama IKAN 
+HYP:  ibu aku punya kucing sama SUKA 
+Eval:                           S    
+
+id: (p01-007)
+File: p01_s008_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 3 0 0
+REF:  AKU cium BADAN DIA      
+HYP:  IBU cium AKU   BERULANG 
+Eval: S        S     S        
+
+id: (p01-008)
+File: p01_s009_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 3 0
+REF:  aku LIHAT ADA ular MASUK kelas 
+HYP:  aku ***** *** ular ***** kelas 
+Eval:     D     D        D           
+
+id: (p01-009)
+File: p01_s010_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 2 0 0
+REF:  OBAT bisa beli toko MANA   
+HYP:  SANA bisa beli toko BERAPA 
+Eval: S                   S      
+
+id: (p01-010)
+File: p01_s011_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 2 1 0
+REF:  GAKBOLEH pulang SEKARANG KAMU 
+HYP:  KAMU     pulang ******** MANA 
+Eval: S               D        S    
+
+id: (p01-011)
+File: p01_s012_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 2 0 0
+REF:  ORANG jahat sana pukul aku BERULANG 
+HYP:  IBU   jahat sana pukul aku INGGRIS  
+Eval: S                          S        
+
+id: (p01-012)
+File: p01_s013_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 2 1 0
+REF:  KENAPA KAMU gak masuk kuliah KEMARIN 
+HYP:  ****** AKU  gak masuk kuliah MANA    
+Eval: D      S                     S       
+
+id: (p01-013)
+File: p01_s014_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 2 1 0
+REF:  POLISI sana PUKUL PENCURI 
+HYP:  ****** sana TOKO  KOTOR   
+Eval: D           S     S       
+
+id: (p01-014)
+File: p01_s015_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 1 0 0
+REF:  sana berita sudah banyak ribuan ORANG  lihat 
+HYP:  sana berita sudah banyak ribuan BAHASA lihat 
+Eval:                                 S            
+
+id: (p01-015)
+File: p01_s016_r04
+Channel: 1
+Scores: (#C #S #D #I) 0 4 1 0
+REF:  BUKU AKU  SOBEK  GEGARA DIA   
+HYP:  **** SANA BERITA BAHASA LIHAT 
+Eval: D    S    S      S      S     
+
+id: (p01-016)
+File: p01_s017_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 2 1 0
+REF:  TONG-SAMPAH ADA  semut BANYAK 
+HYP:  *********** KAMU semut AKU    
+Eval: D           S          S      
+
+id: (p01-017)
+File: p01_s018_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 2 0 0
+REF:  ULAR sana makan KAMBING 
+HYP:  KAMU sana makan MANA    
+Eval: S               S       
+
+id: (p01-018)
+File: p01_s019_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 1 0 0
+REF:  KAMU pergi mana 
+HYP:  SANA pergi mana 
+Eval: S               
+
+id: (p01-019)
+File: p01_s020_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 3 0 0
+REF:  KITA istirahat JAM     BERAPA 
+HYP:  SANA istirahat BISINDO KOTOR  
+Eval: S              S       S      
+
+id: (p01-020)
+File: p01_s021_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 2 1 0
+REF:  KAMU   punya anggota KELUARGA BERAPA 
+HYP:  POLISI punya anggota ******** DIA    
+Eval: S                    D        S      
+
+id: (p01-021)
+File: p01_s022_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 1 1 0
+REF:  mana ibu kamu baik-baik ATAU TIDAK 
+HYP:  mana ibu kamu baik-baik **** MAHAL 
+Eval:                         D    S     
+
+id: (p01-022)
+File: p01_s023_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 2 1 0
+REF:  KAMU BELAJAR bisindo KAPAN  
+HYP:  **** AKU     bisindo BANYAK 
+Eval: D    S               S      
+
+id: (p01-023)
+File: p01_s024_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 1 0 0
+REF:  aku nilai JELEK 
+HYP:  aku nilai MANA  
+Eval:           S     
+
+id: (p01-024)
+File: p01_s025_r04
+Channel: 1
+Scores: (#C #S #D #I) 0 2 0 0
+REF:  ULANGTAHUN SELAMAT 
+HYP:  MANA       KAMU    
+Eval: S          S       
+
+id: (p01-025)
+File: p01_s026_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 2 3 0
+REF:  KAKAK AKU KASIH hadiah BUAT AKU  
+HYP:  ***** *** DIA   hadiah **** MANA 
+Eval: D     D   S            D    S    
+
+id: (p01-026)
+File: p01_s027_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 1 0 0
+REF:  sana toilet KOTOR 
+HYP:  sana toilet MANA  
+Eval:             S     
+
+id: (p01-027)
+File: p01_s028_r04
+Channel: 1
+Scores: (#C #S #D #I) 0 2 1 0
+REF:  SEPATU DIA    KOTOR 
+HYP:  ****** KENAPA IKAN  
+Eval: D      S      S     
+
+id: (p01-028)
+File: p01_s029_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 2 0 0
+REF:  RUMAH dimana KAMU  
+HYP:  SANA  dimana KOTOR 
+Eval: S            S     
+
+id: (p01-029)
+File: p01_s030_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 1 1 0
+REF:  DIA MENGEJEK aku 
+HYP:  *** KAMU     aku 
+Eval: D   S            
+
+Speaker sentences   1:  p02   #utts: 30
+id: (p02-000)
+File: p02_s001_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 2 0 0
+REF:  AYAH  sama ibu MANA   
+HYP:  KAKAK sama ibu BERAPA 
+Eval: S              S      
+
+id: (p02-001)
+File: p02_s002_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 0 2 0
+REF:  dia anak baik sampai BANYAK ORANG suka 
+HYP:  dia anak baik sampai ****** ***** suka 
+Eval:                      D      D          
+
+id: (p02-002)
+File: p02_s003_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 2 0 0
+REF:  APA  kamu pernah baca buku bahasa INGGRIS 
+HYP:  SANA kamu pernah baca buku bahasa KOTOR   
+Eval: S                                 S       
+
+id: (p02-003)
+File: p02_s004_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 3 2 0
+REF:  BADAN AKU GEMUK tapi badan ADIK KURUS 
+HYP:  ***** DIA ANAK  tapi badan **** KAMU  
+Eval: D     S   S                D    S     
+
+id: (p02-004)
+File: p02_s005_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 1 1 0
+REF:  AKU  pusing aku HARUS periksa mana 
+HYP:  SANA pusing aku ***** periksa mana 
+Eval: S               D                  
+
+id: (p02-005)
+File: p02_s006_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 1 0 0
+REF:  SANA enak nasi padang tapi mahal 
+HYP:  DIA  enak nasi padang tapi mahal 
+Eval: S                                
+
+id: (p02-006)
+File: p02_s007_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 1 0 0
+REF:  ibu aku punya kucing sama IKAN 
+HYP:  ibu aku punya kucing sama SUKA 
+Eval:                           S    
+
+id: (p02-007)
+File: p02_s008_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 1 0
+REF:  aku cium BADAN dia 
+HYP:  aku cium ***** dia 
+Eval:          D         
+
+id: (p02-008)
+File: p02_s009_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 2 0 0
+REF:  aku lihat ada ular MASUK KELAS   
+HYP:  aku lihat ada ular PUKUL SELAMAT 
+Eval:                    S     S       
+
+id: (p02-009)
+File: p02_s010_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 1 0 0
+REF:  obat bisa beli toko MANA   
+HYP:  obat bisa beli toko BANYAK 
+Eval:                     S      
+
+id: (p02-010)
+File: p02_s011_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 2 1 0
+REF:  GAKBOLEH pulang SEKARANG KAMU 
+HYP:  KAMU     pulang ******** MANA 
+Eval: S               D        S    
+
+id: (p02-011)
+File: p02_s012_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 1 0 2
+REF:  ORANG jahat **** ***** sana pukul aku berulang 
+HYP:  AKU   jahat SANA PUKUL sana pukul aku berulang 
+Eval: S           I    I                             
+
+id: (p02-012)
+File: p02_s013_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 1 1 0
+REF:  KENAPA kamu gak masuk kuliah KEMARIN 
+HYP:  ****** kamu gak masuk kuliah SELAMAT 
+Eval: D                            S       
+
+id: (p02-013)
+File: p02_s014_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 2 0 0
+REF:  POLISI sana pukul PENCURI 
+HYP:  KAMU   sana pukul KEMARIN 
+Eval: S                 S       
+
+id: (p02-014)
+File: p02_s015_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 1 1 0
+REF:  sana berita sudah banyak ribuan ORANG LIHAT 
+HYP:  sana berita sudah banyak ribuan ***** DIA   
+Eval:                                 D     S     
+
+id: (p02-015)
+File: p02_s016_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 2 1 0
+REF:  BUKU aku SOBEK gegara DIA  
+HYP:  SANA aku ***** gegara KAMU 
+Eval: S        D            S    
+
+id: (p02-016)
+File: p02_s017_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 1 0 0
+REF:  TONG-SAMPAH ada semut banyak 
+HYP:  KAMU        ada semut banyak 
+Eval: S                            
+
+id: (p02-017)
+File: p02_s018_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 1 0 0
+REF:  ULAR sana makan kambing 
+HYP:  AKU  sana makan kambing 
+Eval: S                       
+
+id: (p02-018)
+File: p02_s019_r04
+Channel: 1
+Scores: (#C #S #D #I) 0 2 1 0
+REF:  KAMU PERGI MANA  
+HYP:  **** DIA   KOTOR 
+Eval: D    S     S     
+
+id: (p02-019)
+File: p02_s020_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 2 0 0
+REF:  KITA istirahat jam BERAPA 
+HYP:  DIA  istirahat jam KAMU   
+Eval: S                  S      
+
+id: (p02-020)
+File: p02_s021_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 0 4 1
+REF:  *** kamu PUNYA ANGGOTA KELUARGA BERAPA 
+HYP:  AKU kamu ***** ******* ******** ****** 
+Eval: I        D     D       D        D      
+
+id: (p02-021)
+File: p02_s022_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 2 0 0
+REF:  MANA ibu kamu baik-baik atau TIDAK 
+HYP:  AKU  ibu kamu baik-baik atau KOTOR 
+Eval: S                            S     
+
+id: (p02-022)
+File: p02_s023_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 2 1 0
+REF:  KAMU belajar BISINDO KAPAN 
+HYP:  AKU  belajar ******* KOTOR 
+Eval: S            D       S     
+
+id: (p02-023)
+File: p02_s024_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 1 0 0
+REF:  aku nilai JELEK 
+HYP:  aku nilai MANA  
+Eval:           S     
+
+id: (p02-024)
+File: p02_s025_r04
+Channel: 1
+Scores: (#C #S #D #I) 0 2 0 0
+REF:  ULANGTAHUN SELAMAT 
+HYP:  AKU        MANA    
+Eval: S          S       
+
+id: (p02-025)
+File: p02_s026_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 3 1 0
+REF:  KAKAK AKU  kasih hadiah BUAT AKU    
+HYP:  SANA  BISA kasih hadiah **** BANYAK 
+Eval: S     S                 D    S      
+
+id: (p02-026)
+File: p02_s027_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 1 0 0
+REF:  SANA toilet kotor 
+HYP:  AKU  toilet kotor 
+Eval: S                 
+
+id: (p02-027)
+File: p02_s028_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 1 0 0
+REF:  SEPATU dia kotor 
+HYP:  KAMU   dia kotor 
+Eval: S                
+
+id: (p02-028)
+File: p02_s029_r04
+Channel: 1
+Scores: (#C #S #D #I) 0 2 1 0
+REF:  RUMAH DIMANA KAMU  
+HYP:  ***** SANA   KOTOR 
+Eval: D     S      S     
+
+id: (p02-029)
+File: p02_s030_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 1 1 0
+REF:  DIA  mengejek AKU 
+HYP:  OBAT mengejek *** 
+Eval: S             D   
+
+Speaker sentences   2:  p03   #utts: 30
+id: (p03-000)
+File: p03_s001_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 2 0 0
+REF:  AYAH sama ibu MANA  
+HYP:  SANA sama ibu MAHAL 
+Eval: S             S     
+
+id: (p03-001)
+File: p03_s002_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 1 2 0
+REF:  dia ANAK baik sampai BANYAK ORANG suka 
+HYP:  dia **** baik sampai ****** ADIK  suka 
+Eval:     D                D      S          
+
+id: (p03-002)
+File: p03_s003_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 1 1 0
+REF:  APA kamu pernah baca buku bahasa INGGRIS 
+HYP:  *** kamu pernah baca buku bahasa DIA     
+Eval: D                                S       
+
+id: (p03-003)
+File: p03_s004_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 2 4 0
+REF:  BADAN aku GEMUK TAPI BADAN ADIK KURUS 
+HYP:  DIA   aku ***** **** ***** **** IKAN  
+Eval: S         D     D    D     D    S     
+
+id: (p03-004)
+File: p03_s005_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 1 0 0
+REF:  aku pusing aku harus periksa MANA    
+HYP:  aku pusing aku harus periksa KAMBING 
+Eval:                              S       
+
+id: (p03-005)
+File: p03_s006_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 2 2 1
+REF:  SANA ENAK NASI padang tapi *** MAHAL 
+HYP:  **** **** KAMU padang tapi AKU IKAN  
+Eval: D    D    S                I   S     
+
+id: (p03-006)
+File: p03_s007_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 2 2 0
+REF:  IBU  aku punya KUCING SAMA IKAN  
+HYP:  SANA aku punya ****** **** KURUS 
+Eval: S              D      D    S     
+
+id: (p03-007)
+File: p03_s008_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  aku cium badan dia 
+HYP:  aku cium badan dia 
+Eval:                    
+
+id: (p03-008)
+File: p03_s009_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 1 1 0
+REF:  aku lihat ada ular MASUK KELAS 
+HYP:  aku lihat ada ular ***** MANA  
+Eval:                    D     S     
+
+id: (p03-009)
+File: p03_s010_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 2 0 0
+REF:  OBAT bisa beli toko MANA  
+HYP:  DIA  bisa beli toko KOTOR 
+Eval: S                   S     
+
+id: (p03-010)
+File: p03_s011_r04
+Channel: 1
+Scores: (#C #S #D #I) 0 2 2 0
+REF:  GAKBOLEH PULANG SEKARANG KAMU  
+HYP:  ******** ****** DIA      KOTOR 
+Eval: D        D      S        S     
+
+id: (p03-011)
+File: p03_s012_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 3 0 0
+REF:  ORANG jahat sana pukul AKU  BERULANG 
+HYP:  AKU   jahat sana pukul SANA DIA      
+Eval: S                      S    S        
+
+id: (p03-012)
+File: p03_s013_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 2 1 0
+REF:  KENAPA KAMU gak masuk kuliah KEMARIN 
+HYP:  ****** DIA  gak masuk kuliah MANA    
+Eval: D      S                     S       
+
+id: (p03-013)
+File: p03_s014_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 2 0 0
+REF:  POLISI sana pukul PENCURI 
+HYP:  MANA   sana pukul MANA    
+Eval: S                 S       
+
+id: (p03-014)
+File: p03_s015_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 2 0 0
+REF:  sana berita sudah banyak ribuan ORANG LIHAT    
+HYP:  sana berita sudah banyak ribuan BADAN BERULANG 
+Eval:                                 S     S        
+
+id: (p03-015)
+File: p03_s016_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 1 1 0
+REF:  BUKU aku SOBEK gegara dia 
+HYP:  SANA aku ***** gegara dia 
+Eval: S        D                
+
+id: (p03-016)
+File: p03_s017_r04
+Channel: 1
+Scores: (#C #S #D #I) 0 3 1 0
+REF:  TONG-SAMPAH ADA SEMUT  BANYAK 
+HYP:  *********** AKU PUSING KOTOR  
+Eval: D           S   S      S      
+
+id: (p03-017)
+File: p03_s018_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 2 0 2
+REF:  *** *** ULAR sana makan KAMBING 
+HYP:  AKU IBU KAMU sana makan MANA    
+Eval: I   I   S               S       
+
+id: (p03-018)
+File: p03_s019_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 1 0 0
+REF:  KAMU pergi mana 
+HYP:  DIA  pergi mana 
+Eval: S               
+
+id: (p03-019)
+File: p03_s020_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 2 1 0
+REF:  KITA ISTIRAHAT jam BERAPA 
+HYP:  **** DIA       jam KOTOR  
+Eval: D    S             S      
+
+id: (p03-020)
+File: p03_s021_r04
+Channel: 1
+Scores: (#C #S #D #I) 0 4 1 0
+REF:  KAMU PUNYA ANGGOTA  KELUARGA BERAPA 
+HYP:  **** BADAN MENGEJEK AKU      IKAN   
+Eval: D    S     S        S        S      
+
+id: (p03-021)
+File: p03_s022_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 2 1 0
+REF:  MANA   ibu kamu baik-baik ATAU TIDAK 
+HYP:  POLISI ibu kamu baik-baik **** KOTOR 
+Eval: S                         D    S     
+
+id: (p03-022)
+File: p03_s023_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 2 0 0
+REF:  KAMU belajar bisindo KAPAN 
+HYP:  SANA belajar bisindo MANA  
+Eval: S                    S     
+
+id: (p03-023)
+File: p03_s024_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 1 0 0
+REF:  aku nilai JELEK 
+HYP:  aku nilai MANA  
+Eval:           S     
+
+id: (p03-024)
+File: p03_s025_r04
+Channel: 1
+Scores: (#C #S #D #I) 0 2 0 0
+REF:  ULANGTAHUN SELAMAT 
+HYP:  AKU        KAMBING 
+Eval: S          S       
+
+id: (p03-025)
+File: p03_s026_r04
+Channel: 1
+Scores: (#C #S #D #I) 0 3 3 0
+REF:  KAKAK AKU KASIH HADIAH BUAT AKU   
+HYP:  ***** *** ***** DIA    ATAU KOTOR 
+Eval: D     D   D     S      S    S     
+
+id: (p03-026)
+File: p03_s027_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  sana toilet kotor 
+HYP:  sana toilet kotor 
+Eval:                   
+
+id: (p03-027)
+File: p03_s028_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 1 1 0
+REF:  SEPATU dia KOTOR  
+HYP:  ****** dia BANYAK 
+Eval: D          S      
+
+id: (p03-028)
+File: p03_s029_r04
+Channel: 1
+Scores: (#C #S #D #I) 0 2 1 0
+REF:  RUMAH DIMANA KAMU  
+HYP:  ***** SANA   KOTOR 
+Eval: D     S      S     
+
+id: (p03-029)
+File: p03_s030_r04
+Channel: 1
+Scores: (#C #S #D #I) 0 2 1 0
+REF:  DIA MENGEJEK AKU  
+HYP:  *** OBAT     SUKA 
+Eval: D   S        S    
+
+Speaker sentences   3:  p04   #utts: 30
+id: (p04-000)
+File: p04_s001_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 1 1 0
+REF:  AYAH sama IBU mana 
+HYP:  SANA sama *** mana 
+Eval: S         D        
+
+id: (p04-001)
+File: p04_s002_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 2 0 0
+REF:  DIA  ANAK     baik sampai banyak orang suka 
+HYP:  KAMU MENGEJEK baik sampai banyak orang suka 
+Eval: S    S                                      
+
+id: (p04-002)
+File: p04_s003_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 2 0 0
+REF:  APA  kamu pernah baca buku bahasa INGGRIS 
+HYP:  SANA kamu pernah baca buku bahasa KOTOR   
+Eval: S                                 S       
+
+id: (p04-003)
+File: p04_s004_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 2 2 0
+REF:  BADAN aku gemuk tapi BADAN ADIK KURUS 
+HYP:  DIA   aku gemuk tapi ***** **** MANA  
+Eval: S                    D     D    S     
+
+id: (p04-004)
+File: p04_s005_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 1 0 0
+REF:  aku pusing aku HARUS periksa mana 
+HYP:  aku pusing aku SANA  periksa mana 
+Eval:                S                  
+
+id: (p04-005)
+File: p04_s006_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 2 0 0
+REF:  SANA enak nasi padang tapi MAHAL 
+HYP:  OBAT enak nasi padang tapi TIDAK 
+Eval: S                          S     
+
+id: (p04-006)
+File: p04_s007_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 1 0 0
+REF:  ibu aku punya kucing sama IKAN 
+HYP:  ibu aku punya kucing sama MANA 
+Eval:                           S    
+
+id: (p04-007)
+File: p04_s008_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 1 0
+REF:  aku cium BADAN dia 
+HYP:  aku cium ***** dia 
+Eval:          D         
+
+id: (p04-008)
+File: p04_s009_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 2 1 0
+REF:  AKU LIHAT ada ular masuk KELAS 
+HYP:  *** KAMU  ada ular masuk MANA  
+Eval: D   S                    S     
+
+id: (p04-009)
+File: p04_s010_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 2 1 0
+REF:  obat BISA BELI     toko MANA  
+HYP:  obat **** MENGEJEK toko TIDAK 
+Eval:      D    S             S     
+
+id: (p04-010)
+File: p04_s011_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 2 1 0
+REF:  GAKBOLEH pulang SEKARANG KAMU  
+HYP:  DIA      pulang ******** KOTOR 
+Eval: S               D        S     
+
+id: (p04-011)
+File: p04_s012_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 1 0 2
+REF:  ORANG jahat **** ***** sana pukul aku berulang 
+HYP:  AKU   jahat SANA PUKUL sana pukul aku berulang 
+Eval: S           I    I                             
+
+id: (p04-012)
+File: p04_s013_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 2 0 0
+REF:  KENAPA kamu gak masuk kuliah KEMARIN 
+HYP:  AKU    kamu gak masuk kuliah MANA    
+Eval: S                            S       
+
+id: (p04-013)
+File: p04_s014_r04
+Channel: 1
+Scores: (#C #S #D #I) 0 3 1 0
+REF:  POLISI SANA PUKUL PENCURI 
+HYP:  ****** KAMU PUNYA KAMU    
+Eval: D      S    S     S       
+
+id: (p04-014)
+File: p04_s015_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 2 0 0
+REF:  sana berita sudah banyak ribuan ORANG LIHAT 
+HYP:  sana berita sudah banyak ribuan BADAN DIA   
+Eval:                                 S     S     
+
+id: (p04-015)
+File: p04_s016_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 1 2 1
+REF:  BUKU AKU SOBEK gegara ****** dia 
+HYP:  **** *** SANA  gegara BAHASA dia 
+Eval: D    D   S            I          
+
+id: (p04-016)
+File: p04_s017_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 2 0 0
+REF:  TONG-SAMPAH ada semut BANYAK 
+HYP:  KAMU        ada semut KOTOR  
+Eval: S                     S      
+
+id: (p04-017)
+File: p04_s018_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 2 0 0
+REF:  ULAR sana makan KAMBING 
+HYP:  AKU  sana makan MANA    
+Eval: S               S       
+
+id: (p04-018)
+File: p04_s019_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  kamu pergi mana 
+HYP:  kamu pergi mana 
+Eval:                 
+
+id: (p04-019)
+File: p04_s020_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 2 0 0
+REF:  KITA istirahat jam BERAPA 
+HYP:  KAMU istirahat jam KOTOR  
+Eval: S                  S      
+
+id: (p04-020)
+File: p04_s021_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 1 1 0
+REF:  kamu punya anggota KELUARGA BERAPA 
+HYP:  kamu punya anggota ******** KAMU   
+Eval:                    D        S      
+
+id: (p04-021)
+File: p04_s022_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 2 0 1
+REF:  MANA ibu kamu baik-baik **** atau TIDAK 
+HYP:  OBAT ibu kamu baik-baik TAPI atau KOTOR 
+Eval: S                       I         S     
+
+id: (p04-022)
+File: p04_s023_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 2 0 0
+REF:  KAMU  belajar bisindo KAPAN 
+HYP:  ORANG belajar bisindo AKU   
+Eval: S                     S     
+
+id: (p04-023)
+File: p04_s024_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 1 0 0
+REF:  aku nilai JELEK   
+HYP:  aku nilai KEMARIN 
+Eval:           S       
+
+id: (p04-024)
+File: p04_s025_r04
+Channel: 1
+Scores: (#C #S #D #I) 0 2 0 0
+REF:  ULANGTAHUN SELAMAT 
+HYP:  AKU        MANA    
+Eval: S          S       
+
+id: (p04-025)
+File: p04_s026_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 2 1 0
+REF:  KAKAK AKU    kasih hadiah buat AKU   
+HYP:  ***** POLISI kasih hadiah buat KOTOR 
+Eval: D     S                        S     
+
+id: (p04-026)
+File: p04_s027_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 1 0 0
+REF:  sana toilet KOTOR 
+HYP:  sana toilet MANA  
+Eval:             S     
+
+id: (p04-027)
+File: p04_s028_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 1 0 0
+REF:  SEPATU dia kotor 
+HYP:  OBAT   dia kotor 
+Eval: S                
+
+id: (p04-028)
+File: p04_s029_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 2 0 0
+REF:  RUMAH dimana KAMU   
+HYP:  SANA  dimana BERAPA 
+Eval: S            S      
+
+id: (p04-029)
+File: p04_s030_r04
+Channel: 1
+Scores: (#C #S #D #I) 0 2 1 0
+REF:  DIA MENGEJEK AKU  
+HYP:  *** KAMU     MANA 
+Eval: D   S        S    
+
+Speaker sentences   4:  p05   #utts: 30
+id: (p05-000)
+File: p05_s001_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 2 0 0
+REF:  AYAH sama ibu MANA   
+HYP:  DIA  sama ibu BANYAK 
+Eval: S             S      
+
+id: (p05-001)
+File: p05_s002_r04
+Channel: 1
+Scores: (#C #S #D #I) 6 1 0 0
+REF:  dia anak baik sampai banyak orang SUKA  
+HYP:  dia anak baik sampai banyak orang MAHAL 
+Eval:                                   S     
+
+id: (p05-002)
+File: p05_s003_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 2 0 0
+REF:  APA  kamu pernah baca buku bahasa INGGRIS 
+HYP:  SANA kamu pernah baca buku bahasa DIA     
+Eval: S                                 S       
+
+id: (p05-003)
+File: p05_s004_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 2 2 0
+REF:  BADAN aku gemuk tapi BADAN ADIK KURUS   
+HYP:  DIA   aku gemuk tapi ***** **** PENCURI 
+Eval: S                    D     D    S       
+
+id: (p05-004)
+File: p05_s005_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 2 0 0
+REF:  AKU  pusing aku harus periksa MANA    
+HYP:  KAMU pusing aku harus periksa KEMARIN 
+Eval: S                             S       
+
+id: (p05-005)
+File: p05_s006_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 1 1 0
+REF:  sana enak nasi padang TAPI MAHAL 
+HYP:  sana enak nasi padang **** KOTOR 
+Eval:                       D    S     
+
+id: (p05-006)
+File: p05_s007_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 1 2 0
+REF:  IBU aku punya KUCING sama IKAN 
+HYP:  *** aku punya ****** sama AKU  
+Eval: D             D           S    
+
+id: (p05-007)
+File: p05_s008_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  aku cium badan dia 
+HYP:  aku cium badan dia 
+Eval:                    
+
+id: (p05-008)
+File: p05_s009_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 1 3 0
+REF:  aku LIHAT ADA ular MASUK KELAS 
+HYP:  aku ***** *** ular ***** AKU   
+Eval:     D     D        D     S     
+
+id: (p05-009)
+File: p05_s010_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 0 1 0
+REF:  obat bisa BELI toko mana 
+HYP:  obat bisa **** toko mana 
+Eval:           D              
+
+id: (p05-010)
+File: p05_s011_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 2 1 0
+REF:  GAKBOLEH pulang SEKARANG KAMU    
+HYP:  KAMU     pulang ******** PENCURI 
+Eval: S               D        S       
+
+id: (p05-011)
+File: p05_s012_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 1 0 0
+REF:  ORANG jahat sana pukul aku berulang 
+HYP:  AKU   jahat sana pukul aku berulang 
+Eval: S                                   
+
+id: (p05-012)
+File: p05_s013_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 0 1 0
+REF:  KENAPA kamu gak masuk kuliah kemarin 
+HYP:  ****** kamu gak masuk kuliah kemarin 
+Eval: D                                    
+
+id: (p05-013)
+File: p05_s014_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 3 0 0
+REF:  POLISI SANA pukul PENCURI 
+HYP:  AKU    BELI pukul MANA    
+Eval: S      S          S       
+
+id: (p05-014)
+File: p05_s015_r04
+Channel: 1
+Scores: (#C #S #D #I) 5 2 0 0
+REF:  sana berita sudah banyak ribuan ORANG LIHAT 
+HYP:  sana berita sudah banyak ribuan BADAN DIA   
+Eval:                                 S     S     
+
+id: (p05-015)
+File: p05_s016_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 2 2 0
+REF:  BUKU AKU SOBEK gegara DIA   
+HYP:  **** *** SANA  gegara KOTOR 
+Eval: D    D   S            S     
+
+id: (p05-016)
+File: p05_s017_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 1 2 0
+REF:  TONG-SAMPAH ADA SEMUT banyak 
+HYP:  *********** *** DIA   banyak 
+Eval: D           D   S            
+
+id: (p05-017)
+File: p05_s018_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 2 0 0
+REF:  ULAR sana makan KAMBING 
+HYP:  MANA sana makan MANA    
+Eval: S               S       
+
+id: (p05-018)
+File: p05_s019_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 1 0 0
+REF:  KAMU pergi mana 
+HYP:  DIA  pergi mana 
+Eval: S               
+
+id: (p05-019)
+File: p05_s020_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 2 0 0
+REF:  KITA istirahat jam BERAPA 
+HYP:  OBAT istirahat jam KOTOR  
+Eval: S                  S      
+
+id: (p05-020)
+File: p05_s021_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 2 0 0
+REF:  kamu punya anggota KELUARGA BERAPA 
+HYP:  kamu punya anggota ORANG    MAHAL  
+Eval:                    S        S      
+
+id: (p05-021)
+File: p05_s022_r04
+Channel: 1
+Scores: (#C #S #D #I) 4 2 0 0
+REF:  MANA ibu kamu baik-baik atau TIDAK 
+HYP:  OBAT ibu kamu baik-baik atau KOTOR 
+Eval: S                            S     
+
+id: (p05-022)
+File: p05_s023_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 2 0 0
+REF:  KAMU belajar bisindo KAPAN 
+HYP:  AKU  belajar bisindo MANA  
+Eval: S                    S     
+
+id: (p05-023)
+File: p05_s024_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 2 0 1
+REF:  aku *** NILAI JELEK   
+HYP:  aku DIA SAMA  PENCURI 
+Eval:     I   S     S       
+
+id: (p05-024)
+File: p05_s025_r04
+Channel: 1
+Scores: (#C #S #D #I) 0 2 0 1
+REF:  **** ULANGTAHUN SELAMAT 
+HYP:  ULAR TOKO       KEMARIN 
+Eval: I    S          S       
+
+id: (p05-025)
+File: p05_s026_r04
+Channel: 1
+Scores: (#C #S #D #I) 3 2 1 0
+REF:  KAKAK AKU kasih hadiah buat AKU   
+HYP:  ***** DIA kasih hadiah buat KOTOR 
+Eval: D     S                     S     
+
+id: (p05-026)
+File: p05_s027_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 2 0 0
+REF:  SANA toilet KOTOR 
+HYP:  KAMU toilet MANA  
+Eval: S           S     
+
+id: (p05-027)
+File: p05_s028_r04
+Channel: 1
+Scores: (#C #S #D #I) 2 1 0 0
+REF:  SEPATU dia kotor 
+HYP:  IBU    dia kotor 
+Eval: S                
+
+id: (p05-028)
+File: p05_s029_r04
+Channel: 1
+Scores: (#C #S #D #I) 0 2 1 0
+REF:  RUMAH DIMANA KAMU  
+HYP:  ***** AKU    KOTOR 
+Eval: D     S      S     
+
+id: (p05-029)
+File: p05_s030_r04
+Channel: 1
+Scores: (#C #S #D #I) 1 2 0 0
+REF:  DIA  mengejek AKU   
+HYP:  OBAT mengejek KOTOR 
+Eval: S             S     
+
+

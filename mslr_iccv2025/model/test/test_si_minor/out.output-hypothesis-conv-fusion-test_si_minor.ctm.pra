@@ -1,0 +1,251 @@
+
+
+		DUMP OF SYSTEM ALIGNMENT STRUCTURE
+
+System name:   ./work_dir/Baseline+TN/test/test_si_minor/out.output-hypothesis-conv-fusion-test_si_minor.ctm
+
+Speakers: 
+    0:  p07
+
+Speaker sentences   0:  p07   #utts: 30
+id: (p07-000)
+File: p07_s001_r01
+Channel: 1
+Scores: (#C #S #D #I) 3 1 0 0
+REF:  AYAH sama ibu mana 
+HYP:  DIA  sama ibu mana 
+Eval: S                  
+
+id: (p07-001)
+File: p07_s002_r01
+Channel: 1
+Scores: (#C #S #D #I) 5 1 1 1
+REF:  dia anak ******** baik sampai banyak ORANG SUKA  
+HYP:  dia anak MENGEJEK baik sampai banyak ***** KOTOR 
+Eval:          I                           D     S     
+
+id: (p07-002)
+File: p07_s003_r01
+Channel: 1
+Scores: (#C #S #D #I) 4 3 0 0
+REF:  APA  kamu pernah BACA   buku bahasa INGGRIS 
+HYP:  SANA kamu pernah RIBUAN buku bahasa DIA     
+Eval: S                S                  S       
+
+id: (p07-003)
+File: p07_s004_r01
+Channel: 1
+Scores: (#C #S #D #I) 3 2 2 0
+REF:  BADAN aku gemuk tapi BADAN ADIK KURUS   
+HYP:  DIA   aku gemuk tapi ***** **** PENCURI 
+Eval: S                    D     D    S       
+
+id: (p07-004)
+File: p07_s005_r01
+Channel: 1
+Scores: (#C #S #D #I) 5 1 0 0
+REF:  aku pusing aku HARUS periksa mana 
+HYP:  aku pusing aku SANA  periksa mana 
+Eval:                S                  
+
+id: (p07-005)
+File: p07_s006_r01
+Channel: 1
+Scores: (#C #S #D #I) 4 2 0 0
+REF:  SANA   enak nasi padang tapi MAHAL 
+HYP:  POLISI enak nasi padang tapi KOTOR 
+Eval: S                            S     
+
+id: (p07-006)
+File: p07_s007_r01
+Channel: 1
+Scores: (#C #S #D #I) 4 1 1 0
+REF:  IBU aku punya kucing sama IKAN 
+HYP:  *** aku punya kucing sama AKU  
+Eval: D                         S    
+
+id: (p07-007)
+File: p07_s008_r01
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  aku cium badan dia 
+HYP:  aku cium badan dia 
+Eval:                    
+
+id: (p07-008)
+File: p07_s009_r01
+Channel: 1
+Scores: (#C #S #D #I) 2 1 3 0
+REF:  aku LIHAT ADA ular MASUK KELAS 
+HYP:  aku ***** *** ular ***** AKU   
+Eval:     D     D        D     S     
+
+id: (p07-009)
+File: p07_s010_r01
+Channel: 1
+Scores: (#C #S #D #I) 3 1 1 0
+REF:  obat bisa BELI toko MANA  
+HYP:  obat bisa **** toko KOTOR 
+Eval:           D         S     
+
+id: (p07-010)
+File: p07_s011_r01
+Channel: 1
+Scores: (#C #S #D #I) 0 2 2 0
+REF:  GAKBOLEH PULANG SEKARANG KAMU  
+HYP:  ******** ****** DIA      KOTOR 
+Eval: D        D      S        S     
+
+id: (p07-011)
+File: p07_s012_r01
+Channel: 1
+Scores: (#C #S #D #I) 5 1 0 0
+REF:  ORANG jahat sana pukul aku berulang 
+HYP:  AKU   jahat sana pukul aku berulang 
+Eval: S                                   
+
+id: (p07-012)
+File: p07_s013_r01
+Channel: 1
+Scores: (#C #S #D #I) 4 2 0 0
+REF:  KENAPA kamu gak masuk kuliah KEMARIN 
+HYP:  AKU    kamu gak masuk kuliah MANA    
+Eval: S                            S       
+
+id: (p07-013)
+File: p07_s014_r01
+Channel: 1
+Scores: (#C #S #D #I) 0 3 1 0
+REF:  POLISI SANA PUKUL PENCURI 
+HYP:  ****** KAMU PUNYA KAMU    
+Eval: D      S    S     S       
+
+id: (p07-014)
+File: p07_s015_r01
+Channel: 1
+Scores: (#C #S #D #I) 5 2 0 0
+REF:  sana berita sudah banyak ribuan ORANG LIHAT 
+HYP:  sana berita sudah banyak ribuan BADAN DIA   
+Eval:                                 S     S     
+
+id: (p07-015)
+File: p07_s016_r01
+Channel: 1
+Scores: (#C #S #D #I) 2 1 2 1
+REF:  BUKU AKU SOBEK gegara ****** dia 
+HYP:  **** *** SANA  gegara BAHASA dia 
+Eval: D    D   S            I          
+
+id: (p07-016)
+File: p07_s017_r01
+Channel: 1
+Scores: (#C #S #D #I) 1 1 2 0
+REF:  TONG-SAMPAH ADA SEMUT banyak 
+HYP:  *********** *** DIA   banyak 
+Eval: D           D   S            
+
+id: (p07-017)
+File: p07_s018_r01
+Channel: 1
+Scores: (#C #S #D #I) 2 2 0 0
+REF:  ULAR sana makan KAMBING 
+HYP:  MANA sana makan MANA    
+Eval: S               S       
+
+id: (p07-018)
+File: p07_s019_r01
+Channel: 1
+Scores: (#C #S #D #I) 2 1 0 0
+REF:  KAMU pergi mana 
+HYP:  DIA  pergi mana 
+Eval: S               
+
+id: (p07-019)
+File: p07_s020_r01
+Channel: 1
+Scores: (#C #S #D #I) 2 2 0 0
+REF:  KITA istirahat jam BERAPA 
+HYP:  KAMU istirahat jam KOTOR  
+Eval: S                  S      
+
+id: (p07-020)
+File: p07_s021_r01
+Channel: 1
+Scores: (#C #S #D #I) 3 1 1 0
+REF:  kamu punya anggota KELUARGA BERAPA 
+HYP:  kamu punya anggota ******** KOTOR  
+Eval:                    D        S      
+
+id: (p07-021)
+File: p07_s022_r01
+Channel: 1
+Scores: (#C #S #D #I) 4 2 0 1
+REF:  MANA ibu kamu baik-baik **** atau TIDAK 
+HYP:  OBAT ibu kamu baik-baik TAPI atau KOTOR 
+Eval: S                       I         S     
+
+id: (p07-022)
+File: p07_s023_r01
+Channel: 1
+Scores: (#C #S #D #I) 2 2 0 0
+REF:  KAMU belajar bisindo KAPAN 
+HYP:  SANA belajar bisindo MANA  
+Eval: S                    S     
+
+id: (p07-023)
+File: p07_s024_r01
+Channel: 1
+Scores: (#C #S #D #I) 2 1 0 0
+REF:  aku nilai JELEK   
+HYP:  aku nilai KEMARIN 
+Eval:           S       
+
+id: (p07-024)
+File: p07_s025_r01
+Channel: 1
+Scores: (#C #S #D #I) 0 2 0 1
+REF:  **** ULANGTAHUN SELAMAT 
+HYP:  ULAR TOKO       KEMARIN 
+Eval: I    S          S       
+
+id: (p07-025)
+File: p07_s026_r01
+Channel: 1
+Scores: (#C #S #D #I) 3 2 1 0
+REF:  KAKAK AKU kasih hadiah buat AKU   
+HYP:  ***** DIA kasih hadiah buat KOTOR 
+Eval: D     S                     S     
+
+id: (p07-026)
+File: p07_s027_r01
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  sana toilet kotor 
+HYP:  sana toilet kotor 
+Eval:                   
+
+id: (p07-027)
+File: p07_s028_r01
+Channel: 1
+Scores: (#C #S #D #I) 2 1 0 0
+REF:  SEPATU dia kotor 
+HYP:  OBAT   dia kotor 
+Eval: S                
+
+id: (p07-028)
+File: p07_s029_r01
+Channel: 1
+Scores: (#C #S #D #I) 1 2 0 0
+REF:  RUMAH dimana KAMU   
+HYP:  SANA  dimana BERAPA 
+Eval: S            S      
+
+id: (p07-029)
+File: p07_s030_r01
+Channel: 1
+Scores: (#C #S #D #I) 0 2 1 0
+REF:  DIA MENGEJEK AKU  
+HYP:  *** KAMU     MANA 
+Eval: D   S        S    
+
+

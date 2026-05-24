@@ -522,7 +522,11 @@ class InferenceRunner:
             ret_dict = self.model(batch)
         inference_ms = int(((_time.perf_counter() - t0) * 1000))
 
-        prediction = self._decode_prediction(ret_dict)
+        prediction_bilstm = self._decode_prediction(ret_dict, key="recognized_sents_fusion")
+        prediction_conv = self._decode_prediction(ret_dict, key="conv_sents_fusion")
+
+        # Default response follows the BiLSTM branch, matching the main test output.
+        prediction = prediction_bilstm
 
         ground_truth = self.gt_lookup.get(sentence_id)
         if ground_truth is None:
@@ -535,10 +539,14 @@ class InferenceRunner:
 
         wer_percent = f"{wer_val * 100:.2f}%"
         self._print_result(sentence_id, gt_display, prediction, wer_percent)
+        logger.info("[InferenceRunner] BiLSTM prediction: %s", prediction_bilstm)
+        logger.info("[InferenceRunner] Conv1D prediction: %s", prediction_conv)
 
         return {
             "ground_truth": gt_display,
             "prediction": prediction,
+            "prediction_bilstm": prediction_bilstm,
+            "prediction_conv": prediction_conv,
             "wer": round(wer_val, 6),
             "wer_percent": wer_percent,
             "inference_ms": inference_ms,
@@ -572,8 +580,12 @@ class InferenceRunner:
             ret_dict = self.model(batch)
 
         # Decode prediksi
-        prediction = self._decode_prediction(ret_dict)
+        prediction_bilstm = self._decode_prediction(ret_dict, key="recognized_sents_fusion")
+        prediction_conv = self._decode_prediction(ret_dict, key="conv_sents_fusion")
+        prediction = prediction_bilstm
         logger.info("[InferenceRunner] Prediksi decoded: %s", prediction)
+        logger.info("[InferenceRunner] BiLSTM prediction: %s", prediction_bilstm)
+        logger.info("[InferenceRunner] Conv1D prediction: %s", prediction_conv)
 
         # Lookup ground truth
         ground_truth = self.gt_lookup.get(sentence_id)
@@ -620,7 +632,12 @@ class InferenceRunner:
         model_name = self.cfg.get("model", "TwoStream_Cosign")
         model_args = self.cfg.get("model_args", {})
 
+        logger.info(
+            "[InferenceRunner] Import model dari: %s",
+            self.cslr_dir / "slr_network.py",
+        )
         logger.info("[InferenceRunner] Membangun model: %s", model_name)
+        logger.info("[InferenceRunner] Model args: %s", model_args)
         model_class = getattr(slr_net, model_name)
         model = model_class(**model_args, gloss_dict=self.gloss_dict)
 
@@ -632,22 +649,27 @@ class InferenceRunner:
         logger.info("[InferenceRunner] Memuat bobot dari: %s", self.checkpoint_path)
         ckpt = torch.load(self.checkpoint_path, map_location=self.device, weights_only=False)
         state_dict = ckpt.get("model_state_dict", ckpt)
+        logger.info(
+            "[InferenceRunner] Checkpoint keys: %d | State dict keys: %d",
+            len(ckpt.keys()) if isinstance(ckpt, dict) else 0,
+            len(state_dict.keys()) if isinstance(state_dict, dict) else 0,
+        )
         model.load_state_dict(state_dict, strict=False)
         model.to(self.device)
         model.eval()
         logger.info("[InferenceRunner] Model berhasil dimuat.")
         return model
 
-    def _decode_prediction(self, ret_dict: dict) -> str:
+    def _decode_prediction(self, ret_dict: dict, key: str = "recognized_sents_fusion") -> str:
         """Ekstrak dan decode prediksi gloss dari output model.
 
         Output model saat eval adalah:
-            ret_dict['recognized_sents_fusion'] -> list of list of tuples [(gloss_str, score), ...]
+            ret_dict[key] -> list of list of tuples [(gloss_str, score), ...]
 
         Output:
             string gloss sequence hasil prediksi.
         """
-        sents = ret_dict.get("recognized_sents_fusion", [])
+        sents = ret_dict.get(key, [])
         if not sents or len(sents) == 0:
             return "[EMPTY]"
 

@@ -1,0 +1,342 @@
+[ Tue May 19 06:21:37 2026 ] Parameters:
+{'work_dir': './work_dir/Baseline+TN/', 'google_drive_dir': '/content/drive/MyDrive/MSLR_RESULTS', 'config': './configs/experiment_configs/normalization/Baseline+TN.yaml', 'random_fix': True, 'device': 0, 'processor': None, 'phase': 'train', 'train_args': {}, 'save_interval': 1, 'random_seed': 123, 'eval_interval': 1, 'print_log': True, 'log_interval': 100, 'evaluate_tool': 'sclite', 'feeder': 'SkeletonFeeder', 'dataset': 'bisindo', 'num_worker': 2, 'feeder_args': {'setting': 'sd', 'datatype': 'skeleton', 'split': [21, 42], 'norm_point': [0, 21], 'used_part': ['hand21'], 'augmentation_types': [], 'normalization_types': ['temporal'], 'downsampling': True, 'downsampling_ratio': 0.5, 'mode': 'test_si_minor', 'transform_mode': False, 'dataset': 'bisindo', 'dataset_root': './datasets/mslr2025'}, 'model': 'TwoStream_Cosign', 'model_args': {'visual_args': {'in_channels': 2, 'split': [21, 42], 'temporal_kernel': 5, 'hidden_size': 1024, 'modes': ['hand21'], 'level': '1', 'adaptive': True, 'CR_args': {'clip_length': 25, 'ratio': 0.2}}, 'conv_type': 'K3-P2-K3-P2', 'loss_weights': {'CR_ConvCTC_static': 1.0, 'CR_SeqCTC_static': 1.0, 'CR_Conv_static': 2.0, 'CR_Seq_static': 2.0, 'CR_ConvCTC_motion': 1.0, 'CR_SeqCTC_motion': 1.0, 'CR_Conv_motion': 2.0, 'CR_Seq_motion': 2.0, 'CR_ConvCTC_fusion': 1.0, 'CR_SeqCTC_fusion': 1.0, 'CR_Conv_fusion': 2.0, 'CR_Seq_fusion': 2.0}, 'norm_scale': 32}, 'load_weights': None, 'load_checkpoints': None, 'ignore_weights': [], 'batch_size': 4, 'test_batch_size': 4, 'optimizer_args': {'base_lr': 0.0004, 'learning_ratio': 1, 'nesterov': False, 'optimizer': 'AdamW', 'start_epoch': 0, 'step': [20, 35], 'weight_decay': 0.0001}, 'num_epoch': 40, 'dataset_info': {'dataset_root': './datasets/mslr2025', 'dict_path': './datasets/mslr2025/global_gloss_dict.json', 'evaluation_dir': './datasets/mslr2025', 'evaluation_prefix': 'mslr-groundtruth'}}
+
+[ Tue May 19 06:21:39 2026 ] 	Epoch: 0, Batch(0/112) done. Loss: 459.01  lr:0.000400
+[ Tue May 19 06:21:39 2026 ] 	CR_ConvCTC_static: 76.53, CR_SeqCTC_static: 85.74, CR_Conv_static: 0.46, CR_Seq_static: 0.59, CR_ConvCTC_motion: 73.89, CR_SeqCTC_motion: 69.28, CR_Conv_motion: 0.44, CR_Seq_motion: 0.50, CR_ConvCTC_fusion: 76.12, CR_SeqCTC_fusion: 74.56, CR_Conv_fusion: 0.37, CR_Seq_fusion: 0.54
+[ Tue May 19 06:22:12 2026 ] 	Epoch: 0, Batch(100/112) done. Loss: 108.02  lr:0.000400
+[ Tue May 19 06:22:12 2026 ] 	CR_ConvCTC_static: 18.09, CR_SeqCTC_static: 17.58, CR_Conv_static: 0.52, CR_Seq_static: 0.03, CR_ConvCTC_motion: 18.67, CR_SeqCTC_motion: 17.59, CR_Conv_motion: 0.69, CR_Seq_motion: 0.04, CR_ConvCTC_fusion: 17.78, CR_SeqCTC_fusion: 16.85, CR_Conv_fusion: 0.17, CR_Seq_fusion: 0.01
+[ Tue May 19 06:22:16 2026 ] 	Mean training loss: 149.3848891939.
+[ Tue May 19 06:22:20 2026 ] [DEV EVAL] Total Inference Time: 3.25s
+[ Tue May 19 06:22:20 2026 ] [DEV EVAL] Inference Speed: 3502.69 Frames/s, 46.09 Sequences/s
+[ Tue May 19 06:22:21 2026 ] Dev WER: 93.00%
+[ Tue May 19 06:22:21 2026 ] 	Epoch: 1, Batch(0/112) done. Loss: 171.43  lr:0.000400
+[ Tue May 19 06:22:21 2026 ] 	CR_ConvCTC_static: 29.24, CR_SeqCTC_static: 26.70, CR_Conv_static: 0.22, CR_Seq_static: 0.01, CR_ConvCTC_motion: 29.88, CR_SeqCTC_motion: 28.53, CR_Conv_motion: 0.20, CR_Seq_motion: 0.01, CR_ConvCTC_fusion: 28.58, CR_SeqCTC_fusion: 27.52, CR_Conv_fusion: 0.53, CR_Seq_fusion: 0.01
+[ Tue May 19 06:22:55 2026 ] 	Epoch: 1, Batch(100/112) done. Loss: 131.13  lr:0.000400
+[ Tue May 19 06:22:55 2026 ] 	CR_ConvCTC_static: 22.43, CR_SeqCTC_static: 20.48, CR_Conv_static: 0.30, CR_Seq_static: 0.02, CR_ConvCTC_motion: 23.28, CR_SeqCTC_motion: 21.47, CR_Conv_motion: 0.23, CR_Seq_motion: 0.02, CR_ConvCTC_fusion: 22.73, CR_SeqCTC_fusion: 19.89, CR_Conv_fusion: 0.26, CR_Seq_fusion: 0.01
+[ Tue May 19 06:22:59 2026 ] 	Mean training loss: 122.4136398179.
+[ Tue May 19 06:23:04 2026 ] [DEV EVAL] Total Inference Time: 3.60s
+[ Tue May 19 06:23:04 2026 ] [DEV EVAL] Inference Speed: 3168.01 Frames/s, 41.68 Sequences/s
+[ Tue May 19 06:23:04 2026 ] Dev WER: 91.30%
+[ Tue May 19 06:23:05 2026 ] 	Epoch: 2, Batch(0/112) done. Loss: 103.96  lr:0.000400
+[ Tue May 19 06:23:05 2026 ] 	CR_ConvCTC_static: 16.80, CR_SeqCTC_static: 16.36, CR_Conv_static: 0.14, CR_Seq_static: 0.01, CR_ConvCTC_motion: 18.62, CR_SeqCTC_motion: 17.71, CR_Conv_motion: 0.50, CR_Seq_motion: 0.17, CR_ConvCTC_fusion: 17.06, CR_SeqCTC_fusion: 16.55, CR_Conv_fusion: 0.04, CR_Seq_fusion: 0.00
+[ Tue May 19 06:23:38 2026 ] 	Epoch: 2, Batch(100/112) done. Loss: 124.44  lr:0.000400
+[ Tue May 19 06:23:38 2026 ] 	CR_ConvCTC_static: 22.02, CR_SeqCTC_static: 18.72, CR_Conv_static: 0.40, CR_Seq_static: 0.08, CR_ConvCTC_motion: 21.92, CR_SeqCTC_motion: 19.48, CR_Conv_motion: 0.09, CR_Seq_motion: 0.00, CR_ConvCTC_fusion: 21.90, CR_SeqCTC_fusion: 19.61, CR_Conv_fusion: 0.19, CR_Seq_fusion: 0.02
+[ Tue May 19 06:23:41 2026 ] 	Mean training loss: 112.9996916226.
+[ Tue May 19 06:23:47 2026 ] [DEV EVAL] Total Inference Time: 4.10s
+[ Tue May 19 06:23:47 2026 ] [DEV EVAL] Inference Speed: 2777.86 Frames/s, 36.55 Sequences/s
+[ Tue May 19 06:23:47 2026 ] Dev WER: 89.80%
+[ Tue May 19 06:23:48 2026 ] 	Epoch: 3, Batch(0/112) done. Loss: 111.39  lr:0.000400
+[ Tue May 19 06:23:48 2026 ] 	CR_ConvCTC_static: 19.88, CR_SeqCTC_static: 16.42, CR_Conv_static: 0.37, CR_Seq_static: 0.06, CR_ConvCTC_motion: 20.34, CR_SeqCTC_motion: 18.11, CR_Conv_motion: 0.05, CR_Seq_motion: 0.01, CR_ConvCTC_fusion: 19.51, CR_SeqCTC_fusion: 16.48, CR_Conv_fusion: 0.14, CR_Seq_fusion: 0.02
+[ Tue May 19 06:24:21 2026 ] 	Epoch: 3, Batch(100/112) done. Loss: 67.23  lr:0.000400
+[ Tue May 19 06:24:21 2026 ] 	CR_ConvCTC_static: 11.33, CR_SeqCTC_static: 10.46, CR_Conv_static: 0.08, CR_Seq_static: 0.03, CR_ConvCTC_motion: 11.27, CR_SeqCTC_motion: 11.30, CR_Conv_motion: 0.09, CR_Seq_motion: 0.02, CR_ConvCTC_fusion: 12.00, CR_SeqCTC_fusion: 10.42, CR_Conv_fusion: 0.20, CR_Seq_fusion: 0.02
+[ Tue May 19 06:24:24 2026 ] 	Mean training loss: 105.5798386165.
+[ Tue May 19 06:24:30 2026 ] [DEV EVAL] Total Inference Time: 4.30s
+[ Tue May 19 06:24:30 2026 ] [DEV EVAL] Inference Speed: 2652.03 Frames/s, 34.90 Sequences/s
+[ Tue May 19 06:24:30 2026 ] Dev WER: 84.60%
+[ Tue May 19 06:24:31 2026 ] 	Epoch: 4, Batch(0/112) done. Loss: 113.70  lr:0.000400
+[ Tue May 19 06:24:31 2026 ] 	CR_ConvCTC_static: 20.41, CR_SeqCTC_static: 14.77, CR_Conv_static: 0.55, CR_Seq_static: 0.10, CR_ConvCTC_motion: 21.60, CR_SeqCTC_motion: 19.78, CR_Conv_motion: 0.02, CR_Seq_motion: 0.00, CR_ConvCTC_fusion: 20.38, CR_SeqCTC_fusion: 15.78, CR_Conv_fusion: 0.26, CR_Seq_fusion: 0.05
+[ Tue May 19 06:25:04 2026 ] 	Epoch: 4, Batch(100/112) done. Loss: 90.22  lr:0.000400
+[ Tue May 19 06:25:04 2026 ] 	CR_ConvCTC_static: 14.91, CR_SeqCTC_static: 13.09, CR_Conv_static: 0.06, CR_Seq_static: 0.02, CR_ConvCTC_motion: 16.56, CR_SeqCTC_motion: 15.81, CR_Conv_motion: 0.05, CR_Seq_motion: 0.01, CR_ConvCTC_fusion: 16.13, CR_SeqCTC_fusion: 13.51, CR_Conv_fusion: 0.06, CR_Seq_fusion: 0.02
+[ Tue May 19 06:25:08 2026 ] 	Mean training loss: 98.6168744905.
+[ Tue May 19 06:25:14 2026 ] [DEV EVAL] Total Inference Time: 4.30s
+[ Tue May 19 06:25:14 2026 ] [DEV EVAL] Inference Speed: 2652.78 Frames/s, 34.91 Sequences/s
+[ Tue May 19 06:25:14 2026 ] Dev WER: 84.10%
+[ Tue May 19 06:25:15 2026 ] 	Epoch: 5, Batch(0/112) done. Loss: 85.77  lr:0.000400
+[ Tue May 19 06:25:15 2026 ] 	CR_ConvCTC_static: 14.80, CR_SeqCTC_static: 12.66, CR_Conv_static: 0.25, CR_Seq_static: 0.04, CR_ConvCTC_motion: 15.10, CR_SeqCTC_motion: 13.43, CR_Conv_motion: 0.02, CR_Seq_motion: 0.00, CR_ConvCTC_fusion: 15.86, CR_SeqCTC_fusion: 13.11, CR_Conv_fusion: 0.41, CR_Seq_fusion: 0.09
+[ Tue May 19 06:25:49 2026 ] 	Epoch: 5, Batch(100/112) done. Loss: 121.69  lr:0.000400
+[ Tue May 19 06:25:49 2026 ] 	CR_ConvCTC_static: 21.29, CR_SeqCTC_static: 18.26, CR_Conv_static: 0.38, CR_Seq_static: 0.13, CR_ConvCTC_motion: 22.43, CR_SeqCTC_motion: 20.62, CR_Conv_motion: 0.06, CR_Seq_motion: 0.03, CR_ConvCTC_fusion: 21.58, CR_SeqCTC_fusion: 16.67, CR_Conv_fusion: 0.19, CR_Seq_fusion: 0.07
+[ Tue May 19 06:25:52 2026 ] 	Mean training loss: 94.1535336971.
+[ Tue May 19 06:25:58 2026 ] [DEV EVAL] Total Inference Time: 4.09s
+[ Tue May 19 06:25:58 2026 ] [DEV EVAL] Inference Speed: 2785.46 Frames/s, 36.65 Sequences/s
+[ Tue May 19 06:25:58 2026 ] Dev WER: 81.10%
+[ Tue May 19 06:25:59 2026 ] 	Epoch: 6, Batch(0/112) done. Loss: 85.43  lr:0.000400
+[ Tue May 19 06:25:59 2026 ] 	CR_ConvCTC_static: 14.04, CR_SeqCTC_static: 10.00, CR_Conv_static: 0.80, CR_Seq_static: 0.27, CR_ConvCTC_motion: 15.87, CR_SeqCTC_motion: 15.55, CR_Conv_motion: 0.13, CR_Seq_motion: 0.02, CR_ConvCTC_fusion: 15.67, CR_SeqCTC_fusion: 12.56, CR_Conv_fusion: 0.35, CR_Seq_fusion: 0.18
+[ Tue May 19 06:26:33 2026 ] 	Epoch: 6, Batch(100/112) done. Loss: 105.12  lr:0.000400
+[ Tue May 19 06:26:33 2026 ] 	CR_ConvCTC_static: 17.57, CR_SeqCTC_static: 16.13, CR_Conv_static: 0.21, CR_Seq_static: 0.29, CR_ConvCTC_motion: 19.19, CR_SeqCTC_motion: 18.30, CR_Conv_motion: 0.26, CR_Seq_motion: 0.09, CR_ConvCTC_fusion: 17.60, CR_SeqCTC_fusion: 15.06, CR_Conv_fusion: 0.21, CR_Seq_fusion: 0.19
+[ Tue May 19 06:26:37 2026 ] 	Mean training loss: 91.5513438497.
+[ Tue May 19 06:26:42 2026 ] [DEV EVAL] Total Inference Time: 4.00s
+[ Tue May 19 06:26:42 2026 ] [DEV EVAL] Inference Speed: 2852.83 Frames/s, 37.54 Sequences/s
+[ Tue May 19 06:26:42 2026 ] Dev WER: 77.60%
+[ Tue May 19 06:26:43 2026 ] 	Epoch: 7, Batch(0/112) done. Loss: 80.40  lr:0.000400
+[ Tue May 19 06:26:43 2026 ] 	CR_ConvCTC_static: 14.11, CR_SeqCTC_static: 7.81, CR_Conv_static: 0.12, CR_Seq_static: 0.28, CR_ConvCTC_motion: 17.03, CR_SeqCTC_motion: 15.61, CR_Conv_motion: 0.11, CR_Seq_motion: 0.09, CR_ConvCTC_fusion: 14.89, CR_SeqCTC_fusion: 9.89, CR_Conv_fusion: 0.34, CR_Seq_fusion: 0.11
+[ Tue May 19 06:27:17 2026 ] 	Epoch: 7, Batch(100/112) done. Loss: 89.55  lr:0.000400
+[ Tue May 19 06:27:17 2026 ] 	CR_ConvCTC_static: 15.57, CR_SeqCTC_static: 11.12, CR_Conv_static: 0.49, CR_Seq_static: 0.25, CR_ConvCTC_motion: 16.99, CR_SeqCTC_motion: 15.84, CR_Conv_motion: 0.09, CR_Seq_motion: 0.02, CR_ConvCTC_fusion: 16.84, CR_SeqCTC_fusion: 12.00, CR_Conv_fusion: 0.21, CR_Seq_fusion: 0.13
+[ Tue May 19 06:27:21 2026 ] 	Mean training loss: 86.7438023431.
+[ Tue May 19 06:27:26 2026 ] [DEV EVAL] Total Inference Time: 3.85s
+[ Tue May 19 06:27:26 2026 ] [DEV EVAL] Inference Speed: 2957.99 Frames/s, 38.92 Sequences/s
+[ Tue May 19 06:27:26 2026 ] Dev WER: 73.00%
+[ Tue May 19 06:27:27 2026 ] 	Epoch: 8, Batch(0/112) done. Loss: 103.24  lr:0.000400
+[ Tue May 19 06:27:27 2026 ] 	CR_ConvCTC_static: 17.42, CR_SeqCTC_static: 12.99, CR_Conv_static: 0.50, CR_Seq_static: 0.55, CR_ConvCTC_motion: 19.83, CR_SeqCTC_motion: 19.44, CR_Conv_motion: 0.10, CR_Seq_motion: 0.04, CR_ConvCTC_fusion: 18.81, CR_SeqCTC_fusion: 13.13, CR_Conv_fusion: 0.27, CR_Seq_fusion: 0.15
+[ Tue May 19 06:28:01 2026 ] 	Epoch: 8, Batch(100/112) done. Loss: 71.49  lr:0.000400
+[ Tue May 19 06:28:01 2026 ] 	CR_ConvCTC_static: 11.13, CR_SeqCTC_static: 6.32, CR_Conv_static: 0.27, CR_Seq_static: 0.16, CR_ConvCTC_motion: 14.54, CR_SeqCTC_motion: 14.11, CR_Conv_motion: 0.24, CR_Seq_motion: 0.21, CR_ConvCTC_fusion: 12.97, CR_SeqCTC_fusion: 11.18, CR_Conv_fusion: 0.20, CR_Seq_fusion: 0.16
+[ Tue May 19 06:28:04 2026 ] 	Mean training loss: 83.0044638770.
+[ Tue May 19 06:28:10 2026 ] [DEV EVAL] Total Inference Time: 3.66s
+[ Tue May 19 06:28:10 2026 ] [DEV EVAL] Inference Speed: 3115.57 Frames/s, 40.99 Sequences/s
+[ Tue May 19 06:28:10 2026 ] Dev WER: 66.30%
+[ Tue May 19 06:28:11 2026 ] 	Epoch: 9, Batch(0/112) done. Loss: 70.53  lr:0.000400
+[ Tue May 19 06:28:11 2026 ] 	CR_ConvCTC_static: 12.41, CR_SeqCTC_static: 7.57, CR_Conv_static: 0.22, CR_Seq_static: 0.13, CR_ConvCTC_motion: 14.08, CR_SeqCTC_motion: 14.16, CR_Conv_motion: 0.17, CR_Seq_motion: 0.10, CR_ConvCTC_fusion: 12.49, CR_SeqCTC_fusion: 8.88, CR_Conv_fusion: 0.20, CR_Seq_fusion: 0.13
+[ Tue May 19 06:28:45 2026 ] 	Epoch: 9, Batch(100/112) done. Loss: 84.92  lr:0.000400
+[ Tue May 19 06:28:45 2026 ] 	CR_ConvCTC_static: 15.03, CR_SeqCTC_static: 7.98, CR_Conv_static: 0.94, CR_Seq_static: 0.40, CR_ConvCTC_motion: 15.76, CR_SeqCTC_motion: 14.69, CR_Conv_motion: 0.06, CR_Seq_motion: 0.03, CR_ConvCTC_fusion: 16.68, CR_SeqCTC_fusion: 12.17, CR_Conv_fusion: 0.88, CR_Seq_fusion: 0.30
+[ Tue May 19 06:28:49 2026 ] 	Mean training loss: 79.4311523097.
+[ Tue May 19 06:28:54 2026 ] [DEV EVAL] Total Inference Time: 3.79s
+[ Tue May 19 06:28:54 2026 ] [DEV EVAL] Inference Speed: 3011.27 Frames/s, 39.62 Sequences/s
+[ Tue May 19 06:28:54 2026 ] Dev WER: 59.40%
+[ Tue May 19 06:28:55 2026 ] 	Epoch: 10, Batch(0/112) done. Loss: 89.17  lr:0.000400
+[ Tue May 19 06:28:55 2026 ] 	CR_ConvCTC_static: 16.02, CR_SeqCTC_static: 10.49, CR_Conv_static: 0.24, CR_Seq_static: 0.11, CR_ConvCTC_motion: 17.82, CR_SeqCTC_motion: 16.15, CR_Conv_motion: 0.28, CR_Seq_motion: 0.26, CR_ConvCTC_fusion: 14.58, CR_SeqCTC_fusion: 12.27, CR_Conv_fusion: 0.27, CR_Seq_fusion: 0.66
+[ Tue May 19 06:29:30 2026 ] 	Epoch: 10, Batch(100/112) done. Loss: 91.18  lr:0.000400
+[ Tue May 19 06:29:30 2026 ] 	CR_ConvCTC_static: 15.09, CR_SeqCTC_static: 12.61, CR_Conv_static: 0.41, CR_Seq_static: 0.38, CR_ConvCTC_motion: 16.06, CR_SeqCTC_motion: 16.47, CR_Conv_motion: 0.21, CR_Seq_motion: 0.11, CR_ConvCTC_fusion: 15.90, CR_SeqCTC_fusion: 13.03, CR_Conv_fusion: 0.41, CR_Seq_fusion: 0.49
+[ Tue May 19 06:29:33 2026 ] 	Mean training loss: 76.3466174943.
+[ Tue May 19 06:29:38 2026 ] [DEV EVAL] Total Inference Time: 3.53s
+[ Tue May 19 06:29:38 2026 ] [DEV EVAL] Inference Speed: 3229.04 Frames/s, 42.49 Sequences/s
+[ Tue May 19 06:29:38 2026 ] Dev WER: 59.00%
+[ Tue May 19 06:29:39 2026 ] 	Epoch: 11, Batch(0/112) done. Loss: 92.50  lr:0.000400
+[ Tue May 19 06:29:39 2026 ] 	CR_ConvCTC_static: 16.84, CR_SeqCTC_static: 7.89, CR_Conv_static: 0.59, CR_Seq_static: 0.34, CR_ConvCTC_motion: 18.49, CR_SeqCTC_motion: 14.87, CR_Conv_motion: 0.61, CR_Seq_motion: 0.08, CR_ConvCTC_fusion: 19.90, CR_SeqCTC_fusion: 11.75, CR_Conv_fusion: 0.77, CR_Seq_fusion: 0.36
+[ Tue May 19 06:30:13 2026 ] 	Epoch: 11, Batch(100/112) done. Loss: 71.03  lr:0.000400
+[ Tue May 19 06:30:13 2026 ] 	CR_ConvCTC_static: 11.87, CR_SeqCTC_static: 8.35, CR_Conv_static: 0.76, CR_Seq_static: 0.40, CR_ConvCTC_motion: 14.61, CR_SeqCTC_motion: 12.61, CR_Conv_motion: 0.21, CR_Seq_motion: 0.12, CR_ConvCTC_fusion: 12.40, CR_SeqCTC_fusion: 8.91, CR_Conv_fusion: 0.62, CR_Seq_fusion: 0.18
+[ Tue May 19 06:30:17 2026 ] 	Mean training loss: 72.9084341526.
+[ Tue May 19 06:30:21 2026 ] [DEV EVAL] Total Inference Time: 3.46s
+[ Tue May 19 06:30:21 2026 ] [DEV EVAL] Inference Speed: 3297.14 Frames/s, 43.38 Sequences/s
+[ Tue May 19 06:30:22 2026 ] Dev WER: 48.40%
+[ Tue May 19 06:30:23 2026 ] 	Epoch: 12, Batch(0/112) done. Loss: 78.89  lr:0.000400
+[ Tue May 19 06:30:23 2026 ] 	CR_ConvCTC_static: 13.03, CR_SeqCTC_static: 10.60, CR_Conv_static: 0.66, CR_Seq_static: 0.51, CR_ConvCTC_motion: 16.03, CR_SeqCTC_motion: 14.12, CR_Conv_motion: 0.31, CR_Seq_motion: 0.31, CR_ConvCTC_fusion: 13.30, CR_SeqCTC_fusion: 9.12, CR_Conv_fusion: 0.51, CR_Seq_fusion: 0.38
+[ Tue May 19 06:30:57 2026 ] 	Epoch: 12, Batch(100/112) done. Loss: 82.04  lr:0.000400
+[ Tue May 19 06:30:57 2026 ] 	CR_ConvCTC_static: 12.51, CR_SeqCTC_static: 10.16, CR_Conv_static: 1.06, CR_Seq_static: 0.42, CR_ConvCTC_motion: 17.29, CR_SeqCTC_motion: 13.39, CR_Conv_motion: 0.28, CR_Seq_motion: 0.26, CR_ConvCTC_fusion: 14.91, CR_SeqCTC_fusion: 10.99, CR_Conv_fusion: 0.29, CR_Seq_fusion: 0.47
+[ Tue May 19 06:31:01 2026 ] 	Mean training loss: 69.6039652143.
+[ Tue May 19 06:31:05 2026 ] [DEV EVAL] Total Inference Time: 3.39s
+[ Tue May 19 06:31:05 2026 ] [DEV EVAL] Inference Speed: 3364.78 Frames/s, 44.27 Sequences/s
+[ Tue May 19 06:31:06 2026 ] Dev WER: 51.90%
+[ Tue May 19 06:31:06 2026 ] 	Epoch: 13, Batch(0/112) done. Loss: 60.49  lr:0.000400
+[ Tue May 19 06:31:06 2026 ] 	CR_ConvCTC_static: 10.96, CR_SeqCTC_static: 4.72, CR_Conv_static: 0.63, CR_Seq_static: 0.69, CR_ConvCTC_motion: 12.72, CR_SeqCTC_motion: 11.69, CR_Conv_motion: 0.25, CR_Seq_motion: 0.17, CR_ConvCTC_fusion: 11.90, CR_SeqCTC_fusion: 5.84, CR_Conv_fusion: 0.68, CR_Seq_fusion: 0.24
+[ Tue May 19 06:31:41 2026 ] 	Epoch: 13, Batch(100/112) done. Loss: 66.42  lr:0.000400
+[ Tue May 19 06:31:41 2026 ] 	CR_ConvCTC_static: 13.51, CR_SeqCTC_static: 5.17, CR_Conv_static: 0.72, CR_Seq_static: 0.47, CR_ConvCTC_motion: 13.96, CR_SeqCTC_motion: 11.44, CR_Conv_motion: 0.13, CR_Seq_motion: 0.05, CR_ConvCTC_fusion: 13.98, CR_SeqCTC_fusion: 6.47, CR_Conv_fusion: 0.42, CR_Seq_fusion: 0.11
+[ Tue May 19 06:31:45 2026 ] 	Mean training loss: 66.3290875299.
+[ Tue May 19 06:31:49 2026 ] [DEV EVAL] Total Inference Time: 3.34s
+[ Tue May 19 06:31:49 2026 ] [DEV EVAL] Inference Speed: 3409.59 Frames/s, 44.86 Sequences/s
+[ Tue May 19 06:31:49 2026 ] Dev WER: 35.40%
+[ Tue May 19 06:31:50 2026 ] 	Epoch: 14, Batch(0/112) done. Loss: 53.08  lr:0.000400
+[ Tue May 19 06:31:50 2026 ] 	CR_ConvCTC_static: 10.46, CR_SeqCTC_static: 3.52, CR_Conv_static: 0.49, CR_Seq_static: 0.19, CR_ConvCTC_motion: 13.28, CR_SeqCTC_motion: 7.30, CR_Conv_motion: 0.14, CR_Seq_motion: 0.14, CR_ConvCTC_fusion: 12.01, CR_SeqCTC_fusion: 5.02, CR_Conv_fusion: 0.38, CR_Seq_fusion: 0.15
+[ Tue May 19 06:32:25 2026 ] 	Epoch: 14, Batch(100/112) done. Loss: 55.38  lr:0.000400
+[ Tue May 19 06:32:25 2026 ] 	CR_ConvCTC_static: 10.38, CR_SeqCTC_static: 1.87, CR_Conv_static: 0.07, CR_Seq_static: 0.14, CR_ConvCTC_motion: 13.27, CR_SeqCTC_motion: 12.53, CR_Conv_motion: 0.11, CR_Seq_motion: 0.08, CR_ConvCTC_fusion: 12.55, CR_SeqCTC_fusion: 3.78, CR_Conv_fusion: 0.38, CR_Seq_fusion: 0.23
+[ Tue May 19 06:32:29 2026 ] 	Mean training loss: 62.7601901123.
+[ Tue May 19 06:32:33 2026 ] [DEV EVAL] Total Inference Time: 3.35s
+[ Tue May 19 06:32:33 2026 ] [DEV EVAL] Inference Speed: 3407.04 Frames/s, 44.83 Sequences/s
+[ Tue May 19 06:32:33 2026 ] Dev WER: 34.50%
+[ Tue May 19 06:32:34 2026 ] 	Epoch: 15, Batch(0/112) done. Loss: 54.98  lr:0.000400
+[ Tue May 19 06:32:34 2026 ] 	CR_ConvCTC_static: 9.94, CR_SeqCTC_static: 1.34, CR_Conv_static: 0.73, CR_Seq_static: 0.15, CR_ConvCTC_motion: 14.87, CR_SeqCTC_motion: 10.56, CR_Conv_motion: 0.11, CR_Seq_motion: 0.21, CR_ConvCTC_fusion: 12.55, CR_SeqCTC_fusion: 3.48, CR_Conv_fusion: 0.73, CR_Seq_fusion: 0.30
+[ Tue May 19 06:33:10 2026 ] 	Epoch: 15, Batch(100/112) done. Loss: 56.74  lr:0.000400
+[ Tue May 19 06:33:10 2026 ] 	CR_ConvCTC_static: 10.27, CR_SeqCTC_static: 0.83, CR_Conv_static: 0.66, CR_Seq_static: 0.13, CR_ConvCTC_motion: 16.07, CR_SeqCTC_motion: 12.01, CR_Conv_motion: 0.28, CR_Seq_motion: 0.31, CR_ConvCTC_fusion: 10.88, CR_SeqCTC_fusion: 4.34, CR_Conv_fusion: 0.43, CR_Seq_fusion: 0.54
+[ Tue May 19 06:33:14 2026 ] 	Mean training loss: 59.5560529913.
+[ Tue May 19 06:33:19 2026 ] [DEV EVAL] Total Inference Time: 3.61s
+[ Tue May 19 06:33:19 2026 ] [DEV EVAL] Inference Speed: 3158.23 Frames/s, 41.56 Sequences/s
+[ Tue May 19 06:33:19 2026 ] Dev WER: 24.60%
+[ Tue May 19 06:33:20 2026 ] 	Epoch: 16, Batch(0/112) done. Loss: 58.00  lr:0.000400
+[ Tue May 19 06:33:20 2026 ] 	CR_ConvCTC_static: 10.51, CR_SeqCTC_static: 3.82, CR_Conv_static: 0.50, CR_Seq_static: 0.64, CR_ConvCTC_motion: 14.04, CR_SeqCTC_motion: 12.47, CR_Conv_motion: 0.35, CR_Seq_motion: 0.42, CR_ConvCTC_fusion: 9.96, CR_SeqCTC_fusion: 4.75, CR_Conv_fusion: 0.28, CR_Seq_fusion: 0.25
+[ Tue May 19 06:33:56 2026 ] 	Epoch: 16, Batch(100/112) done. Loss: 49.33  lr:0.000400
+[ Tue May 19 06:33:56 2026 ] 	CR_ConvCTC_static: 8.68, CR_SeqCTC_static: 2.49, CR_Conv_static: 0.21, CR_Seq_static: 0.40, CR_ConvCTC_motion: 12.58, CR_SeqCTC_motion: 10.61, CR_Conv_motion: 0.27, CR_Seq_motion: 0.11, CR_ConvCTC_fusion: 10.22, CR_SeqCTC_fusion: 3.45, CR_Conv_fusion: 0.22, CR_Seq_fusion: 0.09
+[ Tue May 19 06:34:00 2026 ] 	Mean training loss: 56.6915397303.
+[ Tue May 19 06:34:05 2026 ] [DEV EVAL] Total Inference Time: 3.72s
+[ Tue May 19 06:34:05 2026 ] [DEV EVAL] Inference Speed: 3067.59 Frames/s, 40.36 Sequences/s
+[ Tue May 19 06:34:06 2026 ] Dev WER: 18.50%
+[ Tue May 19 06:34:06 2026 ] 	Epoch: 17, Batch(0/112) done. Loss: 44.95  lr:0.000400
+[ Tue May 19 06:34:06 2026 ] 	CR_ConvCTC_static: 9.27, CR_SeqCTC_static: 0.70, CR_Conv_static: 0.70, CR_Seq_static: 0.30, CR_ConvCTC_motion: 12.02, CR_SeqCTC_motion: 8.24, CR_Conv_motion: 0.41, CR_Seq_motion: 0.17, CR_ConvCTC_fusion: 9.42, CR_SeqCTC_fusion: 2.94, CR_Conv_fusion: 0.62, CR_Seq_fusion: 0.17
+[ Tue May 19 06:34:43 2026 ] 	Epoch: 17, Batch(100/112) done. Loss: 33.34  lr:0.000400
+[ Tue May 19 06:34:43 2026 ] 	CR_ConvCTC_static: 7.50, CR_SeqCTC_static: 0.52, CR_Conv_static: 0.70, CR_Seq_static: 0.13, CR_ConvCTC_motion: 9.56, CR_SeqCTC_motion: 5.07, CR_Conv_motion: 0.29, CR_Seq_motion: 0.21, CR_ConvCTC_fusion: 8.01, CR_SeqCTC_fusion: 1.07, CR_Conv_fusion: 0.19, CR_Seq_fusion: 0.09
+[ Tue May 19 06:34:47 2026 ] 	Mean training loss: 53.2811883518.
+[ Tue May 19 06:34:52 2026 ] [DEV EVAL] Total Inference Time: 3.76s
+[ Tue May 19 06:34:52 2026 ] [DEV EVAL] Inference Speed: 3031.43 Frames/s, 39.89 Sequences/s
+[ Tue May 19 06:34:52 2026 ] Dev WER: 27.10%
+[ Tue May 19 06:34:53 2026 ] 	Epoch: 18, Batch(0/112) done. Loss: 50.60  lr:0.000400
+[ Tue May 19 06:34:53 2026 ] 	CR_ConvCTC_static: 10.14, CR_SeqCTC_static: 0.68, CR_Conv_static: 0.49, CR_Seq_static: 0.11, CR_ConvCTC_motion: 12.20, CR_SeqCTC_motion: 10.95, CR_Conv_motion: 0.42, CR_Seq_motion: 0.30, CR_ConvCTC_fusion: 10.11, CR_SeqCTC_fusion: 4.76, CR_Conv_fusion: 0.37, CR_Seq_fusion: 0.06
+[ Tue May 19 06:35:32 2026 ] 	Epoch: 18, Batch(100/112) done. Loss: 48.28  lr:0.000400
+[ Tue May 19 06:35:32 2026 ] 	CR_ConvCTC_static: 10.17, CR_SeqCTC_static: 2.27, CR_Conv_static: 0.39, CR_Seq_static: 0.18, CR_ConvCTC_motion: 12.99, CR_SeqCTC_motion: 6.60, CR_Conv_motion: 0.24, CR_Seq_motion: 0.07, CR_ConvCTC_fusion: 11.10, CR_SeqCTC_fusion: 3.53, CR_Conv_fusion: 0.48, CR_Seq_fusion: 0.26
+[ Tue May 19 06:35:35 2026 ] 	Mean training loss: 51.0669330529.
+[ Tue May 19 06:35:40 2026 ] [DEV EVAL] Total Inference Time: 3.76s
+[ Tue May 19 06:35:40 2026 ] [DEV EVAL] Inference Speed: 3031.43 Frames/s, 39.89 Sequences/s
+[ Tue May 19 06:35:41 2026 ] Dev WER: 15.00%
+[ Tue May 19 06:35:42 2026 ] 	Epoch: 19, Batch(0/112) done. Loss: 48.86  lr:0.000400
+[ Tue May 19 06:35:42 2026 ] 	CR_ConvCTC_static: 8.11, CR_SeqCTC_static: 0.57, CR_Conv_static: 0.28, CR_Seq_static: 0.18, CR_ConvCTC_motion: 11.62, CR_SeqCTC_motion: 9.07, CR_Conv_motion: 0.25, CR_Seq_motion: 0.37, CR_ConvCTC_fusion: 10.12, CR_SeqCTC_fusion: 6.02, CR_Conv_fusion: 0.96, CR_Seq_fusion: 1.32
+[ Tue May 19 06:36:19 2026 ] 	Epoch: 19, Batch(100/112) done. Loss: 53.24  lr:0.000400
+[ Tue May 19 06:36:19 2026 ] 	CR_ConvCTC_static: 8.66, CR_SeqCTC_static: 0.98, CR_Conv_static: 0.13, CR_Seq_static: 0.06, CR_ConvCTC_motion: 15.37, CR_SeqCTC_motion: 8.82, CR_Conv_motion: 0.22, CR_Seq_motion: 0.18, CR_ConvCTC_fusion: 11.56, CR_SeqCTC_fusion: 5.98, CR_Conv_fusion: 0.51, CR_Seq_fusion: 0.77
+[ Tue May 19 06:36:23 2026 ] 	Mean training loss: 48.9930557864.
+[ Tue May 19 06:36:29 2026 ] [DEV EVAL] Total Inference Time: 4.26s
+[ Tue May 19 06:36:29 2026 ] [DEV EVAL] Inference Speed: 2672.96 Frames/s, 35.17 Sequences/s
+[ Tue May 19 06:36:29 2026 ] Dev WER: 19.90%
+[ Tue May 19 06:36:31 2026 ] 	Epoch: 20, Batch(0/112) done. Loss: 52.59  lr:0.000040
+[ Tue May 19 06:36:31 2026 ] 	CR_ConvCTC_static: 10.78, CR_SeqCTC_static: 3.32, CR_Conv_static: 1.10, CR_Seq_static: 0.76, CR_ConvCTC_motion: 11.76, CR_SeqCTC_motion: 7.84, CR_Conv_motion: 0.88, CR_Seq_motion: 0.59, CR_ConvCTC_fusion: 11.14, CR_SeqCTC_fusion: 2.77, CR_Conv_fusion: 1.20, CR_Seq_fusion: 0.45
+[ Tue May 19 06:37:08 2026 ] 	Epoch: 20, Batch(100/112) done. Loss: 40.65  lr:0.000040
+[ Tue May 19 06:37:08 2026 ] 	CR_ConvCTC_static: 10.28, CR_SeqCTC_static: 0.57, CR_Conv_static: 1.07, CR_Seq_static: 0.23, CR_ConvCTC_motion: 12.70, CR_SeqCTC_motion: 5.34, CR_Conv_motion: 0.30, CR_Seq_motion: 0.16, CR_ConvCTC_fusion: 8.45, CR_SeqCTC_fusion: 0.84, CR_Conv_fusion: 0.50, CR_Seq_fusion: 0.21
+[ Tue May 19 06:37:12 2026 ] 	Mean training loss: 41.9419193268.
+[ Tue May 19 06:37:19 2026 ] [DEV EVAL] Total Inference Time: 4.97s
+[ Tue May 19 06:37:19 2026 ] [DEV EVAL] Inference Speed: 2292.32 Frames/s, 30.16 Sequences/s
+[ Tue May 19 06:37:19 2026 ] Dev WER: 03.60%
+[ Tue May 19 06:37:30 2026 ] 	Epoch: 21, Batch(0/112) done. Loss: 38.97  lr:0.000040
+[ Tue May 19 06:37:30 2026 ] 	CR_ConvCTC_static: 9.16, CR_SeqCTC_static: 0.96, CR_Conv_static: 1.17, CR_Seq_static: 0.22, CR_ConvCTC_motion: 9.81, CR_SeqCTC_motion: 5.16, CR_Conv_motion: 0.45, CR_Seq_motion: 0.36, CR_ConvCTC_fusion: 8.67, CR_SeqCTC_fusion: 1.92, CR_Conv_fusion: 0.81, CR_Seq_fusion: 0.27
+[ Tue May 19 06:38:08 2026 ] 	Epoch: 21, Batch(100/112) done. Loss: 38.90  lr:0.000040
+[ Tue May 19 06:38:08 2026 ] 	CR_ConvCTC_static: 6.38, CR_SeqCTC_static: 0.51, CR_Conv_static: 0.27, CR_Seq_static: 0.16, CR_ConvCTC_motion: 11.56, CR_SeqCTC_motion: 7.86, CR_Conv_motion: 0.15, CR_Seq_motion: 0.20, CR_ConvCTC_fusion: 8.15, CR_SeqCTC_fusion: 2.65, CR_Conv_fusion: 0.69, CR_Seq_fusion: 0.33
+[ Tue May 19 06:38:12 2026 ] 	Mean training loss: 38.1024103335.
+[ Tue May 19 06:38:17 2026 ] [DEV EVAL] Total Inference Time: 4.02s
+[ Tue May 19 06:38:17 2026 ] [DEV EVAL] Inference Speed: 2836.03 Frames/s, 37.32 Sequences/s
+[ Tue May 19 06:38:18 2026 ] Dev WER: 04.50%
+[ Tue May 19 06:38:22 2026 ] 	Epoch: 22, Batch(0/112) done. Loss: 36.21  lr:0.000040
+[ Tue May 19 06:38:22 2026 ] 	CR_ConvCTC_static: 8.19, CR_SeqCTC_static: 0.22, CR_Conv_static: 0.66, CR_Seq_static: 0.05, CR_ConvCTC_motion: 10.47, CR_SeqCTC_motion: 5.00, CR_Conv_motion: 0.21, CR_Seq_motion: 0.15, CR_ConvCTC_fusion: 9.11, CR_SeqCTC_fusion: 1.27, CR_Conv_fusion: 0.68, CR_Seq_fusion: 0.21
+[ Tue May 19 06:39:01 2026 ] 	Epoch: 22, Batch(100/112) done. Loss: 39.89  lr:0.000040
+[ Tue May 19 06:39:01 2026 ] 	CR_ConvCTC_static: 7.13, CR_SeqCTC_static: 1.33, CR_Conv_static: 0.48, CR_Seq_static: 0.16, CR_ConvCTC_motion: 13.48, CR_SeqCTC_motion: 5.52, CR_Conv_motion: 0.64, CR_Seq_motion: 0.35, CR_ConvCTC_fusion: 7.15, CR_SeqCTC_fusion: 3.20, CR_Conv_fusion: 0.36, CR_Seq_fusion: 0.08
+[ Tue May 19 06:39:05 2026 ] 	Mean training loss: 37.1054474286.
+[ Tue May 19 06:39:12 2026 ] [DEV EVAL] Total Inference Time: 5.08s
+[ Tue May 19 06:39:12 2026 ] [DEV EVAL] Inference Speed: 2243.35 Frames/s, 29.52 Sequences/s
+[ Tue May 19 06:39:12 2026 ] Dev WER: 03.90%
+[ Tue May 19 06:39:19 2026 ] 	Epoch: 23, Batch(0/112) done. Loss: 27.30  lr:0.000040
+[ Tue May 19 06:39:19 2026 ] 	CR_ConvCTC_static: 5.58, CR_SeqCTC_static: 0.10, CR_Conv_static: 0.95, CR_Seq_static: 0.04, CR_ConvCTC_motion: 8.49, CR_SeqCTC_motion: 4.59, CR_Conv_motion: 0.38, CR_Seq_motion: 0.44, CR_ConvCTC_fusion: 5.55, CR_SeqCTC_fusion: 0.59, CR_Conv_fusion: 0.45, CR_Seq_fusion: 0.15
+[ Tue May 19 06:39:59 2026 ] 	Epoch: 23, Batch(100/112) done. Loss: 36.58  lr:0.000040
+[ Tue May 19 06:39:59 2026 ] 	CR_ConvCTC_static: 7.30, CR_SeqCTC_static: 0.45, CR_Conv_static: 0.29, CR_Seq_static: 0.03, CR_ConvCTC_motion: 11.79, CR_SeqCTC_motion: 3.57, CR_Conv_motion: 0.39, CR_Seq_motion: 0.23, CR_ConvCTC_fusion: 10.60, CR_SeqCTC_fusion: 0.95, CR_Conv_fusion: 0.76, CR_Seq_fusion: 0.23
+[ Tue May 19 06:40:03 2026 ] 	Mean training loss: 36.0323999439.
+[ Tue May 19 06:40:10 2026 ] [DEV EVAL] Total Inference Time: 5.05s
+[ Tue May 19 06:40:10 2026 ] [DEV EVAL] Inference Speed: 2255.96 Frames/s, 29.68 Sequences/s
+[ Tue May 19 06:40:11 2026 ] Dev WER: 02.50%
+[ Tue May 19 06:40:19 2026 ] 	Epoch: 24, Batch(0/112) done. Loss: 28.59  lr:0.000040
+[ Tue May 19 06:40:19 2026 ] 	CR_ConvCTC_static: 6.21, CR_SeqCTC_static: 0.26, CR_Conv_static: 0.67, CR_Seq_static: 0.04, CR_ConvCTC_motion: 8.44, CR_SeqCTC_motion: 4.97, CR_Conv_motion: 0.30, CR_Seq_motion: 0.38, CR_ConvCTC_fusion: 6.73, CR_SeqCTC_fusion: 0.25, CR_Conv_fusion: 0.29, CR_Seq_fusion: 0.05
+[ Tue May 19 06:41:00 2026 ] 	Epoch: 24, Batch(100/112) done. Loss: 38.15  lr:0.000040
+[ Tue May 19 06:41:00 2026 ] 	CR_ConvCTC_static: 7.72, CR_SeqCTC_static: 1.37, CR_Conv_static: 0.54, CR_Seq_static: 0.35, CR_ConvCTC_motion: 9.69, CR_SeqCTC_motion: 5.05, CR_Conv_motion: 0.51, CR_Seq_motion: 0.50, CR_ConvCTC_fusion: 8.51, CR_SeqCTC_fusion: 2.89, CR_Conv_fusion: 0.66, CR_Seq_fusion: 0.36
+[ Tue May 19 06:41:04 2026 ] 	Mean training loss: 35.8714757306.
+[ Tue May 19 06:41:10 2026 ] [DEV EVAL] Total Inference Time: 4.34s
+[ Tue May 19 06:41:10 2026 ] [DEV EVAL] Inference Speed: 2628.40 Frames/s, 34.58 Sequences/s
+[ Tue May 19 06:41:10 2026 ] Dev WER: 02.90%
+[ Tue May 19 06:41:15 2026 ] 	Epoch: 25, Batch(0/112) done. Loss: 34.68  lr:0.000040
+[ Tue May 19 06:41:15 2026 ] 	CR_ConvCTC_static: 7.28, CR_SeqCTC_static: 0.29, CR_Conv_static: 0.43, CR_Seq_static: 0.05, CR_ConvCTC_motion: 11.57, CR_SeqCTC_motion: 5.01, CR_Conv_motion: 0.18, CR_Seq_motion: 0.39, CR_ConvCTC_fusion: 7.32, CR_SeqCTC_fusion: 1.46, CR_Conv_fusion: 0.35, CR_Seq_fusion: 0.36
+[ Tue May 19 06:41:54 2026 ] 	Epoch: 25, Batch(100/112) done. Loss: 34.38  lr:0.000040
+[ Tue May 19 06:41:54 2026 ] 	CR_ConvCTC_static: 7.53, CR_SeqCTC_static: 1.11, CR_Conv_static: 0.60, CR_Seq_static: 0.39, CR_ConvCTC_motion: 11.14, CR_SeqCTC_motion: 4.27, CR_Conv_motion: 0.34, CR_Seq_motion: 0.40, CR_ConvCTC_fusion: 7.28, CR_SeqCTC_fusion: 0.63, CR_Conv_fusion: 0.47, CR_Seq_fusion: 0.20
+[ Tue May 19 06:41:57 2026 ] 	Mean training loss: 34.3114060845.
+[ Tue May 19 06:42:06 2026 ] [DEV EVAL] Total Inference Time: 6.09s
+[ Tue May 19 06:42:06 2026 ] [DEV EVAL] Inference Speed: 1872.99 Frames/s, 24.64 Sequences/s
+[ Tue May 19 06:42:06 2026 ] Dev WER: 03.10%
+[ Tue May 19 06:42:13 2026 ] 	Epoch: 26, Batch(0/112) done. Loss: 32.90  lr:0.000040
+[ Tue May 19 06:42:13 2026 ] 	CR_ConvCTC_static: 7.46, CR_SeqCTC_static: 0.44, CR_Conv_static: 0.71, CR_Seq_static: 0.13, CR_ConvCTC_motion: 12.01, CR_SeqCTC_motion: 3.47, CR_Conv_motion: 0.61, CR_Seq_motion: 0.27, CR_ConvCTC_fusion: 6.98, CR_SeqCTC_fusion: 0.45, CR_Conv_fusion: 0.31, CR_Seq_fusion: 0.06
+[ Tue May 19 06:42:53 2026 ] 	Epoch: 26, Batch(100/112) done. Loss: 35.39  lr:0.000040
+[ Tue May 19 06:42:53 2026 ] 	CR_ConvCTC_static: 7.82, CR_SeqCTC_static: 0.90, CR_Conv_static: 0.92, CR_Seq_static: 0.47, CR_ConvCTC_motion: 10.49, CR_SeqCTC_motion: 4.01, CR_Conv_motion: 0.27, CR_Seq_motion: 0.23, CR_ConvCTC_fusion: 7.18, CR_SeqCTC_fusion: 2.01, CR_Conv_fusion: 0.62, CR_Seq_fusion: 0.48
+[ Tue May 19 06:42:57 2026 ] 	Mean training loss: 33.6394437722.
+[ Tue May 19 06:43:03 2026 ] [DEV EVAL] Total Inference Time: 4.27s
+[ Tue May 19 06:43:03 2026 ] [DEV EVAL] Inference Speed: 2672.18 Frames/s, 35.16 Sequences/s
+[ Tue May 19 06:43:03 2026 ] Dev WER: 02.80%
+[ Tue May 19 06:43:08 2026 ] 	Epoch: 27, Batch(0/112) done. Loss: 39.76  lr:0.000040
+[ Tue May 19 06:43:08 2026 ] 	CR_ConvCTC_static: 8.44, CR_SeqCTC_static: 1.48, CR_Conv_static: 1.01, CR_Seq_static: 0.65, CR_ConvCTC_motion: 12.10, CR_SeqCTC_motion: 4.53, CR_Conv_motion: 0.55, CR_Seq_motion: 0.39, CR_ConvCTC_fusion: 9.21, CR_SeqCTC_fusion: 0.39, CR_Conv_fusion: 0.83, CR_Seq_fusion: 0.17
+[ Tue May 19 06:43:47 2026 ] 	Epoch: 27, Batch(100/112) done. Loss: 32.71  lr:0.000040
+[ Tue May 19 06:43:47 2026 ] 	CR_ConvCTC_static: 6.24, CR_SeqCTC_static: 0.19, CR_Conv_static: 0.32, CR_Seq_static: 0.03, CR_ConvCTC_motion: 11.13, CR_SeqCTC_motion: 5.26, CR_Conv_motion: 0.60, CR_Seq_motion: 0.28, CR_ConvCTC_fusion: 6.97, CR_SeqCTC_fusion: 0.80, CR_Conv_fusion: 0.67, CR_Seq_fusion: 0.23
+[ Tue May 19 06:43:51 2026 ] 	Mean training loss: 32.8327376842.
+[ Tue May 19 06:43:59 2026 ] [DEV EVAL] Total Inference Time: 5.69s
+[ Tue May 19 06:43:59 2026 ] [DEV EVAL] Inference Speed: 2002.96 Frames/s, 26.35 Sequences/s
+[ Tue May 19 06:43:59 2026 ] Dev WER: 02.00%
+[ Tue May 19 06:44:06 2026 ] 	Epoch: 28, Batch(0/112) done. Loss: 31.85  lr:0.000040
+[ Tue May 19 06:44:06 2026 ] 	CR_ConvCTC_static: 7.52, CR_SeqCTC_static: 2.07, CR_Conv_static: 0.36, CR_Seq_static: 0.61, CR_ConvCTC_motion: 9.35, CR_SeqCTC_motion: 2.95, CR_Conv_motion: 0.39, CR_Seq_motion: 0.27, CR_ConvCTC_fusion: 7.18, CR_SeqCTC_fusion: 0.61, CR_Conv_fusion: 0.46, CR_Seq_fusion: 0.08
+[ Tue May 19 06:44:45 2026 ] 	Epoch: 28, Batch(100/112) done. Loss: 33.40  lr:0.000040
+[ Tue May 19 06:44:45 2026 ] 	CR_ConvCTC_static: 7.09, CR_SeqCTC_static: 0.16, CR_Conv_static: 0.55, CR_Seq_static: 0.08, CR_ConvCTC_motion: 11.55, CR_SeqCTC_motion: 3.13, CR_Conv_motion: 0.47, CR_Seq_motion: 0.24, CR_ConvCTC_fusion: 8.74, CR_SeqCTC_fusion: 0.62, CR_Conv_fusion: 0.53, CR_Seq_fusion: 0.23
+[ Tue May 19 06:44:49 2026 ] 	Mean training loss: 32.5212737322.
+[ Tue May 19 06:44:54 2026 ] [DEV EVAL] Total Inference Time: 3.91s
+[ Tue May 19 06:44:54 2026 ] [DEV EVAL] Inference Speed: 2915.08 Frames/s, 38.36 Sequences/s
+[ Tue May 19 06:44:55 2026 ] Dev WER: 02.10%
+[ Tue May 19 06:44:59 2026 ] 	Epoch: 29, Batch(0/112) done. Loss: 34.13  lr:0.000040
+[ Tue May 19 06:44:59 2026 ] 	CR_ConvCTC_static: 7.55, CR_SeqCTC_static: 0.25, CR_Conv_static: 0.47, CR_Seq_static: 0.11, CR_ConvCTC_motion: 10.57, CR_SeqCTC_motion: 5.12, CR_Conv_motion: 0.39, CR_Seq_motion: 0.29, CR_ConvCTC_fusion: 8.09, CR_SeqCTC_fusion: 0.68, CR_Conv_fusion: 0.47, CR_Seq_fusion: 0.14
+[ Tue May 19 06:45:37 2026 ] 	Epoch: 29, Batch(100/112) done. Loss: 33.01  lr:0.000040
+[ Tue May 19 06:45:37 2026 ] 	CR_ConvCTC_static: 8.61, CR_SeqCTC_static: 0.34, CR_Conv_static: 0.55, CR_Seq_static: 0.19, CR_ConvCTC_motion: 11.24, CR_SeqCTC_motion: 2.77, CR_Conv_motion: 0.24, CR_Seq_motion: 0.38, CR_ConvCTC_fusion: 7.83, CR_SeqCTC_fusion: 0.22, CR_Conv_fusion: 0.59, CR_Seq_fusion: 0.03
+[ Tue May 19 06:45:40 2026 ] 	Mean training loss: 31.8961064645.
+[ Tue May 19 06:45:48 2026 ] [DEV EVAL] Total Inference Time: 5.18s
+[ Tue May 19 06:45:48 2026 ] [DEV EVAL] Inference Speed: 2202.29 Frames/s, 28.98 Sequences/s
+[ Tue May 19 06:45:48 2026 ] Dev WER: 02.20%
+[ Tue May 19 06:45:54 2026 ] 	Epoch: 30, Batch(0/112) done. Loss: 34.42  lr:0.000040
+[ Tue May 19 06:45:54 2026 ] 	CR_ConvCTC_static: 7.68, CR_SeqCTC_static: 0.42, CR_Conv_static: 0.87, CR_Seq_static: 0.12, CR_ConvCTC_motion: 11.81, CR_SeqCTC_motion: 2.75, CR_Conv_motion: 0.20, CR_Seq_motion: 0.34, CR_ConvCTC_fusion: 8.12, CR_SeqCTC_fusion: 0.86, CR_Conv_fusion: 0.83, CR_Seq_fusion: 0.42
+[ Tue May 19 06:46:31 2026 ] 	Epoch: 30, Batch(100/112) done. Loss: 33.57  lr:0.000040
+[ Tue May 19 06:46:31 2026 ] 	CR_ConvCTC_static: 7.17, CR_SeqCTC_static: 0.47, CR_Conv_static: 0.67, CR_Seq_static: 0.24, CR_ConvCTC_motion: 9.43, CR_SeqCTC_motion: 3.64, CR_Conv_motion: 0.20, CR_Seq_motion: 0.32, CR_ConvCTC_fusion: 7.64, CR_SeqCTC_fusion: 2.20, CR_Conv_fusion: 0.96, CR_Seq_fusion: 0.63
+[ Tue May 19 06:46:35 2026 ] 	Mean training loss: 31.1510276113.
+[ Tue May 19 06:46:40 2026 ] [DEV EVAL] Total Inference Time: 3.65s
+[ Tue May 19 06:46:40 2026 ] [DEV EVAL] Inference Speed: 3127.22 Frames/s, 41.15 Sequences/s
+[ Tue May 19 06:46:40 2026 ] Dev WER: 02.40%
+[ Tue May 19 06:46:45 2026 ] 	Epoch: 31, Batch(0/112) done. Loss: 25.25  lr:0.000040
+[ Tue May 19 06:46:45 2026 ] 	CR_ConvCTC_static: 5.22, CR_SeqCTC_static: 0.15, CR_Conv_static: 0.30, CR_Seq_static: 0.12, CR_ConvCTC_motion: 7.55, CR_SeqCTC_motion: 2.04, CR_Conv_motion: 0.33, CR_Seq_motion: 0.04, CR_ConvCTC_fusion: 7.29, CR_SeqCTC_fusion: 1.38, CR_Conv_fusion: 0.58, CR_Seq_fusion: 0.26
+[ Tue May 19 06:47:21 2026 ] 	Epoch: 31, Batch(100/112) done. Loss: 38.09  lr:0.000040
+[ Tue May 19 06:47:21 2026 ] 	CR_ConvCTC_static: 8.91, CR_SeqCTC_static: 1.65, CR_Conv_static: 1.08, CR_Seq_static: 0.63, CR_ConvCTC_motion: 10.39, CR_SeqCTC_motion: 2.34, CR_Conv_motion: 0.40, CR_Seq_motion: 0.16, CR_ConvCTC_fusion: 9.40, CR_SeqCTC_fusion: 1.91, CR_Conv_fusion: 0.92, CR_Seq_fusion: 0.29
+[ Tue May 19 06:47:24 2026 ] 	Mean training loss: 30.6534549679.
+[ Tue May 19 06:47:29 2026 ] [DEV EVAL] Total Inference Time: 3.52s
+[ Tue May 19 06:47:29 2026 ] [DEV EVAL] Inference Speed: 3238.92 Frames/s, 42.62 Sequences/s
+[ Tue May 19 06:47:29 2026 ] Dev WER: 01.70%
+[ Tue May 19 06:47:35 2026 ] 	Epoch: 32, Batch(0/112) done. Loss: 40.50  lr:0.000040
+[ Tue May 19 06:47:35 2026 ] 	CR_ConvCTC_static: 9.09, CR_SeqCTC_static: 0.45, CR_Conv_static: 0.75, CR_Seq_static: 0.16, CR_ConvCTC_motion: 11.48, CR_SeqCTC_motion: 6.16, CR_Conv_motion: 0.33, CR_Seq_motion: 0.99, CR_ConvCTC_fusion: 8.78, CR_SeqCTC_fusion: 1.57, CR_Conv_fusion: 0.34, CR_Seq_fusion: 0.39
+[ Tue May 19 06:48:09 2026 ] 	Epoch: 32, Batch(100/112) done. Loss: 42.86  lr:0.000040
+[ Tue May 19 06:48:09 2026 ] 	CR_ConvCTC_static: 7.82, CR_SeqCTC_static: 0.93, CR_Conv_static: 0.66, CR_Seq_static: 0.23, CR_ConvCTC_motion: 15.04, CR_SeqCTC_motion: 8.10, CR_Conv_motion: 0.63, CR_Seq_motion: 0.69, CR_ConvCTC_fusion: 7.87, CR_SeqCTC_fusion: 0.67, CR_Conv_fusion: 0.15, CR_Seq_fusion: 0.06
+[ Tue May 19 06:48:13 2026 ] 	Mean training loss: 30.5041612898.
+[ Tue May 19 06:48:19 2026 ] [DEV EVAL] Total Inference Time: 4.18s
+[ Tue May 19 06:48:19 2026 ] [DEV EVAL] Inference Speed: 2727.08 Frames/s, 35.88 Sequences/s
+[ Tue May 19 06:48:19 2026 ] Dev WER: 01.40%
+[ Tue May 19 06:48:27 2026 ] 	Epoch: 33, Batch(0/112) done. Loss: 27.48  lr:0.000040
+[ Tue May 19 06:48:27 2026 ] 	CR_ConvCTC_static: 6.07, CR_SeqCTC_static: 0.14, CR_Conv_static: 0.24, CR_Seq_static: 0.03, CR_ConvCTC_motion: 7.69, CR_SeqCTC_motion: 2.00, CR_Conv_motion: 0.28, CR_Seq_motion: 0.26, CR_ConvCTC_fusion: 8.65, CR_SeqCTC_fusion: 0.97, CR_Conv_fusion: 0.84, CR_Seq_fusion: 0.32
+[ Tue May 19 06:49:01 2026 ] 	Epoch: 33, Batch(100/112) done. Loss: 27.96  lr:0.000040
+[ Tue May 19 06:49:01 2026 ] 	CR_ConvCTC_static: 6.52, CR_SeqCTC_static: 0.30, CR_Conv_static: 0.28, CR_Seq_static: 0.05, CR_ConvCTC_motion: 9.71, CR_SeqCTC_motion: 2.62, CR_Conv_motion: 0.41, CR_Seq_motion: 0.27, CR_ConvCTC_fusion: 6.59, CR_SeqCTC_fusion: 0.64, CR_Conv_fusion: 0.47, CR_Seq_fusion: 0.10
+[ Tue May 19 06:49:05 2026 ] 	Mean training loss: 30.0116771034.
+[ Tue May 19 06:49:10 2026 ] [DEV EVAL] Total Inference Time: 3.46s
+[ Tue May 19 06:49:10 2026 ] [DEV EVAL] Inference Speed: 3292.22 Frames/s, 43.32 Sequences/s
+[ Tue May 19 06:49:10 2026 ] Dev WER: 01.70%
+[ Tue May 19 06:49:15 2026 ] 	Epoch: 34, Batch(0/112) done. Loss: 29.88  lr:0.000040
+[ Tue May 19 06:49:15 2026 ] 	CR_ConvCTC_static: 5.28, CR_SeqCTC_static: 1.27, CR_Conv_static: 0.36, CR_Seq_static: 0.60, CR_ConvCTC_motion: 10.13, CR_SeqCTC_motion: 2.92, CR_Conv_motion: 0.54, CR_Seq_motion: 0.42, CR_ConvCTC_fusion: 6.71, CR_SeqCTC_fusion: 0.96, CR_Conv_fusion: 0.48, CR_Seq_fusion: 0.21
+[ Tue May 19 06:49:49 2026 ] 	Epoch: 34, Batch(100/112) done. Loss: 28.68  lr:0.000040
+[ Tue May 19 06:49:49 2026 ] 	CR_ConvCTC_static: 7.26, CR_SeqCTC_static: 0.29, CR_Conv_static: 0.60, CR_Seq_static: 0.09, CR_ConvCTC_motion: 9.93, CR_SeqCTC_motion: 1.50, CR_Conv_motion: 0.37, CR_Seq_motion: 0.12, CR_ConvCTC_fusion: 7.88, CR_SeqCTC_fusion: 0.25, CR_Conv_fusion: 0.37, CR_Seq_fusion: 0.02
+[ Tue May 19 06:49:52 2026 ] 	Mean training loss: 29.0737037659.
+[ Tue May 19 06:49:57 2026 ] [DEV EVAL] Total Inference Time: 3.36s
+[ Tue May 19 06:49:57 2026 ] [DEV EVAL] Inference Speed: 3391.07 Frames/s, 44.62 Sequences/s
+[ Tue May 19 06:49:57 2026 ] Dev WER: 01.70%
+[ Tue May 19 06:50:02 2026 ] 	Epoch: 35, Batch(0/112) done. Loss: 27.90  lr:0.000004
+[ Tue May 19 06:50:02 2026 ] 	CR_ConvCTC_static: 6.49, CR_SeqCTC_static: 0.11, CR_Conv_static: 0.50, CR_Seq_static: 0.05, CR_ConvCTC_motion: 9.65, CR_SeqCTC_motion: 2.11, CR_Conv_motion: 0.25, CR_Seq_motion: 0.20, CR_ConvCTC_fusion: 7.77, CR_SeqCTC_fusion: 0.27, CR_Conv_fusion: 0.44, CR_Seq_fusion: 0.06
+[ Tue May 19 06:50:38 2026 ] 	Epoch: 35, Batch(100/112) done. Loss: 30.25  lr:0.000004
+[ Tue May 19 06:50:38 2026 ] 	CR_ConvCTC_static: 8.08, CR_SeqCTC_static: 0.96, CR_Conv_static: 0.87, CR_Seq_static: 0.44, CR_ConvCTC_motion: 9.75, CR_SeqCTC_motion: 2.47, CR_Conv_motion: 0.14, CR_Seq_motion: 0.20, CR_ConvCTC_fusion: 6.56, CR_SeqCTC_fusion: 0.18, CR_Conv_fusion: 0.56, CR_Seq_fusion: 0.04
+[ Tue May 19 06:50:41 2026 ] 	Mean training loss: 28.0320556164.
+[ Tue May 19 06:50:48 2026 ] [DEV EVAL] Total Inference Time: 4.32s
+[ Tue May 19 06:50:48 2026 ] [DEV EVAL] Inference Speed: 2640.00 Frames/s, 34.74 Sequences/s
+[ Tue May 19 06:50:48 2026 ] Dev WER: 01.70%
+[ Tue May 19 06:50:53 2026 ] 	Epoch: 36, Batch(0/112) done. Loss: 29.38  lr:0.000004
+[ Tue May 19 06:50:53 2026 ] 	CR_ConvCTC_static: 6.45, CR_SeqCTC_static: 0.40, CR_Conv_static: 0.74, CR_Seq_static: 0.21, CR_ConvCTC_motion: 11.36, CR_SeqCTC_motion: 3.01, CR_Conv_motion: 0.43, CR_Seq_motion: 0.45, CR_ConvCTC_fusion: 5.67, CR_SeqCTC_fusion: 0.30, CR_Conv_fusion: 0.31, CR_Seq_fusion: 0.05
+[ Tue May 19 06:51:30 2026 ] 	Epoch: 36, Batch(100/112) done. Loss: 31.47  lr:0.000004
+[ Tue May 19 06:51:30 2026 ] 	CR_ConvCTC_static: 6.42, CR_SeqCTC_static: 0.14, CR_Conv_static: 0.52, CR_Seq_static: 0.06, CR_ConvCTC_motion: 11.45, CR_SeqCTC_motion: 2.21, CR_Conv_motion: 0.74, CR_Seq_motion: 0.30, CR_ConvCTC_fusion: 7.42, CR_SeqCTC_fusion: 0.76, CR_Conv_fusion: 1.14, CR_Seq_fusion: 0.32
+[ Tue May 19 06:51:34 2026 ] 	Mean training loss: 28.3854703563.
+[ Tue May 19 06:51:39 2026 ] [DEV EVAL] Total Inference Time: 3.49s
+[ Tue May 19 06:51:39 2026 ] [DEV EVAL] Inference Speed: 3271.09 Frames/s, 43.04 Sequences/s
+[ Tue May 19 06:51:39 2026 ] Dev WER: 01.30%
+[ Tue May 19 06:51:46 2026 ] 	Epoch: 37, Batch(0/112) done. Loss: 33.50  lr:0.000004
+[ Tue May 19 06:51:46 2026 ] 	CR_ConvCTC_static: 5.93, CR_SeqCTC_static: 0.54, CR_Conv_static: 0.48, CR_Seq_static: 0.14, CR_ConvCTC_motion: 10.09, CR_SeqCTC_motion: 5.00, CR_Conv_motion: 0.43, CR_Seq_motion: 0.99, CR_ConvCTC_fusion: 7.77, CR_SeqCTC_fusion: 1.19, CR_Conv_fusion: 0.72, CR_Seq_fusion: 0.22
+[ Tue May 19 06:52:21 2026 ] 	Epoch: 37, Batch(100/112) done. Loss: 21.56  lr:0.000004
+[ Tue May 19 06:52:21 2026 ] 	CR_ConvCTC_static: 5.18, CR_SeqCTC_static: 0.10, CR_Conv_static: 0.38, CR_Seq_static: 0.03, CR_ConvCTC_motion: 8.08, CR_SeqCTC_motion: 2.21, CR_Conv_motion: 0.20, CR_Seq_motion: 0.03, CR_ConvCTC_fusion: 4.90, CR_SeqCTC_fusion: 0.21, CR_Conv_fusion: 0.23, CR_Seq_fusion: 0.02
+[ Tue May 19 06:52:24 2026 ] 	Mean training loss: 27.9044978789.
+[ Tue May 19 06:52:29 2026 ] [DEV EVAL] Total Inference Time: 3.80s
+[ Tue May 19 06:52:29 2026 ] [DEV EVAL] Inference Speed: 2996.98 Frames/s, 39.43 Sequences/s
+[ Tue May 19 06:52:30 2026 ] Dev WER: 01.80%
+[ Tue May 19 06:52:34 2026 ] 	Epoch: 38, Batch(0/112) done. Loss: 33.60  lr:0.000004
+[ Tue May 19 06:52:34 2026 ] 	CR_ConvCTC_static: 8.40, CR_SeqCTC_static: 2.31, CR_Conv_static: 1.16, CR_Seq_static: 0.56, CR_ConvCTC_motion: 10.80, CR_SeqCTC_motion: 2.10, CR_Conv_motion: 0.66, CR_Seq_motion: 0.38, CR_ConvCTC_fusion: 6.58, CR_SeqCTC_fusion: 0.10, CR_Conv_fusion: 0.52, CR_Seq_fusion: 0.02
+[ Tue May 19 06:53:09 2026 ] 	Epoch: 38, Batch(100/112) done. Loss: 22.34  lr:0.000004
+[ Tue May 19 06:53:09 2026 ] 	CR_ConvCTC_static: 4.65, CR_SeqCTC_static: 0.10, CR_Conv_static: 0.46, CR_Seq_static: 0.04, CR_ConvCTC_motion: 8.26, CR_SeqCTC_motion: 1.35, CR_Conv_motion: 0.31, CR_Seq_motion: 0.24, CR_ConvCTC_fusion: 5.51, CR_SeqCTC_fusion: 0.31, CR_Conv_fusion: 0.95, CR_Seq_fusion: 0.15
+[ Tue May 19 06:53:12 2026 ] 	Mean training loss: 28.0137982539.
+[ Tue May 19 06:53:19 2026 ] [DEV EVAL] Total Inference Time: 4.46s
+[ Tue May 19 06:53:19 2026 ] [DEV EVAL] Inference Speed: 2555.84 Frames/s, 33.63 Sequences/s
+[ Tue May 19 06:53:19 2026 ] Dev WER: 01.70%
+[ Tue May 19 06:54:17 2026 ] 	Epoch: 39, Batch(0/112) done. Loss: 28.91  lr:0.000004
+[ Tue May 19 06:54:17 2026 ] 	CR_ConvCTC_static: 6.19, CR_SeqCTC_static: 0.19, CR_Conv_static: 0.53, CR_Seq_static: 0.08, CR_ConvCTC_motion: 10.13, CR_SeqCTC_motion: 1.21, CR_Conv_motion: 0.23, CR_Seq_motion: 0.15, CR_ConvCTC_fusion: 9.08, CR_SeqCTC_fusion: 0.47, CR_Conv_fusion: 0.52, CR_Seq_fusion: 0.13
+[ Tue May 19 06:54:53 2026 ] 	Epoch: 39, Batch(100/112) done. Loss: 37.14  lr:0.000004
+[ Tue May 19 06:54:53 2026 ] 	CR_ConvCTC_static: 7.51, CR_SeqCTC_static: 0.25, CR_Conv_static: 0.45, CR_Seq_static: 0.07, CR_ConvCTC_motion: 12.65, CR_SeqCTC_motion: 3.32, CR_Conv_motion: 0.45, CR_Seq_motion: 0.70, CR_ConvCTC_fusion: 9.62, CR_SeqCTC_fusion: 1.08, CR_Conv_fusion: 0.72, CR_Seq_fusion: 0.33
+[ Tue May 19 06:54:57 2026 ] 	Mean training loss: 27.8243940387.
+[ Tue May 19 06:55:02 2026 ] [DEV EVAL] Total Inference Time: 3.52s
+[ Tue May 19 06:55:02 2026 ] [DEV EVAL] Inference Speed: 3235.79 Frames/s, 42.58 Sequences/s
+[ Tue May 19 06:55:02 2026 ] Dev WER: 01.30%
+[ Tue May 19 06:55:16 2026 ] Final model saved from last epoch: ./work_dir/Baseline+TN/best_dev_01.30_epoch39_model.pt
+[ Tue May 19 06:55:21 2026 ] Work dir synced to Google Drive: /content/drive/MyDrive/MSLR_RESULTS/Baseline+TN
+[ Tue May 19 06:55:38 2026 ] Model:   TwoStream_Cosign.
+[ Tue May 19 06:55:38 2026 ] Weights: ./work_dir/Baseline+TN/best_dev_01.30_epoch39_model.pt.
+[ Tue May 19 06:55:38 2026 ] --- Testing on Dev ---
+[ Tue May 19 06:55:43 2026 ] [DEV EVAL] Total Inference Time: 4.04s
+[ Tue May 19 06:55:43 2026 ] [DEV EVAL] Inference Speed: 2822.63 Frames/s, 37.14 Sequences/s
+[ Tue May 19 06:55:43 2026 ] --- Testing on Test SD ---
+[ Tue May 19 06:55:48 2026 ] [TEST_SD EVAL] Total Inference Time: 3.45s
+[ Tue May 19 06:55:48 2026 ] [TEST_SD EVAL] Inference Speed: 3304.72 Frames/s, 43.48 Sequences/s
+[ Tue May 19 06:55:48 2026 ] --- Testing on Test SI-Major ---
+[ Tue May 19 06:55:50 2026 ] [TEST_SI_MAJOR EVAL] Total Inference Time: 0.86s
+[ Tue May 19 06:55:50 2026 ] [TEST_SI_MAJOR EVAL] Inference Speed: 2638.47 Frames/s, 34.72 Sequences/s
+[ Tue May 19 06:55:50 2026 ] --- Testing on Test SI-Minor ---
+[ Tue May 19 06:55:52 2026 ] [TEST_SI_MINOR EVAL] Total Inference Time: 0.84s
+[ Tue May 19 06:55:52 2026 ] [TEST_SI_MINOR EVAL] Inference Speed: 2710.07 Frames/s, 35.66 Sequences/s
+[ Tue May 19 06:55:52 2026 ] Evaluation Done.
+
+[ Tue May 19 06:55:56 2026 ] Work dir synced to Google Drive: /content/drive/MyDrive/MSLR_RESULTS/Baseline+TN

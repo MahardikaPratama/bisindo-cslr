@@ -1,0 +1,251 @@
+
+
+		DUMP OF SYSTEM ALIGNMENT STRUCTURE
+
+System name:   ./work_dir/Baseline+TN/test/test_si_minor/out.output-hypothesis-fusion-test_si_minor.ctm
+
+Speakers: 
+    0:  p07
+
+Speaker sentences   0:  p07   #utts: 30
+id: (p07-000)
+File: p07_s001_r01
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  ayah sama ibu mana 
+HYP:  ayah sama ibu mana 
+Eval:                    
+
+id: (p07-001)
+File: p07_s002_r01
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  dia anak baik sampai banyak orang suka 
+HYP:  dia anak baik sampai banyak orang suka 
+Eval:                                        
+
+id: (p07-002)
+File: p07_s003_r01
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  apa kamu pernah baca buku bahasa inggris 
+HYP:  apa kamu pernah baca buku bahasa inggris 
+Eval:                                          
+
+id: (p07-003)
+File: p07_s004_r01
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  badan aku gemuk tapi badan adik kurus 
+HYP:  badan aku gemuk tapi badan adik kurus 
+Eval:                                       
+
+id: (p07-004)
+File: p07_s005_r01
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  aku pusing aku harus periksa mana 
+HYP:  aku pusing aku harus periksa mana 
+Eval:                                   
+
+id: (p07-005)
+File: p07_s006_r01
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  sana enak nasi padang tapi mahal 
+HYP:  sana enak nasi padang tapi mahal 
+Eval:                                  
+
+id: (p07-006)
+File: p07_s007_r01
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  ibu aku punya kucing sama ikan 
+HYP:  ibu aku punya kucing sama ikan 
+Eval:                                
+
+id: (p07-007)
+File: p07_s008_r01
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  aku cium badan dia 
+HYP:  aku cium badan dia 
+Eval:                    
+
+id: (p07-008)
+File: p07_s009_r01
+Channel: 1
+Scores: (#C #S #D #I) 2 1 3 0
+REF:  aku LIHAT ADA ULAR MASUK kelas 
+HYP:  aku ***** *** **** DIA   kelas 
+Eval:     D     D   D    S           
+
+id: (p07-009)
+File: p07_s010_r01
+Channel: 1
+Scores: (#C #S #D #I) 5 0 0 0
+REF:  obat bisa beli toko mana 
+HYP:  obat bisa beli toko mana 
+Eval:                          
+
+id: (p07-010)
+File: p07_s011_r01
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  gakboleh pulang sekarang kamu 
+HYP:  gakboleh pulang sekarang kamu 
+Eval:                               
+
+id: (p07-011)
+File: p07_s012_r01
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  orang jahat sana pukul aku berulang 
+HYP:  orang jahat sana pukul aku berulang 
+Eval:                                     
+
+id: (p07-012)
+File: p07_s013_r01
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  kenapa kamu gak masuk kuliah kemarin 
+HYP:  kenapa kamu gak masuk kuliah kemarin 
+Eval:                                      
+
+id: (p07-013)
+File: p07_s014_r01
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  polisi sana pukul pencuri 
+HYP:  polisi sana pukul pencuri 
+Eval:                           
+
+id: (p07-014)
+File: p07_s015_r01
+Channel: 1
+Scores: (#C #S #D #I) 7 0 0 0
+REF:  sana berita sudah banyak ribuan orang lihat 
+HYP:  sana berita sudah banyak ribuan orang lihat 
+Eval:                                             
+
+id: (p07-015)
+File: p07_s016_r01
+Channel: 1
+Scores: (#C #S #D #I) 5 0 0 0
+REF:  buku aku sobek gegara dia 
+HYP:  buku aku sobek gegara dia 
+Eval:                           
+
+id: (p07-016)
+File: p07_s017_r01
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  tong-sampah ada semut banyak 
+HYP:  tong-sampah ada semut banyak 
+Eval:                              
+
+id: (p07-017)
+File: p07_s018_r01
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  ular sana makan kambing 
+HYP:  ular sana makan kambing 
+Eval:                         
+
+id: (p07-018)
+File: p07_s019_r01
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  kamu pergi mana 
+HYP:  kamu pergi mana 
+Eval:                 
+
+id: (p07-019)
+File: p07_s020_r01
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  kita istirahat jam berapa 
+HYP:  kita istirahat jam berapa 
+Eval:                           
+
+id: (p07-020)
+File: p07_s021_r01
+Channel: 1
+Scores: (#C #S #D #I) 5 0 0 0
+REF:  kamu punya anggota keluarga berapa 
+HYP:  kamu punya anggota keluarga berapa 
+Eval:                                    
+
+id: (p07-021)
+File: p07_s022_r01
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  mana ibu kamu baik-baik atau tidak 
+HYP:  mana ibu kamu baik-baik atau tidak 
+Eval:                                    
+
+id: (p07-022)
+File: p07_s023_r01
+Channel: 1
+Scores: (#C #S #D #I) 4 0 0 0
+REF:  kamu belajar bisindo kapan 
+HYP:  kamu belajar bisindo kapan 
+Eval:                            
+
+id: (p07-023)
+File: p07_s024_r01
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  aku nilai jelek 
+HYP:  aku nilai jelek 
+Eval:                 
+
+id: (p07-024)
+File: p07_s025_r01
+Channel: 1
+Scores: (#C #S #D #I) 2 0 0 0
+REF:  ulangtahun selamat 
+HYP:  ulangtahun selamat 
+Eval:                    
+
+id: (p07-025)
+File: p07_s026_r01
+Channel: 1
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  kakak aku kasih hadiah buat aku 
+HYP:  kakak aku kasih hadiah buat aku 
+Eval:                                 
+
+id: (p07-026)
+File: p07_s027_r01
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  sana toilet kotor 
+HYP:  sana toilet kotor 
+Eval:                   
+
+id: (p07-027)
+File: p07_s028_r01
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  sepatu dia kotor 
+HYP:  sepatu dia kotor 
+Eval:                  
+
+id: (p07-028)
+File: p07_s029_r01
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  rumah dimana kamu 
+HYP:  rumah dimana kamu 
+Eval:                   
+
+id: (p07-029)
+File: p07_s030_r01
+Channel: 1
+Scores: (#C #S #D #I) 3 0 0 0
+REF:  dia mengejek aku 
+HYP:  dia mengejek aku 
+Eval:                  
+
+

@@ -1,0 +1,94 @@
+<SYSTEM title="./work_dir/Baseline+TN/test/test_si_major/out.output-hypothesis-fusion-test_si_major.ctm" ref_fname="./work_dir/Baseline+TN/test/test_si_major/tmp.stm" hyp_fname="./work_dir/Baseline+TN/test/test_si_major/out.output-hypothesis-fusion-test_si_major.ctm" creation_date="Tue May 19 06:55:50 2026" format="2.4" frag_corr="FALSE" opt_del="FALSE" weight_ali="FALSE" weight_filename="">
+<SPEAKER id="p06">
+<PATH id="(p06-000)" word_cnt="4" file="p06_s001_r01" channel="1" sequence="0" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"ayah","ayah",0.000+0.010:C,"sama","sama",0.010+0.030:C,"ibu","ibu",0.020+0.050:C,"mana","mana",0.030+0.070
+</PATH>
+<PATH id="(p06-001)" word_cnt="7" file="p06_s002_r01" channel="1" sequence="1" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"dia","dia",0.000+0.010:C,"anak","anak",0.010+0.030:C,"baik","baik",0.020+0.050:C,"sampai","sampai",0.030+0.070:C,"banyak","banyak",0.040+0.090:C,"orang","orang",0.050+0.110:C,"suka","suka",0.060+0.130
+</PATH>
+<PATH id="(p06-002)" word_cnt="7" file="p06_s003_r01" channel="1" sequence="2" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"apa","apa",0.000+0.010:C,"kamu","kamu",0.010+0.030:C,"pernah","pernah",0.020+0.050:C,"baca","baca",0.030+0.070:C,"buku","buku",0.040+0.090:C,"bahasa","bahasa",0.050+0.110:C,"inggris","inggris",0.060+0.130
+</PATH>
+<PATH id="(p06-003)" word_cnt="7" file="p06_s004_r01" channel="1" sequence="3" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+S,"badan","dia",0.000+0.010:S,"aku","anak",0.010+0.030:S,"gemuk","baik",0.020+0.050:S,"tapi","sampai",0.030+0.070:S,"badan","banyak",0.040+0.090:S,"adik","orang",0.050+0.110:S,"kurus","suka",0.060+0.130
+</PATH>
+<PATH id="(p06-004)" word_cnt="6" file="p06_s005_r01" channel="1" sequence="4" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"aku","aku",0.000+0.010:C,"pusing","pusing",0.010+0.030:C,"aku","aku",0.020+0.050:C,"harus","harus",0.030+0.070:C,"periksa","periksa",0.040+0.090:C,"mana","mana",0.050+0.110
+</PATH>
+<PATH id="(p06-005)" word_cnt="6" file="p06_s006_r01" channel="1" sequence="5" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"sana","sana",0.000+0.010:C,"enak","enak",0.010+0.030:C,"nasi","nasi",0.020+0.050:C,"padang","padang",0.030+0.070:C,"tapi","tapi",0.040+0.090:C,"mahal","mahal",0.050+0.110
+</PATH>
+<PATH id="(p06-006)" word_cnt="6" file="p06_s007_r01" channel="1" sequence="6" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"ibu","ibu",0.000+0.010:C,"aku","aku",0.010+0.030:C,"punya","punya",0.020+0.050:C,"kucing","kucing",0.030+0.070:C,"sama","sama",0.040+0.090:C,"ikan","ikan",0.050+0.110
+</PATH>
+<PATH id="(p06-007)" word_cnt="4" file="p06_s008_r01" channel="1" sequence="7" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"aku","aku",0.000+0.010:C,"cium","cium",0.010+0.030:C,"badan","badan",0.020+0.050:C,"dia","dia",0.030+0.070
+</PATH>
+<PATH id="(p06-008)" word_cnt="6" file="p06_s009_r01" channel="1" sequence="8" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"aku","aku",0.000+0.010:C,"lihat","lihat",0.010+0.030:C,"ada","ada",0.020+0.050:C,"ular","ular",0.030+0.070:C,"masuk","masuk",0.040+0.090:C,"kelas","kelas",0.050+0.110
+</PATH>
+<PATH id="(p06-009)" word_cnt="5" file="p06_s010_r01" channel="1" sequence="9" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"obat","obat",0.000+0.010:C,"bisa","bisa",0.010+0.030:C,"beli","beli",0.020+0.050:C,"toko","toko",0.030+0.070:C,"mana","mana",0.040+0.090
+</PATH>
+<PATH id="(p06-010)" word_cnt="4" file="p06_s011_r01" channel="1" sequence="10" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"gakboleh","gakboleh",0.000+0.010:C,"pulang","pulang",0.010+0.030:C,"sekarang","sekarang",0.020+0.050:C,"kamu","kamu",0.030+0.070
+</PATH>
+<PATH id="(p06-011)" word_cnt="6" file="p06_s012_r01" channel="1" sequence="11" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"orang","orang",0.000+0.010:C,"jahat","jahat",0.010+0.030:C,"sana","sana",0.020+0.050:C,"pukul","pukul",0.030+0.070:C,"aku","aku",0.040+0.090:C,"berulang","berulang",0.050+0.110
+</PATH>
+<PATH id="(p06-012)" word_cnt="6" file="p06_s013_r01" channel="1" sequence="12" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"kenapa","kenapa",0.000+0.010:C,"kamu","kamu",0.010+0.030:C,"gak","gak",0.020+0.050:C,"masuk","masuk",0.030+0.070:C,"kuliah","kuliah",0.040+0.090:C,"kemarin","kemarin",0.050+0.110
+</PATH>
+<PATH id="(p06-013)" word_cnt="5" file="p06_s014_r01" channel="1" sequence="13" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"polisi","polisi",0.000+0.010:C,"sana","sana",0.010+0.030:C,"pukul","pukul",0.020+0.050:I,,"toko",0.030+0.070:C,"pencuri","pencuri",0.040+0.090
+</PATH>
+<PATH id="(p06-014)" word_cnt="7" file="p06_s015_r01" channel="1" sequence="14" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"sana","sana",0.000+0.010:C,"berita","berita",0.010+0.030:C,"sudah","sudah",0.020+0.050:C,"banyak","banyak",0.030+0.070:C,"ribuan","ribuan",0.040+0.090:C,"orang","orang",0.050+0.110:C,"lihat","lihat",0.060+0.130
+</PATH>
+<PATH id="(p06-015)" word_cnt="5" file="p06_s016_r01" channel="1" sequence="15" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"buku","buku",0.000+0.010:C,"aku","aku",0.010+0.030:C,"sobek","sobek",0.020+0.050:C,"gegara","gegara",0.030+0.070:C,"dia","dia",0.040+0.090
+</PATH>
+<PATH id="(p06-016)" word_cnt="4" file="p06_s017_r01" channel="1" sequence="16" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"tong-sampah","tong-sampah",0.000+0.010:C,"ada","ada",0.010+0.030:C,"semut","semut",0.020+0.050:C,"banyak","banyak",0.030+0.070
+</PATH>
+<PATH id="(p06-017)" word_cnt="4" file="p06_s018_r01" channel="1" sequence="17" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"ular","ular",0.000+0.010:C,"sana","sana",0.010+0.030:C,"makan","makan",0.020+0.050:C,"kambing","kambing",0.030+0.070
+</PATH>
+<PATH id="(p06-018)" word_cnt="3" file="p06_s019_r01" channel="1" sequence="18" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"kamu","kamu",0.000+0.010:C,"pergi","pergi",0.010+0.030:C,"mana","mana",0.020+0.050
+</PATH>
+<PATH id="(p06-019)" word_cnt="4" file="p06_s020_r01" channel="1" sequence="19" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"kita","kita",0.000+0.010:C,"istirahat","istirahat",0.010+0.030:C,"jam","jam",0.020+0.050:S,"berapa","mana",0.030+0.070
+</PATH>
+<PATH id="(p06-020)" word_cnt="5" file="p06_s021_r01" channel="1" sequence="20" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"kamu","kamu",0.000+0.010:C,"punya","punya",0.010+0.030:C,"anggota","anggota",0.020+0.050:C,"keluarga","keluarga",0.030+0.070:C,"berapa","berapa",0.040+0.090
+</PATH>
+<PATH id="(p06-021)" word_cnt="6" file="p06_s022_r01" channel="1" sequence="21" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"mana","mana",0.000+0.010:C,"ibu","ibu",0.010+0.030:C,"kamu","kamu",0.020+0.050:C,"baik-baik","baik-baik",0.030+0.070:C,"atau","atau",0.040+0.090:C,"tidak","tidak",0.050+0.110
+</PATH>
+<PATH id="(p06-022)" word_cnt="4" file="p06_s023_r01" channel="1" sequence="22" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"kamu","kamu",0.000+0.010:C,"belajar","belajar",0.010+0.030:C,"bisindo","bisindo",0.020+0.050:C,"kapan","kapan",0.030+0.070
+</PATH>
+<PATH id="(p06-023)" word_cnt="3" file="p06_s024_r01" channel="1" sequence="23" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"aku","aku",0.000+0.010:C,"nilai","nilai",0.010+0.030:C,"jelek","jelek",0.020+0.050
+</PATH>
+<PATH id="(p06-024)" word_cnt="2" file="p06_s025_r01" channel="1" sequence="24" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"ulangtahun","ulangtahun",0.000+0.010:C,"selamat","selamat",0.010+0.030
+</PATH>
+<PATH id="(p06-025)" word_cnt="6" file="p06_s026_r01" channel="1" sequence="25" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+D,"kakak",,:D,"aku",,:S,"kasih","tong-sampah",0.000+0.010:S,"hadiah","ada",0.010+0.030:S,"buat","semut",0.020+0.050:C,"aku","aku",0.030+0.070
+</PATH>
+<PATH id="(p06-026)" word_cnt="3" file="p06_s027_r01" channel="1" sequence="26" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"sana","sana",0.000+0.010:C,"toilet","toilet",0.010+0.030:C,"kotor","kotor",0.020+0.050
+</PATH>
+<PATH id="(p06-027)" word_cnt="3" file="p06_s028_r01" channel="1" sequence="27" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+S,"sepatu","aku",0.000+0.010:S,"dia","nilai",0.010+0.030:S,"kotor","kamu",0.020+0.050
+</PATH>
+<PATH id="(p06-028)" word_cnt="3" file="p06_s029_r01" channel="1" sequence="28" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"rumah","rumah",0.000+0.010:C,"dimana","dimana",0.010+0.030:C,"kamu","kamu",0.020+0.050
+</PATH>
+<PATH id="(p06-029)" word_cnt="3" file="p06_s030_r01" channel="1" sequence="29" R_T1="0.000" R_T2="inf" word_aux="h_t1+t2">
+C,"dia","dia",0.000+0.010:C,"mengejek","mengejek",0.010+0.030:C,"aku","aku",0.020+0.050
+</PATH>
+</SPEAKER>
+</SYSTEM>
