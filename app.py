@@ -82,11 +82,14 @@ GROUND_TRUTH_TABLE: Dict[str, str] = {
 # ---------------------------------------------------------------------------
 _inference_runner: Optional[Any] = None
 
-CHECKPOINT_PATH = str(
-    CSLR_PROJECT_DIR / "model" / "best_dev_01.10_epoch26_model.pt"
-)
+_CHECKPOINT_CANDIDATES = [
+    CSLR_PROJECT_DIR / "model" / "cur_dev_01.20_epoch39_model.pt",
+    CSLR_PROJECT_DIR / "model" / "best_dev_01.30_epoch39_model.pt",
+    CSLR_PROJECT_DIR / "model" / "best_dev_01.10_epoch26_model.pt",
+]
+CHECKPOINT_PATH = str(next((path for path in _CHECKPOINT_CANDIDATES if path.exists()), _CHECKPOINT_CANDIDATES[0]))
 CSLR_CONFIG_PATH = str(
-    CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "normalization" / "Baseline+TN.yaml"
+    CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "normalization" / "Baseline+MKR+TN.yaml"
 )
 DEFAULT_CSLR_CONFIG_NAME = "Baseline+MKR+TN.yaml"
 
