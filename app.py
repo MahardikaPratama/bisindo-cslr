@@ -124,7 +124,7 @@ app.add_middleware(
 app.mount("/preview", StaticFiles(directory=str(PREVIEW_DIR)), name="preview")
 
 
-@app.get("/preview_stream/{subdir}/{filename}")
+@app.api_route("/preview_stream/{subdir}/{filename}", methods=["GET", "HEAD"])
 async def preview_stream(subdir: str, filename: str, request: Request):
     """Range-aware streaming endpoint for preview files.
 
@@ -143,6 +143,12 @@ async def preview_stream(subdir: str, filename: str, request: Request):
 
     file_size = path.stat().st_size
     range_header = request.headers.get("range")
+    method = request.method.upper()
+    # Log request for debugging (show method, path and Range header)
+    try:
+        logger.info("[API] preview_stream request: method=%s path=%s range=%s remote=%s", method, str(path), range_header, request.client)
+    except Exception:
+        logger.info("[API] preview_stream request: method=%s path=%s range=%s", method, str(path), range_header)
     if range_header:
         m = re.match(r"bytes=(\d+)-(\d*)", range_header)
         if not m:
@@ -162,10 +168,17 @@ async def preview_stream(subdir: str, filename: str, request: Request):
             "Accept-Ranges": "bytes",
             "Content-Length": str(length),
             "Content-Type": "video/mp4",
+            "Access-Control-Allow-Origin": "*",
         }
+        # If it's a HEAD request, return headers only
+        if method == "HEAD":
+            return Response(content=b"", status_code=206, headers=headers)
         return Response(content=chunk, status_code=206, headers=headers)
 
-    # No range header — return full file
+    # No range header — return full file (GET) or headers only (HEAD)
+    full_headers = {"Content-Length": str(file_size), "Content-Type": "video/mp4", "Access-Control-Allow-Origin": "*", "Accept-Ranges": "bytes"}
+    if method == "HEAD":
+        return Response(content=b"", status_code=200, headers=full_headers)
     return FileResponse(path)
 
 

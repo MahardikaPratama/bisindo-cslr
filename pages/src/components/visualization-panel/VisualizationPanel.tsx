@@ -23,6 +23,8 @@ const VisualizationPanel = React.memo(function VisualizationPanel() {
   const [viewMode, setViewMode] = useState<ViewMode>('dual');
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
+  const [overlayError, setOverlayError] = useState<string | null>(null);
+  const [skeletonError, setSkeletonError] = useState<string | null>(null);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const skeletonVideoRef = useRef<HTMLVideoElement>(null);
@@ -120,7 +122,11 @@ const VisualizationPanel = React.memo(function VisualizationPanel() {
     // If backend returns a full URL, prefer it. Otherwise rewrite /preview/ -> /preview_stream/
     if (/^https?:\/\//.test(previewPath)) return previewPath;
     const rewritten = previewPath.replace(/^\/preview\//, '/preview_stream/');
-    return `${API_BASE}${rewritten}`;
+    // Encode each path segment to handle spaces and special characters in filenames
+    const parts = rewritten.split('/').filter(Boolean); // remove leading empty string
+    const encodedPath = parts.map((p) => encodeURIComponent(p)).join('/');
+    const base = API_BASE ? API_BASE.replace(/\/$/, '') : '';
+    return `${base}/${encodedPath}`;
   };
 
   return (
@@ -190,6 +196,19 @@ const VisualizationPanel = React.memo(function VisualizationPanel() {
                   )}
                   playsInline
                   muted
+                  onError={(e) => {
+                    // Log and save the failed src for debugging
+                    // eslint-disable-next-line no-console
+                    const src = buildPreviewSrc(videoPreviews.overlay);
+                    // eslint-disable-next-line no-console
+                    console.error('Overlay video failed to load', e, src, overlayVideoRef.current?.error);
+                    // Also log the video element error code/message if available
+                    // eslint-disable-next-line no-console
+                    if (overlayVideoRef.current && overlayVideoRef.current.error) {
+                      console.error('Overlay media error:', overlayVideoRef.current.error.code, overlayVideoRef.current.error.message);
+                    }
+                    setOverlayError(String(src));
+                  }}
                 />
               )}
             </>
@@ -222,6 +241,16 @@ const VisualizationPanel = React.memo(function VisualizationPanel() {
               className="absolute inset-0 object-cover w-full h-full"
               playsInline
               muted
+              onError={(e) => {
+                const src = buildPreviewSrc(videoPreviews.skeleton);
+                // eslint-disable-next-line no-console
+                console.error('Skeleton video failed to load', e, src, skeletonVideoRef.current?.error);
+                // eslint-disable-next-line no-console
+                if (skeletonVideoRef.current && skeletonVideoRef.current.error) {
+                  console.error('Skeleton media error:', skeletonVideoRef.current.error.code, skeletonVideoRef.current.error.message);
+                }
+                setSkeletonError(String(src));
+              }}
             />
           ) : videoStatus === 'processing' ? (
             <div className="flex flex-col items-center gap-2">
@@ -249,6 +278,16 @@ const VisualizationPanel = React.memo(function VisualizationPanel() {
           <div className="absolute top-3 left-3 bg-brand-blue/90 text-white text-[10px] font-mono px-2 py-1 rounded tracking-wider uppercase z-20">
             Skeleton Mapping
           </div>
+          {skeletonError && (
+            <div className="absolute inset-0 flex items-center justify-center z-30 bg-black/40 text-white text-sm">
+              Failed to load skeleton preview: {skeletonError}
+            </div>
+          )}
+          {overlayError && (
+            <div className="absolute top-12 left-3 bg-red-600/90 text-white text-xs font-mono px-2 py-1 rounded tracking-wider z-30">
+              Overlay load failed
+            </div>
+          )}
         </div>
       </div>
 

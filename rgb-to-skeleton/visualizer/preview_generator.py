@@ -4,6 +4,9 @@ import cv2
 import os
 
 import numpy as np
+import subprocess
+import tempfile
+from pathlib import Path
 from typing import Optional
 
 from config import (
@@ -62,8 +65,12 @@ class PreviewGenerator:
 
         cap.release()
         writer.release()
-
         logger.info("RGB preview saved to %s", output_path)
+        # Ensure browser-compatible encoding (H.264 with faststart) when possible
+        try:
+            self._transcode_to_h264(output_path)
+        except Exception:
+            logger.debug("FFmpeg transcode skipped or failed for %s", output_path)
         return output_path
 
     def generate_skeleton_only(
@@ -103,6 +110,10 @@ class PreviewGenerator:
 
         writer.release()
         logger.info("Skeleton-only preview saved to %s", output_path)
+        try:
+            self._transcode_to_h264(output_path)
+        except Exception:
+            logger.debug("FFmpeg transcode skipped or failed for %s", output_path)
         return output_path
 
     def generate_overlay(
@@ -161,6 +172,10 @@ class PreviewGenerator:
         writer.release()
 
         logger.info("Overlay preview saved to %s", output_path)
+        try:
+            self._transcode_to_h264(output_path)
+        except Exception:
+            logger.debug("FFmpeg transcode skipped or failed for %s", output_path)
         return output_path
 
     def _make_writer(self, output_path: str, fps: int, res: tuple[int, int], preferred_codecs=("mp4v", "MJPG", "XVID", "avc1")):
@@ -187,3 +202,45 @@ class PreviewGenerator:
             logger.debug("Using default codec for %s", output_path)
             return writer
         raise RuntimeError(f"Failed to create VideoWriter for {output_path} with codecs {preferred_codecs}")
+
+    def _transcode_to_h264(self, path: str) -> None:
+        """
+        Use ffmpeg to transcode the given video to H.264 MP4 with the
+        `+faststart` flag so it's compatible for web streaming.
+        This replaces the original file when successful.
+        """
+        ffmpeg_exe = "ffmpeg"
+        input_path = Path(path)
+        if not input_path.exists():
+            return
+
+        # Create a temp output file
+        with tempfile.NamedTemporaryFile(suffix='.mp4', delete=False) as tmpf:
+            tmp_path = Path(tmpf.name)
+
+        cmd = [
+            ffmpeg_exe,
+            '-y',
+            '-i', str(input_path),
+            '-c:v', 'libx264',
+            '-preset', 'veryfast',
+            '-crf', '23',
+            '-pix_fmt', 'yuv420p',
+            '-movflags', '+faststart',
+            str(tmp_path),
+        ]
+
+        try:
+            subprocess.check_call(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            # Replace original file with transcoded file
+            input_path.unlink()
+            tmp_path.rename(input_path)
+            logger.info("Transcoded preview to H.264: %s", str(input_path))
+        except Exception as exc:
+            # Cleanup temp file on failure
+            try:
+                if tmp_path.exists():
+                    tmp_path.unlink()
+            except Exception:
+                pass
+            raise
