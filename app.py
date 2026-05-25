@@ -83,9 +83,7 @@ GROUND_TRUTH_TABLE: Dict[str, str] = {
 _inference_runner: Optional[Any] = None
 
 _CHECKPOINT_CANDIDATES = [
-    CSLR_PROJECT_DIR / "model" / "cur_dev_01.20_epoch39_model.pt",
-    CSLR_PROJECT_DIR / "model" / "best_dev_01.30_epoch39_model.pt",
-    CSLR_PROJECT_DIR / "model" / "best_dev_01.10_epoch26_model.pt",
+    CSLR_PROJECT_DIR / "model" / "best_dev_00.80_epoch37_model.pt",
 ]
 CHECKPOINT_PATH = str(next((path for path in _CHECKPOINT_CANDIDATES if path.exists()), _CHECKPOINT_CANDIDATES[0]))
 CSLR_CONFIG_PATH = str(
