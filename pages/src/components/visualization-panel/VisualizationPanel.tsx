@@ -115,6 +115,14 @@ const VisualizationPanel = React.memo(function VisualizationPanel() {
 
   const duration = videoMetadata?.duration || videoRef.current?.duration || 4.2;
 
+  const buildPreviewSrc = (previewPath?: string | null) => {
+    if (!previewPath) return undefined;
+    // If backend returns a full URL, prefer it. Otherwise rewrite /preview/ -> /preview_stream/
+    if (/^https?:\/\//.test(previewPath)) return previewPath;
+    const rewritten = previewPath.replace(/^\/preview\//, '/preview_stream/');
+    return `${API_BASE}${rewritten}`;
+  };
+
   return (
     <Card className="flex flex-col gap-4" padding="md">
       {/* Header: Label & View Toggle */}
@@ -124,7 +132,7 @@ const VisualizationPanel = React.memo(function VisualizationPanel() {
           <span>Visualization Panel</span>
         </div>
         
-        <div className="flex items-center bg-surface-panel-2 rounded-lg p-1 border border-surface-border">
+        <div className="flex items-center p-1 border rounded-lg bg-surface-panel-2 border-surface-border">
           <button
             onClick={() => setViewMode('dual')}
             className={cn(
@@ -175,7 +183,7 @@ const VisualizationPanel = React.memo(function VisualizationPanel() {
               {videoPreviews?.overlay && (
                 <video
                   ref={overlayVideoRef}
-                  src={`${API_BASE}${videoPreviews.overlay}`}
+                  src={buildPreviewSrc(videoPreviews.overlay)}
                   className={cn(
                     'absolute inset-0 w-full h-full object-cover transition-opacity duration-300',
                     viewMode === 'overlay' ? 'opacity-100' : 'opacity-0 pointer-events-none'
@@ -210,18 +218,18 @@ const VisualizationPanel = React.memo(function VisualizationPanel() {
           {videoPreviews?.skeleton ? (
             <video
               ref={skeletonVideoRef}
-              src={`${API_BASE}${videoPreviews.skeleton}`}
-              className="absolute inset-0 w-full h-full object-cover"
+              src={buildPreviewSrc(videoPreviews.skeleton)}
+              className="absolute inset-0 object-cover w-full h-full"
               playsInline
               muted
             />
           ) : videoStatus === 'processing' ? (
             <div className="flex flex-col items-center gap-2">
-              <div className="w-6 h-6 rounded-full border-2 border-brand-blue border-t-transparent animate-spin" />
+              <div className="w-6 h-6 border-2 rounded-full border-brand-blue border-t-transparent animate-spin" />
               <span className="text-[10px] font-medium text-text-secondary tracking-wide">Processing landmarks...</span>
             </div>
           ) : (
-            <div className="relative w-1/2 h-2/3 opacity-80 flex items-center justify-center">
+            <div className="relative flex items-center justify-center w-1/2 h-2/3 opacity-80">
               <svg viewBox="0 0 100 100" className="w-full h-full overflow-visible max-h-[120px]">
                 {/* Lines */}
                 <line x1="50" y1="20" x2="50" y2="40" stroke="#3B82F6" strokeWidth="1.5" />
@@ -249,7 +257,7 @@ const VisualizationPanel = React.memo(function VisualizationPanel() {
         <button
           onClick={togglePlay}
           disabled={!videoObjectUrl}
-          className="text-brand-blue-light hover:text-brand-blue-light/80 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          className="transition-colors text-brand-blue-light hover:text-brand-blue-light/80 disabled:opacity-40 disabled:cursor-not-allowed"
         >
           {isPlaying ? <Pause size={20} fill="currentColor" /> : <Play size={20} fill="currentColor" />}
         </button>
@@ -261,19 +269,19 @@ const VisualizationPanel = React.memo(function VisualizationPanel() {
           className="flex-1 relative h-1.5 bg-surface-panel-2 rounded-full cursor-pointer group overflow-hidden"
         >
           <div 
-            className="absolute top-0 left-0 h-full bg-brand-blue rounded-full transition-all ease-linear"
+            className="absolute top-0 left-0 h-full transition-all ease-linear rounded-full bg-brand-blue"
             style={{ width: `${(currentTime / duration) * 100}%` }}
           />
           <div 
-            className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute w-3 h-3 transition-opacity -translate-y-1/2 bg-white rounded-full shadow opacity-0 top-1/2 group-hover:opacity-100"
             style={{ left: `calc(${(currentTime / duration) * 100}% - 6px)` }}
           />
         </div>
 
         {/* Timestamps & Fullscreen */}
-        <div className="flex items-center gap-3 text-xs font-mono text-text-secondary">
+        <div className="flex items-center gap-3 font-mono text-xs text-text-secondary">
           <span>00:0{currentTime.toFixed(1)} / 00:0{duration.toFixed(1)}</span>
-          <button className="hover:text-text-primary transition-colors ml-2">
+          <button className="ml-2 transition-colors hover:text-text-primary">
             <Maximize size={16} />
           </button>
         </div>

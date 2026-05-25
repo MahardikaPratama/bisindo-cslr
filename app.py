@@ -8,10 +8,11 @@ import uuid
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
+import re
 
 
 # Silence noisy third-party logs before importing MediaPipe / TensorFlow.
@@ -121,6 +122,51 @@ app.add_middleware(
 )
 
 app.mount("/preview", StaticFiles(directory=str(PREVIEW_DIR)), name="preview")
+
+
+@app.get("/preview_stream/{subdir}/{filename}")
+async def preview_stream(subdir: str, filename: str, request: Request):
+    """Range-aware streaming endpoint for preview files.
+
+    Use this URL in the frontend when the static mount doesn't support
+    partial content via a proxy/tunnel (eg. some ngrok setups).
+
+    Example: /preview_stream/rgb/9cd3d279bcb5_demo-001_rgb.mp4
+    """
+    # Prevent directory traversal
+    if ".." in subdir or ".." in filename:
+        raise HTTPException(status_code=400, detail="Invalid path")
+
+    path = PREVIEW_DIR / subdir / filename
+    if not path.exists():
+        raise HTTPException(status_code=404, detail="File not found")
+
+    file_size = path.stat().st_size
+    range_header = request.headers.get("range")
+    if range_header:
+        m = re.match(r"bytes=(\d+)-(\d*)", range_header)
+        if not m:
+            raise HTTPException(status_code=416)
+        start = int(m.group(1))
+        end = int(m.group(2)) if m.group(2) else file_size - 1
+        if start >= file_size:
+            raise HTTPException(status_code=416)
+        if end >= file_size:
+            end = file_size - 1
+        length = end - start + 1
+        with open(path, "rb") as f:
+            f.seek(start)
+            chunk = f.read(length)
+        headers = {
+            "Content-Range": f"bytes {start}-{end}/{file_size}",
+            "Accept-Ranges": "bytes",
+            "Content-Length": str(length),
+            "Content-Type": "video/mp4",
+        }
+        return Response(content=chunk, status_code=206, headers=headers)
+
+    # No range header — return full file
+    return FileResponse(path)
 
 
 def _get_available_configs() -> list[str]:
