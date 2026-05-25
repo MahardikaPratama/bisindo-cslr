@@ -7,7 +7,7 @@
  * @created     2024-01-01
  */
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useMemo, useState, useRef, useEffect } from 'react';
 import { Eye, LayoutGrid, Layers, Play, Pause, Maximize } from 'lucide-react';
 import Card from '../../common/Card/Card';
 import { useVideoStore } from '../../store/useVideoStore';
@@ -119,15 +119,28 @@ const VisualizationPanel = React.memo(function VisualizationPanel() {
 
   const buildPreviewSrc = (previewPath?: string | null) => {
     if (!previewPath) return undefined;
-    // If backend returns a full URL, prefer it. Otherwise rewrite /preview/ -> /preview_stream/
-    if (/^https?:\/\//.test(previewPath)) return previewPath;
-    const rewritten = previewPath.replace(/^\/preview\//, '/preview_stream/');
-    // Encode each path segment to handle spaces and special characters in filenames
-    const parts = rewritten.split('/').filter(Boolean); // remove leading empty string
-    const encodedPath = parts.map((p) => encodeURIComponent(p)).join('/');
     const base = API_BASE ? API_BASE.replace(/\/$/, '') : '';
-    return `${base}/${encodedPath}`;
+    const rawUrl = previewPath.startsWith('http') ? previewPath : `${base}${previewPath}`;
+    const separator = rawUrl.includes('?') ? '&' : '?';
+    return `${rawUrl}${separator}t=${Date.now()}`;
   };
+
+  const rgbVideoUrl = useMemo(() => videoObjectUrl ?? undefined, [videoObjectUrl]);
+  const overlayVideoUrl = useMemo(() => buildPreviewSrc(videoPreviews?.overlay), [videoPreviews?.overlay]);
+  const skeletonVideoUrl = useMemo(() => buildPreviewSrc(videoPreviews?.skeleton), [videoPreviews?.skeleton]);
+
+  useEffect(() => {
+    console.log('Overlay URL:', overlayVideoUrl);
+    console.log('Skeleton URL:', skeletonVideoUrl);
+  }, [overlayVideoUrl, skeletonVideoUrl]);
+
+  useEffect(() => {
+    setOverlayError(null);
+  }, [overlayVideoUrl]);
+
+  useEffect(() => {
+    setSkeletonError(null);
+  }, [skeletonVideoUrl]);
 
   return (
     <Card className="flex flex-col gap-4" padding="md">
@@ -175,41 +188,46 @@ const VisualizationPanel = React.memo(function VisualizationPanel() {
             <>
               {/* 1. Original RGB Video */}
               <video
+                key={rgbVideoUrl}
                 ref={videoRef}
-                src={videoObjectUrl}
+                controls
+                playsInline
+                preload="metadata"
+                muted
                 className={cn(
                   'absolute inset-0 w-full h-full object-cover transition-opacity duration-300',
-                  viewMode === 'overlay' && videoPreviews?.overlay ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                  viewMode === 'overlay' && overlayVideoUrl ? 'opacity-0 pointer-events-none' : 'opacity-100'
                 )}
-                playsInline
-                muted
-              />
+              >
+                {rgbVideoUrl && <source src={rgbVideoUrl} type="video/mp4" />}
+              </video>
 
               {/* 2. Processed Overlay Video */}
-              {videoPreviews?.overlay && (
+              {overlayVideoUrl && (
                 <video
+                  key={overlayVideoUrl}
                   ref={overlayVideoRef}
-                  src={buildPreviewSrc(videoPreviews.overlay)}
+                  controls
+                  playsInline
+                  preload="metadata"
+                  muted
                   className={cn(
                     'absolute inset-0 w-full h-full object-cover transition-opacity duration-300',
                     viewMode === 'overlay' ? 'opacity-100' : 'opacity-0 pointer-events-none'
                   )}
-                  playsInline
-                  muted
                   onError={(e) => {
-                    // Log and save the failed src for debugging
-                    // eslint-disable-next-line no-console
-                    const src = buildPreviewSrc(videoPreviews.overlay);
+                    const src = overlayVideoUrl;
                     // eslint-disable-next-line no-console
                     console.error('Overlay video failed to load', e, src, overlayVideoRef.current?.error);
-                    // Also log the video element error code/message if available
                     // eslint-disable-next-line no-console
                     if (overlayVideoRef.current && overlayVideoRef.current.error) {
                       console.error('Overlay media error:', overlayVideoRef.current.error.code, overlayVideoRef.current.error.message);
                     }
                     setOverlayError(String(src));
                   }}
-                />
+                >
+                  <source src={overlayVideoUrl} type="video/mp4" />
+                </video>
               )}
             </>
           ) : (
@@ -234,15 +252,17 @@ const VisualizationPanel = React.memo(function VisualizationPanel() {
           'relative bg-surface-panel-2 h-full overflow-hidden flex items-center justify-center transition-all duration-300 border-l border-surface-border',
           viewMode === 'dual' ? 'flex-1 opacity-100' : 'w-0 opacity-0 pointer-events-none border-l-0'
         )}>
-          {videoPreviews?.skeleton ? (
+          {skeletonVideoUrl ? (
             <video
+              key={skeletonVideoUrl}
               ref={skeletonVideoRef}
-              src={buildPreviewSrc(videoPreviews.skeleton)}
-              className="absolute inset-0 object-cover w-full h-full"
+              controls
               playsInline
+              preload="metadata"
               muted
+              className="absolute inset-0 object-cover w-full h-full"
               onError={(e) => {
-                const src = buildPreviewSrc(videoPreviews.skeleton);
+                const src = skeletonVideoUrl;
                 // eslint-disable-next-line no-console
                 console.error('Skeleton video failed to load', e, src, skeletonVideoRef.current?.error);
                 // eslint-disable-next-line no-console
@@ -251,7 +271,9 @@ const VisualizationPanel = React.memo(function VisualizationPanel() {
                 }
                 setSkeletonError(String(src));
               }}
-            />
+            >
+              <source src={skeletonVideoUrl} type="video/mp4" />
+            </video>
           ) : videoStatus === 'processing' ? (
             <div className="flex flex-col items-center gap-2">
               <div className="w-6 h-6 border-2 rounded-full border-brand-blue border-t-transparent animate-spin" />
@@ -279,12 +301,12 @@ const VisualizationPanel = React.memo(function VisualizationPanel() {
             Skeleton Mapping
           </div>
           {skeletonError && (
-            <div className="absolute inset-0 flex items-center justify-center z-30 bg-black/40 text-white text-sm">
+            <div className="absolute inset-0 z-30 flex items-center justify-center text-sm text-white bg-black/40">
               Failed to load skeleton preview: {skeletonError}
             </div>
           )}
           {overlayError && (
-            <div className="absolute top-12 left-3 bg-red-600/90 text-white text-xs font-mono px-2 py-1 rounded tracking-wider z-30">
+            <div className="absolute z-30 px-2 py-1 font-mono text-xs tracking-wider text-white rounded top-12 left-3 bg-red-600/90">
               Overlay load failed
             </div>
           )}
