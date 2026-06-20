@@ -1,8 +1,8 @@
 """Utilities to plot a single skeleton frame (colored by region).
 
 Provides a small helper that reproduces the visualization from the
-user-provided snippet. Works with keypoints arrays shaped (T, 86, 3)
-or (T, 86, 2). Coordinates are expected to be normalized (0..1) as
+user-provided snippet. Works with keypoints arrays shaped (T, 42, 3)
+or (T, 42, 2). Coordinates are expected to be normalized (0..1) as
 produced by MediaPipe, but any 2D coordinates will be plotted as-is.
 
 Example usage:
@@ -10,7 +10,7 @@ Example usage:
     from visualizer.plot_skeleton import plot_frame
     import numpy as np
 
-    data = np.load("data/skeleton/00_0001.npy")  # (T,86,3)
+    data = np.load("data/skeleton/00_0001.npy")  # (T,42,3)
     plot_frame(data, frame_idx=40)
 
 Command-line usage (quick):
@@ -24,6 +24,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from typing import Optional, Sequence, Tuple
 
+from config import TOTAL_KEYPOINTS
 from utils.logger import get_logger
 
 
@@ -43,7 +44,7 @@ def plot_frame(keypoints: np.ndarray,
     Parameters
     ----------
     keypoints : np.ndarray
-        Array of shape (T, 86, 3) or (T, 86, 2).
+        Array of shape (T, 42, 3) or (T, 42, 2).
     frame_idx : int
         Frame index to plot.
     ax : Optional[plt.Axes]
@@ -62,8 +63,8 @@ def plot_frame(keypoints: np.ndarray,
     if not isinstance(keypoints, np.ndarray):
         raise TypeError("keypoints must be a numpy array")
 
-    if keypoints.ndim != 3 or keypoints.shape[1] != 86:
-        raise ValueError("keypoints must have shape (T, 86, C)")
+    if keypoints.ndim != 3 or keypoints.shape[1] != TOTAL_KEYPOINTS:
+        raise ValueError(f"keypoints must have shape (T, {TOTAL_KEYPOINTS}, C)")
 
     frame = keypoints[frame_idx]
 
@@ -100,10 +101,8 @@ def plot_frame(keypoints: np.ndarray,
             coords[:, 0] = coords[:, 0] * float(w)
             coords[:, 1] = coords[:, 1] * float(h)
 
-    pose_idx = np.arange(61, 86)
     left_hand_idx = np.arange(0, 21)
     right_hand_idx = np.arange(21, 42)
-    mouth_idx = np.arange(42, 61)
 
     valid = ~(np.all(coords == 0, axis=1))
 
@@ -114,10 +113,8 @@ def plot_frame(keypoints: np.ndarray,
         pts = coords[idx]
         ax.scatter(pts[:, 0], pts[:, 1], c=color, s=10, label=label)
 
-    plot_part(pose_idx, 'r', 'Pose')
     plot_part(left_hand_idx, 'g', 'Left Hand')
     plot_part(right_hand_idx, 'b', 'Right Hand')
-    plot_part(mouth_idx, 'c', 'Mouth')
 
     if title is None:
         ax.set_title(f"Frame {frame_idx}")

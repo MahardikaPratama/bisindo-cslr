@@ -12,12 +12,7 @@ export interface NavLink {
   active?: boolean;
 }
 
-export const NAV_LINKS: NavLink[] = [
-  { label: 'Dashboard',     href: '#',             active: true },
-  { label: 'Dataset',       href: '#dataset' },
-  { label: 'Models',        href: '#models' },
-  { label: 'Documentation', href: '#documentation' },
-];
+export const NAV_LINKS: NavLink[] = [];
 
 export const FOOTER_LINKS = [
   { label: 'GitHub Repository',    href: 'https://github.com' },

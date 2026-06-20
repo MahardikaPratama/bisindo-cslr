@@ -1,13 +1,11 @@
 """
 Holistic86Extractor
 
-Extracts 86 keypoints per frame from an RGB video using MediaPipe Holistic.
+Extracts 42 keypoints per frame from an RGB video using MediaPipe Hands.
 
-Keypoint layout (matches isharah format):
+Keypoint layout:
     Index  0 – 20  : Left Hand  (GL) — 21 keypoints  → hand landmarks 0–20
     Index 21 – 41  : Right Hand (GR) — 21 keypoints  → hand landmarks 0–20
-    Index 42 – 60  : Mouth      (GM) — 19 keypoints  → face landmarks 0–18
-    Index 61 – 85  : Pose       (GP) — 25 keypoints  → pose landmarks 0–24
 
 All regions are selected sequentially (landmark 0 to N-1).
 Counts are derived from the range constants in config/settings.py.
@@ -19,12 +17,7 @@ import numpy as np
 from typing import Any
 
 from config import MEDIAPIPE_CONFIG, TOTAL_KEYPOINTS, USE_3D_COORDINATES
-from config.keypoint_layout import (
-    LEFT_HAND_SELECTION,
-    RIGHT_HAND_SELECTION,
-    MOUTH_SELECTION,
-    POSE_SELECTION,
-)
+from config.keypoint_layout import LEFT_HAND_SELECTION, RIGHT_HAND_SELECTION
 from processor.keypoint_selector import KeypointSelector
 from utils.exceptions import ExtractionException, ValidationException
 from utils.logger import get_logger
@@ -59,35 +52,50 @@ def pad_to_16_9(frame: np.ndarray) -> np.ndarray:
 
 
 class Holistic86Extractor:
-    """Extract 86 keypoints from RGB videos using MediaPipe Holistic."""
+    """Extract 42 keypoints from RGB videos using MediaPipe Hands."""
 
     def __init__(self) -> None:
-        self.mp_holistic = mp.solutions.holistic
-        self.model = self.mp_holistic.Holistic(**MEDIAPIPE_CONFIG)
+        self.mp_hands = mp.solutions.hands
+        self.model = self.mp_hands.Hands(**MEDIAPIPE_CONFIG)
         self.selector = KeypointSelector(use_3d=USE_3D_COORDINATES)
 
     def extract_frame(self, frame: np.ndarray) -> np.ndarray:
         """
-        Extract 86 keypoints from a single BGR video frame.
+        Extract 42 keypoints from a single BGR video frame.
 
-        Output shape: (86, 3) where the third value is confidence by default.
+        Output shape: (42, 3) where the third value is confidence by default.
 
         Layout:
-            [  0– 20] Left Hand  (GL) — face landmarks  0–20
+            [  0– 20] Left Hand  (GL) — hand landmarks 0–20
             [ 21– 41] Right Hand (GR) — hand landmarks  0–20
-            [ 42– 60] Mouth      (GM) — face landmarks  0–18
-            [ 61– 85] Pose       (GP) — pose landmarks  0–24
         """
 
         rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         results = self.model.process(rgb_frame)
 
-        keypoints = []
+        hands = {"Left": None, "Right": None}
+        multi_hand_landmarks = results.multi_hand_landmarks or []
+        multi_handedness = results.multi_handedness or []
 
-        keypoints.extend(self.selector.select_landmarks(results.left_hand_landmarks, LEFT_HAND_SELECTION))
-        keypoints.extend(self.selector.select_landmarks(results.right_hand_landmarks, RIGHT_HAND_SELECTION))
-        keypoints.extend(self.selector.select_landmarks(results.face_landmarks, MOUTH_SELECTION))
-        keypoints.extend(self.selector.select_landmarks(results.pose_landmarks, POSE_SELECTION))
+        for hand_landmarks, handedness in zip(multi_hand_landmarks, multi_handedness):
+            label = None
+            if handedness.classification:
+                label = handedness.classification[0].label
+
+            if label not in hands:
+                if hands["Left"] is None:
+                    label = "Left"
+                elif hands["Right"] is None:
+                    label = "Right"
+                else:
+                    continue
+
+            if hands[label] is None:
+                hands[label] = hand_landmarks
+
+        keypoints = []
+        keypoints.extend(self.selector.select_landmarks(hands["Left"], LEFT_HAND_SELECTION))
+        keypoints.extend(self.selector.select_landmarks(hands["Right"], RIGHT_HAND_SELECTION))
 
         keypoints = np.array(keypoints, dtype=float)
 
@@ -102,7 +110,7 @@ class Holistic86Extractor:
 
         Returns
         -------
-        np.ndarray, shape (T, 86, 3)
+        np.ndarray, shape (T, 42, 3)
             T = number of frames
         """
 
