@@ -8,7 +8,6 @@
  */
 
 import React from 'react';
-import Navbar from './components/navbar/Navbar';
 import HeroSection from './components/hero-section/HeroSection';
 import VideoInputPanel from './components/video-input-panel/VideoInputPanel';
 import ConsoleLogPanel from './components/console-log-panel/ConsoleLogPanel';
@@ -46,8 +45,6 @@ function App() {
     <div className="relative flex flex-col min-h-screen overflow-hidden bg-surface-bg">
       {/* Background Grid Decoration */}
       <div className="absolute inset-0 z-0 pointer-events-none bg-hero-grid" />
-
-      <Navbar />
 
       {/* Hidden input file */}
       <input
