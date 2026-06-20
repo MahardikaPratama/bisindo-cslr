@@ -1,14 +1,12 @@
 """
 Skeleton Drawing Module
 
-Renders 86-keypoint skeletons on a canvas or over an RGB frame.
+Renders 42-keypoint hand-only skeletons on a canvas or over an RGB frame.
 Simple style: small dots + connecting lines, no legend.
 
 Color scheme:
     GL (left hand)  — Green
     GR (right hand) — Orange-red
-    GM (mouth)      — Yellow
-    GP (pose)       — Red
 """
 
 import cv2
@@ -21,18 +19,14 @@ from config import (
     LINE_THICKNESS,
     LEFT_HAND_RANGE,
     RIGHT_HAND_RANGE,
-    MOUTH_RANGE,
-    POSE_RANGE,
     COLOR_LEFT_HAND,
     COLOR_RIGHT_HAND,
-    COLOR_MOUTH,
-    COLOR_POSE,
 )
 
 
 class SkeletonDrawer:
     """
-    Renders 86-keypoint skeleton frames.
+    Renders 42-keypoint skeleton frames.
 
     Parameters
     ----------
@@ -45,8 +39,6 @@ class SkeletonDrawer:
 
         self.left_hand_range  = LEFT_HAND_RANGE
         self.right_hand_range = RIGHT_HAND_RANGE
-        self.mouth_range      = MOUTH_RANGE
-        self.pose_range       = POSE_RANGE
 
         # Hand connections (21 keypoints, local indices)
         self.hand_connections = [
@@ -57,21 +49,6 @@ class SkeletonDrawer:
             (0, 17), (17, 18), (18, 19), (19, 20),
             (5, 9), (9, 13), (13, 17),
         ]
-
-        # Pose connections (25 keypoints, local indices 0-24)
-        self.pose_connections = [
-            (0, 11), (0, 12),
-            (11, 12),
-            (11, 13), (13, 15),
-            (12, 14), (14, 16),
-            (15, 17), (15, 19), (15, 21),
-            (16, 18), (16, 20), (16, 22),
-            (11, 23), (12, 24), (23, 24),
-        ]
-
-        # Mouth rings (sequential, local indices)
-        self.mouth_outer = list(range(10))
-        self.mouth_inner = list(range(10, 19))
 
     # --------------------------------------------------
     # Utilities
@@ -119,7 +96,7 @@ class SkeletonDrawer:
 
         Parameters
         ----------
-        keypoints : np.ndarray, shape (86, 3) or (86, 2)
+        keypoints : np.ndarray, shape (42, 3) or (42, 2)
         background : ndarray or None
             Optional BGR image. If None, dark canvas is used.
 
@@ -137,20 +114,13 @@ class SkeletonDrawer:
 
         lh = keypoints[self.left_hand_range[0]:self.left_hand_range[1]]
         rh = keypoints[self.right_hand_range[0]:self.right_hand_range[1]]
-        mo = keypoints[self.mouth_range[0]:self.mouth_range[1]]
-        po = keypoints[self.pose_range[0]:self.pose_range[1]]
 
         if DRAW_CONNECTIONS:
-            self._draw_edges(canvas, po, self.pose_connections,  COLOR_POSE)
             self._draw_edges(canvas, lh, self.hand_connections,  COLOR_LEFT_HAND)
             self._draw_edges(canvas, rh, self.hand_connections,  COLOR_RIGHT_HAND)
-            self._draw_ring(canvas, mo, self.mouth_outer, COLOR_MOUTH, closed=True)
-            self._draw_ring(canvas, mo, self.mouth_inner, COLOR_MOUTH, closed=True)
 
         if DRAW_JOINTS:
-            self._draw_joints(canvas, po, COLOR_POSE)
             self._draw_joints(canvas, lh, COLOR_LEFT_HAND)
             self._draw_joints(canvas, rh, COLOR_RIGHT_HAND)
-            self._draw_joints(canvas, mo, COLOR_MOUTH)
 
         return canvas

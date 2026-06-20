@@ -18,21 +18,15 @@ from .settings import (
 
 # Convert ranges to explicit selections when needed by processors.
 # Selections here are RELATIVE to the specific landmark set returned by
-# MediaPipe for each region (e.g., hand landmarks are 0..20, pose landmarks
-# are 0..24). We therefore convert the configured ranges into local
-# zero-based selections for each region.
+# MediaPipe for each region (hand landmarks are 0..20). We therefore
+# convert the configured ranges into local zero-based selections.
 LEFT_HAND_SELECTION: List[int] = list(range(0, LEFT_HAND_RANGE[1] - LEFT_HAND_RANGE[0]))
 RIGHT_HAND_SELECTION: List[int] = list(range(0, RIGHT_HAND_RANGE[1] - RIGHT_HAND_RANGE[0]))
 
-# Mouth selection uses specific 468-face-mesh indices targeting lips
-# These indices were chosen for the Isharah specification and are stable
-# for reproducibility across experiments.
-MOUTH_SELECTION: List[int] = [
-    61, 185, 40, 39, 37, 0, 267, 269, 270, 409,  # outer lip
-    78, 191, 80, 81, 82, 13, 312, 311, 308,      # inner lip
-]
+# Mouth and pose are intentionally disabled in the hands-only layout.
+MOUTH_SELECTION: List[int] = []
 
-POSE_SELECTION: List[int] = list(range(0, POSE_RANGE[1] - POSE_RANGE[0]))
+POSE_SELECTION: List[int] = []
 
 KEYPOINT_RANGES: Dict[str, Tuple[int, int]] = {
     "left_hand": LEFT_HAND_RANGE,
