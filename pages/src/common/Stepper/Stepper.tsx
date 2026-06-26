@@ -66,7 +66,7 @@ const Stepper = React.memo(function Stepper({ steps }: StepperProps) {
 
             {/* Connecting Line */}
             {!isLast && (
-              <div className="flex-1 h-[2px] mx-2 -mt-6">
+              <div className="flex-1 h-[2px] mx-2">
                 <div
                   className={cn(
                     'h-full w-full transition-colors duration-500',

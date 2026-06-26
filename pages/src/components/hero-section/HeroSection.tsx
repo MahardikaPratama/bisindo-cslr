@@ -23,7 +23,7 @@ const HeroSection = React.memo(function HeroSection({
   return (
     <section
       id="hero-section"
-      className="max-w-screen-xl px-6 pt-32 pb-12 mx-auto animate-slide-up"
+      className="max-w-screen-xl px-6 pt-20 pb-8 mx-auto animate-slide-up"
     >
       <div className="max-w-2xl">
         {/* ── Tag line ── */}
@@ -34,7 +34,7 @@ const HeroSection = React.memo(function HeroSection({
         </div>
 
         {/* ── H1 Heading ── */}
-        <h1 className="mb-5 text-4xl font-bold leading-tight md:text-5xl text-text-primary">
+        <h1 className="mb-4 text-3xl font-bold leading-tight md:text-4xl text-text-primary">
           BISINDO{' '}
           <span className="text-brand-blue-light">Continuous</span>
           <br />

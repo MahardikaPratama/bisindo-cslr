@@ -29,8 +29,8 @@ const Navbar = React.memo(function Navbar() {
       <div className="flex items-center justify-between h-16 max-w-screen-xl gap-6 px-6 mx-auto">
         {/* ── Logo ── */}
         <div className="flex items-center flex-shrink-0 gap-3">
-          <div className="flex items-center justify-center border rounded-lg w-9 h-9 bg-brand-blue/20 border-brand-blue/30">
-            <span className="text-xl leading-none" role="img" aria-label="sign language">🤟</span>
+          <div className="flex items-center justify-center border rounded-lg w-9 h-9 bg-brand-blue/10 border-brand-blue/20 p-1">
+            <img src="/isyarat.png" alt="BISINDO Logo" className="w-full h-full object-contain" />
           </div>
           <span className="text-base font-semibold tracking-tight text-text-primary whitespace-nowrap">
             BISINDO CSLR Demo

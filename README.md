@@ -23,19 +23,20 @@ bisindo-cslr/
 ├── main.py                      # CLI entry point
 ├── bisindo_cslr_colab.ipynb     # Notebook untuk menjalankan backend di Google Colab
 ├── inference/                   # Modul inference CSLR
-│   ├── __init__.py
-│   └── cslr_runner.py           # SkeletonPreprocessor, InferenceRunner, WER
-├── rgb-to-skeleton/             # Modul konversi video → skeleton
-│   ├── core/                    # Pipeline orchestration & CLI
-│   ├── extractor/               # MediaPipe Holistic 86-keypoint extractor
-│   ├── data/                    # SkeletonSequence in-memory container
-│   ├── visualizer/              # Generator preview video (RGB, skeleton, overlay)
-│   ├── utils/                   # Logger, stderr filters
-│   └── config/                  # Path & keypoint layout config
+│   ├── ground_truth.py          # Modul pembaca file .stm untuk ground truth
+│   ├── preprocessor.py          # SkeletonPreprocessor untuk penyesuaian skala MediaPipe
+│   └── runner.py                # InferenceRunner, eksekusi model TwoStream CoSign
+├── rgb-to-skeleton-mediapipe/   # Modul konversi video → skeleton 86-keypoint
+│   ├── data/                    # Output sementara video preview & json
+│   ├── src/
+│   │   ├── core/                # Pipeline orchestration & CLI
+│   │   ├── extractor/           # MediaPipe Holistic extractor
+│   │   ├── visualizer/          # Generator preview video (skeleton, overlay)
+│   │   └── config/              # Path & keypoint layout config
 ├── mslr_iccv2025/               # Model CSLR TwoStream CoSign
 │   ├── configs/                 # YAML konfigurasi model & dataset
 │   ├── datasets/                # SkeletonFeeder & data loader
-│   ├── model/                   # Checkpoint model (.pt)  ← tidak di-commit ke git
+│   ├── model/                   # Checkpoint model (.pt)
 │   ├── modules/                 # Temporal conv & BiLSTM layers
 │   ├── slr_network.py           # Definisi model TwoStream_Cosign
 │   └── evaluation/              # WER evaluation (python + sclite)
@@ -45,9 +46,7 @@ bisindo-cslr/
 │       ├── hooks/               # useInference, useVideoUpload
 │       ├── store/               # Zustand state management
 │       └── constants/           # Ground truth sentences, pipeline steps
-└── data/
-    ├── uploads/                 # Temp upload (dibersihkan otomatis)
-    └── preview/                 # Preview video output
+```
 ```
 
 
@@ -62,7 +61,7 @@ git clone --recursive https://github.com/MahardikaPratama/bisindo-cslr.git
 cd bisindo-cslr
 ```
 
-> **`--recursive`** wajib digunakan karena project ini mengandung submodule (`rgb-to-skeleton`).
+> **`--recursive`** wajib digunakan karena project ini mengandung submodule (`rgb-to-skeleton-mediapipe`).
 
 ### 2. Buat environment Conda
 
@@ -315,17 +314,17 @@ Tersedia 30 kalimat (S001–S030) yang dapat dipilih sebagai ground truth. Dafta
 
 ---
 
-## `rgb-to-skeleton` Module
+## `rgb-to-skeleton-mediapipe` Module
 
 Modul ini bertanggung jawab atas konversi video RGB ke skeleton keypoint.
 
 | Submodul | Fungsi |
 |---|---|
 | `extractor/` | Ekstraksi keypoint menggunakan MediaPipe Holistic (86 titik) |
-| `data/` | `SkeletonSequence` — container in-memory `(T, K, C)` |
+| `data/` | Output sementara video preview & json |
 | `visualizer/` | Generator preview: RGB, skeleton-only, overlay |
 | `core/pipeline.py` | Orkestrasi pipeline |
 | `core/cli.py` | Argument parser CLI |
-| `utils/` | Logger, stderr filters |
+| `config/` | Path & keypoint layout config |
 
 > **Catatan:** MediaPipe Holistic membutuhkan versi `<= 0.10.14`.
