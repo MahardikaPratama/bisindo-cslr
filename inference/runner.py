@@ -70,7 +70,7 @@ class InferenceRunner:
             **self.preprocessor.summary(),
         }
 
-    def run_return(self, frames: np.ndarray, sentence_id: str) -> dict:
+    def run_return(self, frames: np.ndarray, sentence_id: str, ground_truth_text: str = None) -> dict:
         import time as _time
 
         if frames is None or frames.shape[0] < 1:
@@ -100,7 +100,10 @@ class InferenceRunner:
 
         prediction = prediction_bilstm
 
-        ground_truth = self.gt_lookup.get(sentence_id)
+        if ground_truth_text:
+            ground_truth = ground_truth_text
+        else:
+            ground_truth = self.gt_lookup.get(sentence_id)
         if ground_truth is None:
             gt_display = "[NOT FOUND]"
             wer_val = 1.0

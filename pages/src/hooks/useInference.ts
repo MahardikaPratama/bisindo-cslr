@@ -65,69 +65,64 @@ export function useInference() {
       if (signal.aborted) throw new Error('Aborted');
       setStepStatus('rgb-video', 'completed');
 
-      // ── STEP 2: Skeleton Extraction + Inference (satu request ke /api/inference) ──
+      // ── STEP 2: Skeleton Extraction ──
       setCurrentStep('skeleton-ext');
       setStepStatus('skeleton-ext', 'running');
       appendLog('PROCESS', 'Uploading video to backend. Running MediaPipe Holistic skeleton extraction...');
 
-      const formData = new FormData();
-      formData.append('video', videoFile);
-      formData.append('sentence_id', selectedGroundTruth.id);
-      // Only append config_name if user explicitly selected one; otherwise let backend use its default
-      if (selectedConfig) formData.append('config_name', selectedConfig);
+      const extractFormData = new FormData();
+      extractFormData.append('video', videoFile);
 
-      const response = await fetch(`${API_BASE}/api/inference`, {
+      const extractResponse = await fetch(`${API_BASE}/api/extract_skeleton`, {
         method: 'POST',
-        body: formData,
+        body: extractFormData,
         signal,
       });
 
-      if (!response.ok) {
-        const errorDetail = await response
-          .json()
-          .catch(() => ({ detail: 'Inference pipeline failed' }));
-        throw new Error(errorDetail.detail || `Server error ${response.status}`);
+      if (!extractResponse.ok) {
+        const errorDetail = await extractResponse.json().catch(() => ({ detail: 'Skeleton extraction failed' }));
+        throw new Error(errorDetail.detail || `Server error ${extractResponse.status}`);
       }
 
-      const result = await response.json();
-      const numFrames: number = result.num_frames || 0;
-      const numKeypoints: number = result.num_keypoints || 86;
-      const inferenceData = result.inference || {};
+      const extractResult = await extractResponse.json();
+      const videoId = extractResult.video_id;
+      const numFrames: number = extractResult.num_frames || 0;
+      const numKeypoints: number = extractResult.num_keypoints || 86;
 
-      // Simpan preview URLs
-      setVideoPreviews(result.previews);
-      appendLog(
-        'INFO',
-        `Skeleton extraction completed — ${numKeypoints} keypoints × ${numFrames} frames.`
-      );
+      // Simpan preview URLs dan selesaikan step 2
+      setVideoPreviews(extractResult.previews);
+      appendLog('INFO', `Skeleton extraction completed — ${numKeypoints} keypoints × ${numFrames} frames.`);
       setStepStatus('skeleton-ext', 'completed');
 
-      await sleep(200);
-      if (signal.aborted) throw new Error('Aborted');
-
-      // ── STEP 3: Preprocess (animasi saja, sudah selesai di BE) ──
+      // ── STEP 3 & 4 & 5: Predict (Preprocess, Inference, WER) ──
       setCurrentStep('preprocess');
       setStepStatus('preprocess', 'running');
-      appendLog(
-        'PROCESS',
-        'Applying coordinate selection (hand21), motion features, normalization & padding...'
-      );
-      await sleep(400);
-      if (signal.aborted) throw new Error('Aborted');
+      appendLog('PROCESS', 'Requesting backend to run CSLR inference (Preprocessing & Cosign Model)...');
+
+      const predictFormData = new FormData();
+      predictFormData.append('video_id', videoId);
+      predictFormData.append('sentence_id', selectedGroundTruth.id);
+      if (selectedConfig) predictFormData.append('config_name', selectedConfig);
+
+      const predictResponse = await fetch(`${API_BASE}/api/predict`, {
+        method: 'POST',
+        body: predictFormData,
+        signal,
+      });
+
+      if (!predictResponse.ok) {
+        const errorDetail = await predictResponse.json().catch(() => ({ detail: 'Prediction failed' }));
+        throw new Error(errorDetail.detail || `Server error ${predictResponse.status}`);
+      }
+
+      const predictResult = await predictResponse.json();
+      const inferenceData = predictResult.inference || {};
+
       setStepStatus('preprocess', 'completed');
-
-      await sleep(150);
-
-      // ── STEP 4: Inference ──
+      
       setCurrentStep('inference');
-      setStepStatus('inference', 'running');
-      appendLog('PROCESS', 'Running TwoStream-CoSign forward pass on skeleton sequences...');
-      await sleep(400);
-      if (signal.aborted) throw new Error('Aborted');
-
       const inferenceMs: number = inferenceData.inference_ms || 0;
       const inferenceFps: number = inferenceData.inference_fps || 0;
-
       setTelemetry({
         model: 'TwoStream CoSign',
         inferenceMs,
@@ -136,15 +131,7 @@ export function useInference() {
       });
       setStepStatus('inference', 'completed');
 
-      await sleep(150);
-
-      // ── STEP 5: Prediction + WER ──
       setCurrentStep('prediction');
-      setStepStatus('prediction', 'running');
-      appendLog('PROCESS', 'Running CTC Beam Search Decoder. Computing WER...');
-      await sleep(300);
-      if (signal.aborted) throw new Error('Aborted');
-
       const prediction: string = inferenceData.prediction || '[EMPTY]';
       const groundTruth: string = inferenceData.ground_truth || selectedGroundTruth.text;
       const werPercent: string = inferenceData.wer_percent || 'N/A';

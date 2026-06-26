@@ -13,6 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 import re
+import numpy as np
 
 
 # Silence noisy third-party logs before importing MediaPipe / TensorFlow.
@@ -36,10 +37,18 @@ SkeletonPipeline = importlib.import_module("src.core.pipeline").SkeletonPipeline
 logger = get_logger(__name__)
 
 UPLOAD_DIR = PROJECT_ROOT / "data" / "uploads"
-PREVIEW_DIR = PROJECT_ROOT / "data" / "preview"
+PREVIEW_DIRS = {
+    "rgb": UPLOAD_DIR,
+    "skeleton": PROJECT_MODULE_DIR / "data" / "video_skeleton",
+    "overlay": PROJECT_MODULE_DIR / "data" / "video_overlay",
+}
+
+TEMP_KPS_DIR = PROJECT_ROOT / "data" / "temp_keypoints"
 
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
-PREVIEW_DIR.mkdir(parents=True, exist_ok=True)
+TEMP_KPS_DIR.mkdir(parents=True, exist_ok=True)
+for pd in PREVIEW_DIRS.values():
+    pd.mkdir(parents=True, exist_ok=True)
 
 # ---------------------------------------------------------------------------
 # Ground Truth Table (synced with pages/src/constants/ground-truth.constants.ts)
@@ -83,8 +92,7 @@ GROUND_TRUTH_TABLE: Dict[str, str] = {
 _inference_runner: Optional[Any] = None
 
 _CHECKPOINT_CANDIDATES = [
-    CSLR_PROJECT_DIR / "model" / "best_dev_00.80_epoch37_model.pt",
-    CSLR_PROJECT_DIR / "model" / "best_dev_01.30_epoch39_model.pt",
+    CSLR_PROJECT_DIR / "model" / "best_dev_01.80_epoch39_model.pt",
 ]
 CHECKPOINT_PATH = str(next((path for path in _CHECKPOINT_CANDIDATES if path.exists()), _CHECKPOINT_CANDIDATES[0]))
 CSLR_CONFIG_PATH = str(
@@ -121,23 +129,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/preview", StaticFiles(directory=str(PREVIEW_DIR)), name="preview")
-
+app.mount("/preview/rgb", StaticFiles(directory=str(PREVIEW_DIRS["rgb"])), name="preview_rgb")
+app.mount("/preview/skeleton", StaticFiles(directory=str(PREVIEW_DIRS["skeleton"])), name="preview_skeleton")
+app.mount("/preview/overlay", StaticFiles(directory=str(PREVIEW_DIRS["overlay"])), name="preview_overlay")
 
 @app.api_route("/preview_stream/{subdir}/{filename}", methods=["GET", "HEAD"])
 async def preview_stream(subdir: str, filename: str, request: Request):
-    """Range-aware streaming endpoint for preview files.
-
-    Use this URL in the frontend when the static mount doesn't support
-    partial content via a proxy/tunnel (eg. some ngrok setups).
-
-    Example: /preview_stream/rgb/9cd3d279bcb5_demo-001_rgb.mp4
-    """
-    # Prevent directory traversal
+    """Range-aware streaming endpoint for preview files."""
     if ".." in subdir or ".." in filename:
         raise HTTPException(status_code=400, detail="Invalid path")
+        
+    if subdir not in PREVIEW_DIRS:
+        raise HTTPException(status_code=404, detail="Invalid preview type")
 
-    path = PREVIEW_DIR / subdir / filename
+    path = PREVIEW_DIRS[subdir] / filename
     if not path.exists():
         raise HTTPException(status_code=404, detail="File not found")
 
@@ -312,41 +317,17 @@ async def process_preview(video: UploadFile = File(...)) -> JSONResponse:
 # ---------------------------------------------------------------------------
 # Endpoint 2: Full inference pipeline (skeleton + inference + WER)
 # ---------------------------------------------------------------------------
-@app.post("/api/inference")
-async def run_inference(
-    video: UploadFile = File(...),
-    sentence_id: str = Form(...),
-    config_name: Optional[str] = Form(None),
-) -> JSONResponse:
-    """Full pipeline: skeleton extraction → CSLR inference → WER.
-
-    Form fields:
-        video       : file video RGB (mp4/webm/avi/mov/mkv)
-        sentence_id : ID kalimat ground truth, contoh: 'S01'
-        config_name : Nama file konfigurasi preprocessing (opsional).
-                  Jika tidak dikirim, backend memakai preprocessor default
-                  yang sudah dimuat saat InferenceRunner dibuat.
-
-    Returns JSON dengan:
-        video_id, num_frames, num_keypoints, previews,
-        inference.{ground_truth, prediction, wer, wer_percent, inference_ms, inference_fps}
-    """
+@app.post("/api/extract_skeleton")
+async def extract_skeleton(video: UploadFile = File(...)) -> JSONResponse:
     if not video.filename:
         raise HTTPException(status_code=400, detail="Filename is required")
-
-    if sentence_id not in GROUND_TRUTH_TABLE:
-        raise HTTPException(
-            status_code=400,
-            detail=f"sentence_id '{sentence_id}' tidak dikenal. Pilih S01–S30.",
-        )
 
     temp_path: Optional[Path] = None
     try:
         temp_path = _save_upload(video)
         t_start = time.perf_counter()
 
-        # ── Step 1-2: Skeleton extraction ──
-        logger.info("[API] Skeleton extraction: %s | sentence_id=%s", video.filename, sentence_id)
+        logger.info("[API] Skeleton extraction: %s", video.filename)
         with NativeStderrFilter():
             pipeline = SkeletonPipeline()
             keypoints = pipeline.process_video(str(temp_path))
@@ -354,21 +335,69 @@ async def run_inference(
         if keypoints is None:
             raise HTTPException(status_code=500, detail="Failed to produce skeleton output")
 
+        video_id = temp_path.stem
+        
+        # Simpan sementara keypoints ke format npy
+        np.save(str(TEMP_KPS_DIR / f"{video_id}.npy"), keypoints)
+
         summary = {
-            "video_id": temp_path.stem,
+            "video_id": video_id,
             "num_frames": keypoints.shape[0],
             "num_keypoints": keypoints.shape[1]
         }
         previews = {
-            "rgb": None,
-            "skeleton": None,
-            "overlay": None,
+            "rgb": f"/preview_stream/rgb/{temp_path.name}",
+            "skeleton": f"/preview_stream/skeleton/{video_id}_skeleton.mp4",
+            "overlay": f"/preview_stream/overlay/{video_id}_overlay.mp4",
         }
         logger.info(
-            "[API] Preview URLs: rgb=None skeleton=None overlay=None"
+            "[API] Preview URLs: rgb=%s skeleton=%s overlay=%s",
+            previews["rgb"], previews["skeleton"], previews["overlay"]
         )
 
-        # ── Step 3-5: Preprocessing + Inference + WER ──
+        total_ms = int((time.perf_counter() - t_start) * 1000)
+
+        payload = {
+            "video_id": video_id,
+            "num_frames": summary["num_frames"],
+            "num_keypoints": summary["num_keypoints"],
+            "previews": previews,
+            "total_ms": total_ms,
+        }
+        return JSONResponse(payload)
+
+    except HTTPException:
+        raise
+    except Exception as exc:
+        logger.exception("[API] Extraction failed: %s", exc)
+        raise HTTPException(status_code=500, detail=f"Extraction pipeline failed: {str(exc)}") from exc
+    finally:
+        try:
+            video.file.close()
+        except Exception:
+            pass
+
+
+@app.post("/api/predict")
+async def predict(
+    video_id: str = Form(...),
+    sentence_id: str = Form(...),
+    config_name: Optional[str] = Form(None),
+) -> JSONResponse:
+    if sentence_id not in GROUND_TRUTH_TABLE:
+        raise HTTPException(
+            status_code=400,
+            detail=f"sentence_id '{sentence_id}' tidak dikenal. Pilih S01–S30.",
+        )
+        
+    kps_path = TEMP_KPS_DIR / f"{video_id}.npy"
+    if not kps_path.exists():
+        raise HTTPException(status_code=404, detail="Keypoints file not found. Ensure extraction ran first.")
+
+    try:
+        t_start = time.perf_counter()
+        keypoints = np.load(str(kps_path))
+
         logger.info(
             "[API] Running CSLR inference for sentence_id=%s with config=%s",
             sentence_id,
@@ -377,9 +406,6 @@ async def run_inference(
         runner = _get_inference_runner()
         logger.info("[API] Current preprocessor before optional update: %s", runner.describe_preprocessor())
 
-        # Jika frontend mengirim config_name, update preprocessor.
-        # Jika tidak, biarkan backend memakai preprocessor default yang sudah
-        # dimuat saat InferenceRunner dibuat.
         if config_name:
             if config_name == "Double_Cosign_sd.yaml":
                 config_path = str(CSLR_PROJECT_DIR / "configs" / "Double_Cosign_sd.yaml")
@@ -393,34 +419,20 @@ async def run_inference(
 
         logger.info("[API] Active preprocessor for this request: %s", runner.describe_preprocessor())
 
-        # Override GT lookup dengan GROUND_TRUTH_TABLE agar tidak bergantung JSON file
         ground_truth_text = GROUND_TRUTH_TABLE[sentence_id]
-        inference_result = runner.run_return(keypoints, sentence_id)
-
-        # Jika GT dari runner adalah [NOT FOUND] (JSON tidak tersedia),
-        # override dengan nilai dari GROUND_TRUTH_TABLE yang hardcoded
-        if inference_result["ground_truth"] == "[NOT FOUND]":
-            from inference.metrics import compute_wer_single
-            inference_result["ground_truth"] = ground_truth_text
-            wer_val = compute_wer_single(ground_truth_text, inference_result["prediction"])
-            inference_result["wer"] = round(wer_val, 6)
-            inference_result["wer_percent"] = f"{wer_val * 100:.2f}%"
+        inference_result = runner.run_return(keypoints, sentence_id, ground_truth_text=ground_truth_text)
 
         total_ms = int((time.perf_counter() - t_start) * 1000)
 
         payload = {
-            "video_id": summary.get("video_id"),
-            "num_frames": summary.get("num_frames"),
-            "num_keypoints": summary.get("num_keypoints"),
-            "previews": previews,
+            "video_id": video_id,
             "inference": inference_result,
             "total_ms": total_ms,
         }
 
         logger.info(
-            "[API] /inference done video_id=%s frames=%s gt='%s' pred='%s' wer=%s",
-            payload["video_id"],
-            payload["num_frames"],
+            "[API] /predict done video_id=%s gt='%s' pred='%s' wer=%s",
+            video_id,
             inference_result["ground_truth"],
             inference_result["prediction"],
             inference_result["wer_percent"],
@@ -431,15 +443,12 @@ async def run_inference(
     except HTTPException:
         raise
     except Exception as exc:
-        logger.exception("[API] Inference failed: %s", exc)
-        raise HTTPException(status_code=500, detail=f"Inference pipeline failed: {str(exc)}") from exc
+        logger.exception("[API] Predict failed: %s", exc)
+        raise HTTPException(status_code=500, detail=f"Prediction pipeline failed: {str(exc)}") from exc
     finally:
-        try:
-            video.file.close()
-        except Exception:
-            pass
-        if temp_path and temp_path.exists():
+        # Hapus file npy temporary jika proses selesai atau gagal
+        if kps_path.exists():
             try:
-                temp_path.unlink()
+                kps_path.unlink()
             except OSError:
                 pass

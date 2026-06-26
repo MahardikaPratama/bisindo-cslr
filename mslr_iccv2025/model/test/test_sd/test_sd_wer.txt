@@ -1,1 +1,0 @@
-[ Tue May 19 06:55:48 2026 ] [TEST_SD] Conv1D WER:  51.00%, BiLSTM WER:  5.50%

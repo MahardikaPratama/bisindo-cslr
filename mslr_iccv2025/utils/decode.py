@@ -16,8 +16,15 @@ class Decode(object):
         self.search_mode = search_mode
         self.blank_id = blank_id
         vocab = [chr(x) for x in range(20000, 20000 + num_classes)]
-        self.ctc_decoder = ctcdecode.CTCBeamDecoder(vocab, beam_width=10, blank_id=blank_id,
-                                                    num_processes=10)
+        try:
+            if self.search_mode != "max":
+                import ctcdecode
+                self.ctc_decoder = ctcdecode.CTCBeamDecoder(vocab, beam_width=10, blank_id=blank_id,
+                                                            num_processes=10)
+        except (ImportError, AttributeError) as e:
+            print(f"WARNING: Failed to initialize CTCBeamDecoder ({e}). Falling back to 'max' search mode.")
+            self.search_mode = "max"
+            self.ctc_decoder = None
 
     def decode(self, nn_output, vid_lgt, batch_first=True, probs=False):
         if not batch_first:

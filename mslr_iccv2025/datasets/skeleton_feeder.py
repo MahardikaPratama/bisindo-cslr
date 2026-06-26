@@ -22,12 +22,12 @@ class SkeletonFeeder(data.Dataset):
 
     AUGMENTATION_REGISTRY = {
         "TemporalDropout": skeleton_augmentation.TemporalDropout,
-        "TemporalCrop":    skeleton_augmentation.TemporalCrop,
+        # "TemporalCrop":    skeleton_augmentation.TemporalCrop, # Not implemented in skeleton_augmentation
         "TemporalRescale": skeleton_augmentation.TemporalRescale,
         "Jitter":          skeleton_augmentation.Jitter,
         "Scale":           skeleton_augmentation.Scale,
-        "Dropout_kp":      skeleton_augmentation.Dropout_kp,
-        "Spatial_flip":    skeleton_augmentation.Spatial_flip,
+        # "Dropout_kp":      skeleton_augmentation.Dropout_kp, # Not implemented
+        # "Spatial_flip":    skeleton_augmentation.Spatial_flip, # Not implemented
     }
 
     def __init__(

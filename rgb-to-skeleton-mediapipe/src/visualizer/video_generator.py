@@ -40,7 +40,7 @@ class VideoGenerator:
         if fps == 0 or fps is None or np.isnan(fps):
             fps = 30.0
 
-        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+        fourcc = cv2.VideoWriter_fourcc(*'avc1')
 
         # Prepare writers
         out_skel = None
