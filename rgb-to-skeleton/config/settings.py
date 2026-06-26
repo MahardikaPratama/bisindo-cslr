@@ -12,8 +12,7 @@ keypoint constants, and output switches.
 MEDIAPIPE_CONFIG = {
     "static_image_mode": False,        # False for video tracking mode
     "max_num_hands": 2,                # Detect left and right hands only
-    "model_complexity": 2,             # 0=light, 1=balanced, 2=heavy/accurate
-    "smooth_landmarks": True,          # Apply temporal smoothing
+    "model_complexity": 1,             # 0=light, 1=accurate (Hands only supports 0 or 1)
     "min_detection_confidence": 0.5,   # Minimum confidence for detection
     "min_tracking_confidence": 0.5,    # Minimum confidence for tracking
 }
