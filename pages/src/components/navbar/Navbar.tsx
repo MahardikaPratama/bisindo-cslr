@@ -8,14 +8,20 @@
  */
 
 import React from 'react';
-import { Settings, User, Cpu, Moon, Sun } from 'lucide-react';
+import { Moon, Sun, Beaker, FileBarChart, LayoutDashboard } from 'lucide-react';
 import { cn } from '../../utils/cn';
-import Badge from '../../common/Badge/Badge';
-import { NAV_LINKS } from '../../constants/nav.constants';
 import { useTheme } from '../../hooks/useTheme';
+import { NavLink } from 'react-router-dom';
 
 const Navbar = React.memo(function Navbar() {
   const { theme, toggleTheme } = useTheme();
+  
+  const navItems = [
+    { name: 'Demo', path: '/', icon: <LayoutDashboard size={18} /> },
+    { name: 'Experiment Results', path: '/results', icon: <Beaker size={18} /> },
+    { name: 'Compare Configs', path: '/compare', icon: <FileBarChart size={18} /> },
+  ];
+
   return (
     <nav
       id="main-navbar"
@@ -35,6 +41,27 @@ const Navbar = React.memo(function Navbar() {
           <span className="text-base font-semibold tracking-tight text-text-primary whitespace-nowrap">
             BISINDO CSLR Demo
           </span>
+        </div>
+
+        {/* ── Navigation Links ── */}
+        <div className="hidden md:flex items-center gap-2">
+          {navItems.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              className={({ isActive }) =>
+                cn(
+                  'flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200',
+                  isActive 
+                    ? 'bg-brand-blue/10 text-brand-blue' 
+                    : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'
+                )
+              }
+            >
+              {item.icon}
+              {item.name}
+            </NavLink>
+          ))}
         </div>
 
         {/* ── Status Badges + Icons ── */}
