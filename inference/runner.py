@@ -45,9 +45,8 @@ class InferenceRunner:
             int(k): v["gloss"] for k, v in raw_gloss_dict["id2gloss"].items()
         }
 
-        dataset_root = self._resolve_dataset_path("dataset_root")
-        anno_file = os.path.join(dataset_root, f"{annotation_split}_info.json")
-        self.gt_lookup = GroundTruthLookup(anno_file)
+        dict_file = self._resolve_dataset_path("dict_path")
+        self.gt_lookup = GroundTruthLookup(dict_file)
 
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model = self._load_model()
@@ -100,10 +99,12 @@ class InferenceRunner:
 
         prediction = prediction_bilstm
 
+        print(f"[DEBUG] gt_lookup keys: {list(self.gt_lookup._lookup.keys())}")
         if ground_truth_text:
             ground_truth = ground_truth_text
         else:
             ground_truth = self.gt_lookup.get(sentence_id)
+            
         if ground_truth is None:
             gt_display = "[NOT FOUND]"
             wer_val = 1.0

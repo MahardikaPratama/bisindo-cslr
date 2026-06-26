@@ -50,41 +50,7 @@ TEMP_KPS_DIR.mkdir(parents=True, exist_ok=True)
 for pd in PREVIEW_DIRS.values():
     pd.mkdir(parents=True, exist_ok=True)
 
-# ---------------------------------------------------------------------------
-# Ground Truth Table (synced with pages/src/constants/ground-truth.constants.ts)
-# ---------------------------------------------------------------------------
-GROUND_TRUTH_TABLE: Dict[str, str] = {
-    "S01": "AKU CIUM BADAN DIA",
-    "S02": "AKU LIHAT ADA ULAR MASUK KELAS",
-    "S03": "AKU NILAI JELEK",
-    "S04": "AKU PUSING SERING, AKU HARUS PERIKSA MANA",
-    "S05": "APA KAMU PERNAH BACA NOVEL B.INGGRIS",
-    "S06": "AYAH SAMA IBU MANA",
-    "S07": "BADAN AKU GEMUK TAPI BADAN ADIK KURUS",
-    "S08": "BUKU AKU SOBEK GEGARA DIA",
-    "S09": "DIA ANAK BAIK SAMPAI BANYAK ORANG SUKA",
-    "S10": "DIA MENGEJEK AKU",
-    "S11": "GAK BOLEH PULANG SEKARANG KAMU",
-    "S12": "GIMANA IBUMU BAIK-BAIK ATAU TIDAK",
-    "S13": "IBU AKU PUNYA KUCING SAMA IKAN",
-    "S14": "KAKAK AKU KASIH HADIAH BUAT AKU",
-    "S15": "KAMU BELAJAR BISINDO KAPAN",
-    "S16": "KAMU PERGI KEMANA",
-    "S17": "KAMU PUNYA ANGGOTA KELUARGA BERAPA",
-    "S18": "KENAPA KAMU GAK MASUK KULIAH KEMARIN",
-    "S19": "KITA ISTIRAHAT JAM BERAPA",
-    "S20": "OBAT BISA BELI TOKO OBAT MANA",
-    "S21": "ORANG JAHAT SANA PUKUL AKU BERULANG",
-    "S22": "POLISI SANA PUKUL PENCURI",
-    "S23": "RUMAH DIMANA KAMU",
-    "S24": "SANA BERITA SUDAH BANYAK RIBUAN ORANG LIHAT",
-    "S25": "SANA ENAK NASI PADANG TAPI MAHAL",
-    "S26": "SANA TOILET KOTOR",
-    "S27": "SEPATU DIA KOTOR",
-    "S28": "TONG SAMPAH ADA SEMUT BANYAK",
-    "S29": "ULANG TAHUN SELAMAT",
-    "S30": "ULAR SANA MAKAN KAMBING",
-}
+# (GROUND_TRUTH_TABLE removed: we rely on GroundTruthLookup parsing .stm files)
 
 # ---------------------------------------------------------------------------
 # Lazy-loaded InferenceRunner (loaded on first request)
@@ -384,11 +350,9 @@ async def predict(
     sentence_id: str = Form(...),
     config_name: Optional[str] = Form(None),
 ) -> JSONResponse:
-    if sentence_id not in GROUND_TRUTH_TABLE:
-        raise HTTPException(
-            status_code=400,
-            detail=f"sentence_id '{sentence_id}' tidak dikenal. Pilih S01–S30.",
-        )
+    # Validasi basic
+    if not sentence_id or not isinstance(sentence_id, str):
+        raise HTTPException(status_code=400, detail="Invalid sentence_id")
         
     kps_path = TEMP_KPS_DIR / f"{video_id}.npy"
     if not kps_path.exists():
@@ -419,11 +383,15 @@ async def predict(
 
         logger.info("[API] Active preprocessor for this request: %s", runner.describe_preprocessor())
 
-        ground_truth_text = GROUND_TRUTH_TABLE[sentence_id]
-        inference_result = runner.run_return(keypoints, sentence_id, ground_truth_text=ground_truth_text)
+        inference_result = runner.run_return(keypoints, sentence_id)
 
         total_ms = int((time.perf_counter() - t_start) * 1000)
 
+        # Merge additional metadata
+        inference_result.update({
+            "inference_ms": total_ms,
+            "inference_fps": float(keypoints.shape[0] / (total_ms / 1000.0)) if total_ms > 0 else 0.0,
+        })
         payload = {
             "video_id": video_id,
             "inference": inference_result,
@@ -432,19 +400,14 @@ async def predict(
 
         logger.info(
             "[API] /predict done video_id=%s gt='%s' pred='%s' wer=%s",
-            video_id,
-            inference_result["ground_truth"],
-            inference_result["prediction"],
-            inference_result["wer_percent"],
+            video_id, inference_result["ground_truth"], inference_result["prediction"], inference_result["wer_percent"]
         )
 
-        return JSONResponse(payload)
+        return JSONResponse(content=payload)
 
-    except HTTPException:
-        raise
-    except Exception as exc:
-        logger.exception("[API] Predict failed: %s", exc)
-        raise HTTPException(status_code=500, detail=f"Prediction pipeline failed: {str(exc)}") from exc
+    except Exception as e:
+        logger.exception("[API] Inference failed: %s", e)
+        raise HTTPException(status_code=500, detail=f"Inference failed: {str(e)}")
     finally:
         # Hapus file npy temporary jika proses selesai atau gagal
         if kps_path.exists():

@@ -29,7 +29,7 @@ class SkeletonPreprocessor:
         self.feeder.downsampling = feeder_args.get("downsampling", False)
         self.feeder.downsampling_ratio = feeder_args.get("downsampling_ratio", 0.5)
         self.feeder.downsampling_position = feeder_args.get("downsampling_position", "after")
-        self.feeder.augmentation_types = feeder_args.get("augmentation_types", [])
+        self.feeder.augmentation_types = []
         
         self.feeder.pose_idx = []
         for part in self.feeder.used_part:
@@ -58,7 +58,9 @@ class SkeletonPreprocessor:
         }
 
     def preprocess(self, frames: np.ndarray, sentence_id: str = None) -> torch.Tensor:
-        input_data = frames[:, self.feeder.pose_idx, :2]
+        # MediaPipe outputs 0.0 to 1.0. 
+        # SkeletonFeeder expects coordinates up to 10240 (because norm_div = 5119.5)
+        input_data = frames[:, self.feeder.pose_idx, :2] * 10240.0
         conf = np.zeros_like(input_data)[:, :, 0]
 
         total_motion = np.zeros(input_data.shape[0:2] + (4,))
