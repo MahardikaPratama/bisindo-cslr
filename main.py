@@ -30,7 +30,7 @@ try:
 except Exception:
     pass
 
-PROJECT_MODULE_DIR = Path(__file__).resolve().parent / "rgb-to-skeleton"
+PROJECT_MODULE_DIR = Path(__file__).resolve().parent / "rgb-to-skeleton-mediapipe"
 if str(PROJECT_MODULE_DIR) not in sys.path:
     sys.path.insert(0, str(PROJECT_MODULE_DIR))
 
@@ -39,13 +39,11 @@ warnings.filterwarnings(
     message=r"SymbolDatabase\.GetPrototype\(\) is deprecated.*",
     category=UserWarning,
 )
-stderr_filters = importlib.import_module("utils.stderr_filters")
-NativeStderrFilter = stderr_filters.NativeStderrFilter
-stderr_filters.install_filtered_stderr()
+from contextlib import nullcontext as NativeStderrFilter
 
-get_logger = importlib.import_module("utils.logger").get_logger
-SkeletonPipeline = importlib.import_module("core.pipeline").SkeletonPipeline
-parse_args = importlib.import_module("core.cli").parse_args
+get_logger = importlib.import_module("src.utils.logger").get_logger
+SkeletonPipeline = importlib.import_module("src.core.pipeline").SkeletonPipeline
+parse_args = importlib.import_module("src.core.cli").parse_args
 
 CSLR_PROJECT_DIR = Path(__file__).resolve().parent / "mslr_iccv2025"
 
@@ -106,24 +104,22 @@ def main() -> int:
 
     start_time = time.time()
     with NativeStderrFilter():
-        pipeline = SkeletonPipeline(save_to_disk=bool(getattr(args, "save_to_disk", False)), async_save=bool(getattr(args, "async_save", False)))
-        result = pipeline.process_video(input_path)
+        pipeline = SkeletonPipeline()
+        keypoints = pipeline.process_video(input_path)
 
-    skeleton = result.get("skeleton")
-    if skeleton is not None:
-        summary = skeleton.summary()
+    if keypoints is not None:
         logger.info(
             "Done video_id=%s frames=%s keypoints=%s previews=[rgb,skeleton,overlay]",
-            summary.get("video_id"),
-            summary.get("num_frames"),
-            summary.get("num_keypoints"),
+            Path(input_path).stem,
+            keypoints.shape[0],
+            keypoints.shape[1],
         )
 
     # ----------------------------------------------------------------
     # CSLR Inference (opsional — hanya jika --checkpoint diberikan)
     # ----------------------------------------------------------------
     checkpoint = getattr(args, "checkpoint", None)
-    if checkpoint is not None and skeleton is not None:
+    if checkpoint is not None and keypoints is not None:
         logger.info("[CSLR] Memulai inference pipeline.")
         try:
             from inference import InferenceRunner
@@ -141,7 +137,7 @@ def main() -> int:
                 annotation_split=annotation_split,
             )
             runner.run(
-                frames=skeleton.to_numpy(),
+                frames=keypoints,
                 sentence_id=sentence_id,
             )
         except Exception as exc:
@@ -152,25 +148,7 @@ def main() -> int:
             "Gunakan --checkpoint <path.pt> untuk mengaktifkan inference."
         )
 
-    preview_paths = {
-        "rgb": Path(result.get("preview_rgb_path") or "").name or None,
-        "skeleton": Path(result.get("preview_skeleton_path") or "").name or None,
-        "overlay": Path(result.get("preview_overlay_path") or "").name or None,
-    }
-    logger.info("Preview files: %s", preview_paths)
-
-    # If background writes were submitted, log futures and optionally wait
-    futures = result.get("futures")
-    if futures:
-        logger.info("Background write tasks submitted: %s", ", ".join(sorted(futures.keys())))
-        if not getattr(args, "async_save", False):
-            # If async_save was False, futures shouldn't exist; but guard anyway
-            for name, fut in futures.items():
-                try:
-                    fut.result()
-                    logger.info("Background task %s completed", name)
-                except Exception as exc:
-                    logger.exception("Background task %s failed: %s", name, exc)
+    logger.info("Preview files: {'rgb': None, 'skeleton': None, 'overlay': None}")
 
     elapsed = time.time() - start_time
     logger.info("Total execution time: %s", timedelta(seconds=int(elapsed)))

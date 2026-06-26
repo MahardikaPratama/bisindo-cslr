@@ -22,19 +22,18 @@ os.environ.setdefault("FLAGS_minloglevel", "3")
 os.environ.setdefault("ABSL_MIN_LOG_LEVEL", "3")
 
 PROJECT_ROOT = Path(__file__).resolve().parent
-PROJECT_MODULE_DIR = PROJECT_ROOT / "rgb-to-skeleton"
+PROJECT_MODULE_DIR = PROJECT_ROOT / "rgb-to-skeleton-mediapipe"
 CSLR_PROJECT_DIR = PROJECT_ROOT / "mslr_iccv2025"
 
 if str(PROJECT_MODULE_DIR) not in os.sys.path:
     os.sys.path.insert(0, str(PROJECT_MODULE_DIR))
 
-stderr_filters = importlib.import_module("utils.stderr_filters")
-get_logger = importlib.import_module("utils.logger").get_logger
-SkeletonPipeline = importlib.import_module("core.pipeline").SkeletonPipeline
+from contextlib import nullcontext as NativeStderrFilter
+
+get_logger = importlib.import_module("src.utils.logger").get_logger
+SkeletonPipeline = importlib.import_module("src.core.pipeline").SkeletonPipeline
 
 logger = get_logger(__name__)
-stderr_filters.install_filtered_stderr()
-NativeStderrFilter = stderr_filters.NativeStderrFilter
 
 UPLOAD_DIR = PROJECT_ROOT / "data" / "uploads"
 PREVIEW_DIR = PROJECT_ROOT / "data" / "preview"
@@ -85,6 +84,7 @@ _inference_runner: Optional[Any] = None
 
 _CHECKPOINT_CANDIDATES = [
     CSLR_PROJECT_DIR / "model" / "best_dev_00.80_epoch37_model.pt",
+    CSLR_PROJECT_DIR / "model" / "best_dev_01.30_epoch39_model.pt",
 ]
 CHECKPOINT_PATH = str(next((path for path in _CHECKPOINT_CANDIDATES if path.exists()), _CHECKPOINT_CANDIDATES[0]))
 CSLR_CONFIG_PATH = str(
@@ -264,32 +264,24 @@ async def process_preview(video: UploadFile = File(...)) -> JSONResponse:
         temp_path = _save_upload(video)
 
         with NativeStderrFilter():
-            pipeline = SkeletonPipeline(save_to_disk=False, async_save=False)
-            result: Dict[str, Any] = pipeline.process_video(str(temp_path))
+            pipeline = SkeletonPipeline()
+            keypoints = pipeline.process_video(str(temp_path))
 
-        skeleton = result.get("skeleton")
-        if skeleton is None:
+        if keypoints is None:
             raise HTTPException(status_code=500, detail="Failed to produce skeleton output")
 
-        summary = skeleton.summary()
         payload = {
-            "video_id": summary.get("video_id"),
-            "num_frames": summary.get("num_frames"),
-            "num_keypoints": summary.get("num_keypoints"),
+            "video_id": temp_path.stem,
+            "num_frames": keypoints.shape[0],
+            "num_keypoints": keypoints.shape[1],
             "previews": {
-                "rgb": _to_preview_url(result.get("preview_rgb_path")),
-                "skeleton": _to_preview_url(result.get("preview_skeleton_path")),
-                "overlay": _to_preview_url(result.get("preview_overlay_path")),
+                "rgb": None,
+                "skeleton": None,
+                "overlay": None,
             },
         }
         logger.info(
-            "[API] Preview artifacts: rgb=%s (%s bytes) skeleton=%s (%s bytes) overlay=%s (%s bytes)",
-            result.get("preview_rgb_path"),
-            _preview_file_size(result.get("preview_rgb_path")),
-            result.get("preview_skeleton_path"),
-            _preview_file_size(result.get("preview_skeleton_path")),
-            result.get("preview_overlay_path"),
-            _preview_file_size(result.get("preview_overlay_path")),
+            "[API] Preview artifacts: rgb=None skeleton=None overlay=None",
         )
         logger.info("API /preview done video_id=%s frames=%s", payload["video_id"], payload["num_frames"])
         return JSONResponse(payload)
@@ -350,30 +342,24 @@ async def run_inference(
         # ── Step 1-2: Skeleton extraction ──
         logger.info("[API] Skeleton extraction: %s | sentence_id=%s", video.filename, sentence_id)
         with NativeStderrFilter():
-            pipeline = SkeletonPipeline(save_to_disk=False, async_save=False)
-            result: Dict[str, Any] = pipeline.process_video(str(temp_path))
+            pipeline = SkeletonPipeline()
+            keypoints = pipeline.process_video(str(temp_path))
 
-        skeleton = result.get("skeleton")
-        if skeleton is None:
+        if keypoints is None:
             raise HTTPException(status_code=500, detail="Failed to produce skeleton output")
 
-        summary = skeleton.summary()
+        summary = {
+            "video_id": temp_path.stem,
+            "num_frames": keypoints.shape[0],
+            "num_keypoints": keypoints.shape[1]
+        }
         previews = {
-            "rgb": _to_preview_url(result.get("preview_rgb_path")),
-            "skeleton": _to_preview_url(result.get("preview_skeleton_path")),
-            "overlay": _to_preview_url(result.get("preview_overlay_path")),
+            "rgb": None,
+            "skeleton": None,
+            "overlay": None,
         }
         logger.info(
-            "[API] Preview URLs: rgb=%s skeleton=%s overlay=%s",
-            previews["rgb"],
-            previews["skeleton"],
-            previews["overlay"],
-        )
-        logger.info(
-            "[API] Preview file sizes: rgb=%s skeleton=%s overlay=%s",
-            _preview_file_size(result.get("preview_rgb_path")),
-            _preview_file_size(result.get("preview_skeleton_path")),
-            _preview_file_size(result.get("preview_overlay_path")),
+            "[API] Preview URLs: rgb=None skeleton=None overlay=None"
         )
 
         # ── Step 3-5: Preprocessing + Inference + WER ──
@@ -401,7 +387,7 @@ async def run_inference(
 
         # Override GT lookup dengan GROUND_TRUTH_TABLE agar tidak bergantung JSON file
         ground_truth_text = GROUND_TRUTH_TABLE[sentence_id]
-        inference_result = runner.run_return(skeleton.to_numpy(), sentence_id)
+        inference_result = runner.run_return(keypoints, sentence_id)
 
         # Jika GT dari runner adalah [NOT FOUND] (JSON tidak tersedia),
         # override dengan nilai dari GROUND_TRUTH_TABLE yang hardcoded

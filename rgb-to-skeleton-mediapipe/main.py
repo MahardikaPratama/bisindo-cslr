@@ -1,0 +1,35 @@
+#!/usr/bin/env python3
+"""
+main.py — Entry point for the RGB-to-Skeleton pipeline.
+
+Run this file directly to process one or more videos.
+See --help for all options.
+
+Examples:
+    python main.py --input data/raw/marah.mp4
+    python main.py --input data/raw/
+"""
+
+import os
+import time
+from datetime import timedelta
+from src.core.pipeline import SkeletonPipeline
+from src.core.cli import parse_args
+
+if __name__ == "__main__":
+    args = parse_args()
+    start_time = time.time()
+
+    pipeline = SkeletonPipeline()
+
+    input_path = args.input
+
+    if os.path.isdir(input_path):
+        pipeline.process_folder(input_path)
+    elif os.path.isfile(input_path):
+        pipeline.process_video(input_path)
+    else:
+        raise FileNotFoundError(f"Input path does not exist: {input_path}")
+
+    elapsed = time.time() - start_time
+    print(f"\n[DONE] Total execution time: {timedelta(seconds=int(elapsed))}")
