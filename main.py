@@ -126,7 +126,7 @@ def main() -> int:
 
             sentence_id = getattr(args, "sentence_id", None) or "UNKNOWN"
             cslr_config = getattr(args, "cslr_config", None) or str(
-                CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "normalization" / "Baseline+TN.yaml"
+                CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "baseline" / "O4.yaml"
             )
             annotation_split = getattr(args, "annotation_split", "test_sd")
 

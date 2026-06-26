@@ -5,6 +5,7 @@ Ekspor utama:
     InferenceRunner  — load model, preprocess skeleton, inferensi, hitung WER.
 """
 
-from .cslr_runner import InferenceRunner
+from .runner import InferenceRunner
+from .metrics import compute_wer_single
 
-__all__ = ["InferenceRunner"]
+__all__ = ["InferenceRunner", "compute_wer_single"]

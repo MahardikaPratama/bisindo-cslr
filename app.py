@@ -88,9 +88,9 @@ _CHECKPOINT_CANDIDATES = [
 ]
 CHECKPOINT_PATH = str(next((path for path in _CHECKPOINT_CANDIDATES if path.exists()), _CHECKPOINT_CANDIDATES[0]))
 CSLR_CONFIG_PATH = str(
-    CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "normalization" / "Baseline+MKR+TN.yaml"
+    CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "baseline" / "O4.yaml"
 )
-DEFAULT_CSLR_CONFIG_NAME = "Baseline+MKR+TN.yaml"
+DEFAULT_CSLR_CONFIG_NAME = "O4.yaml"
 
 
 def _get_inference_runner():
@@ -194,6 +194,12 @@ def _get_available_configs() -> list[str]:
     norm_dir = CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "normalization"
     if norm_dir.exists():
         for f in norm_dir.glob("*.yaml"):
+            configs.append(f.name)
+
+    # Also include baseline experiment configs
+    baseline_dir = CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "baseline"
+    if baseline_dir.exists():
+        for f in baseline_dir.glob("*.yaml"):
             configs.append(f.name)
 
     # Deduplicate and sort
@@ -377,6 +383,8 @@ async def run_inference(
         if config_name:
             if config_name == "Double_Cosign_sd.yaml":
                 config_path = str(CSLR_PROJECT_DIR / "configs" / "Double_Cosign_sd.yaml")
+            elif (CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "baseline" / config_name).exists():
+                config_path = str(CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "baseline" / config_name)
             else:
                 config_path = str(CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "normalization" / config_name)
             runner.update_preprocessor(config_path)
@@ -392,7 +400,7 @@ async def run_inference(
         # Jika GT dari runner adalah [NOT FOUND] (JSON tidak tersedia),
         # override dengan nilai dari GROUND_TRUTH_TABLE yang hardcoded
         if inference_result["ground_truth"] == "[NOT FOUND]":
-            from inference.cslr_runner import compute_wer_single
+            from inference.metrics import compute_wer_single
             inference_result["ground_truth"] = ground_truth_text
             wer_val = compute_wer_single(ground_truth_text, inference_result["prediction"])
             inference_result["wer"] = round(wer_val, 6)
