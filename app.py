@@ -46,36 +46,36 @@ PREVIEW_DIR.mkdir(parents=True, exist_ok=True)
 # Ground Truth Table (synced with pages/src/constants/ground-truth.constants.ts)
 # ---------------------------------------------------------------------------
 GROUND_TRUTH_TABLE: Dict[str, str] = {
-    "S001": "AKU CIUM BADAN DIA",
-    "S002": "AKU LIHAT ADA ULAR MASUK KELAS",
-    "S003": "AKU NILAI JELEK",
-    "S004": "AKU PUSING SERING, AKU HARUS PERIKSA MANA",
-    "S005": "APA KAMU PERNAH BACA NOVEL B.INGGRIS",
-    "S006": "AYAH SAMA IBU MANA",
-    "S007": "BADAN AKU GEMUK TAPI BADAN ADIK KURUS",
-    "S008": "BUKU AKU SOBEK GEGARA DIA",
-    "S009": "DIA ANAK BAIK SAMPAI BANYAK ORANG SUKA",
-    "S010": "DIA MENGEJEK AKU",
-    "S011": "GAK BOLEH PULANG SEKARANG KAMU",
-    "S012": "GIMANA IBUMU BAIK-BAIK ATAU TIDAK",
-    "S013": "IBU AKU PUNYA KUCING SAMA IKAN",
-    "S014": "KAKAK AKU KASIH HADIAH BUAT AKU",
-    "S015": "KAMU BELAJAR BISINDO KAPAN",
-    "S016": "KAMU PERGI KEMANA",
-    "S017": "KAMU PUNYA ANGGOTA KELUARGA BERAPA",
-    "S018": "KENAPA KAMU GAK MASUK KULIAH KEMARIN",
-    "S019": "KITA ISTIRAHAT JAM BERAPA",
-    "S020": "OBAT BISA BELI TOKO OBAT MANA",
-    "S021": "ORANG JAHAT SANA PUKUL AKU BERULANG",
-    "S022": "POLISI SANA PUKUL PENCURI",
-    "S023": "RUMAH DIMANA KAMU",
-    "S024": "SANA BERITA SUDAH BANYAK RIBUAN ORANG LIHAT",
-    "S025": "SANA ENAK NASI PADANG TAPI MAHAL",
-    "S026": "SANA TOILET KOTOR",
-    "S027": "SEPATU DIA KOTOR",
-    "S028": "TONG SAMPAH ADA SEMUT BANYAK",
-    "S029": "ULANG TAHUN SELAMAT",
-    "S030": "ULAR SANA MAKAN KAMBING",
+    "S01": "AKU CIUM BADAN DIA",
+    "S02": "AKU LIHAT ADA ULAR MASUK KELAS",
+    "S03": "AKU NILAI JELEK",
+    "S04": "AKU PUSING SERING, AKU HARUS PERIKSA MANA",
+    "S05": "APA KAMU PERNAH BACA NOVEL B.INGGRIS",
+    "S06": "AYAH SAMA IBU MANA",
+    "S07": "BADAN AKU GEMUK TAPI BADAN ADIK KURUS",
+    "S08": "BUKU AKU SOBEK GEGARA DIA",
+    "S09": "DIA ANAK BAIK SAMPAI BANYAK ORANG SUKA",
+    "S10": "DIA MENGEJEK AKU",
+    "S11": "GAK BOLEH PULANG SEKARANG KAMU",
+    "S12": "GIMANA IBUMU BAIK-BAIK ATAU TIDAK",
+    "S13": "IBU AKU PUNYA KUCING SAMA IKAN",
+    "S14": "KAKAK AKU KASIH HADIAH BUAT AKU",
+    "S15": "KAMU BELAJAR BISINDO KAPAN",
+    "S16": "KAMU PERGI KEMANA",
+    "S17": "KAMU PUNYA ANGGOTA KELUARGA BERAPA",
+    "S18": "KENAPA KAMU GAK MASUK KULIAH KEMARIN",
+    "S19": "KITA ISTIRAHAT JAM BERAPA",
+    "S20": "OBAT BISA BELI TOKO OBAT MANA",
+    "S21": "ORANG JAHAT SANA PUKUL AKU BERULANG",
+    "S22": "POLISI SANA PUKUL PENCURI",
+    "S23": "RUMAH DIMANA KAMU",
+    "S24": "SANA BERITA SUDAH BANYAK RIBUAN ORANG LIHAT",
+    "S25": "SANA ENAK NASI PADANG TAPI MAHAL",
+    "S26": "SANA TOILET KOTOR",
+    "S27": "SEPATU DIA KOTOR",
+    "S28": "TONG SAMPAH ADA SEMUT BANYAK",
+    "S29": "ULANG TAHUN SELAMAT",
+    "S30": "ULAR SANA MAKAN KAMBING",
 }
 
 # ---------------------------------------------------------------------------
@@ -324,7 +324,7 @@ async def run_inference(
 
     Form fields:
         video       : file video RGB (mp4/webm/avi/mov/mkv)
-        sentence_id : ID kalimat ground truth, contoh: 'S001'
+        sentence_id : ID kalimat ground truth, contoh: 'S01'
         config_name : Nama file konfigurasi preprocessing (opsional).
                   Jika tidak dikirim, backend memakai preprocessor default
                   yang sudah dimuat saat InferenceRunner dibuat.
@@ -339,7 +339,7 @@ async def run_inference(
     if sentence_id not in GROUND_TRUTH_TABLE:
         raise HTTPException(
             status_code=400,
-            detail=f"sentence_id '{sentence_id}' tidak dikenal. Pilih S001–S030.",
+            detail=f"sentence_id '{sentence_id}' tidak dikenal. Pilih S01–S30.",
         )
 
     temp_path: Optional[Path] = None

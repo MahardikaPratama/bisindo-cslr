@@ -23,19 +23,18 @@ const HeroSection = React.memo(function HeroSection({
   return (
     <section
       id="hero-section"
-      className="pt-32 pb-12 px-6 max-w-screen-xl mx-auto animate-slide-up"
+      className="max-w-screen-xl px-6 pt-32 pb-12 mx-auto animate-slide-up"
     >
       <div className="max-w-2xl">
         {/* ── Tag line ── */}
-        <div className="flex items-center gap-2 mb-5">
-          <span className="h-px w-8 bg-brand-blue" />
-          <span className="text-xs font-semibold text-brand-blue-light uppercase tracking-widest">
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-xs font-semibold tracking-widest uppercase text-brand-blue-light">
             KoTA 502 — Research Demo
           </span>
         </div>
 
         {/* ── H1 Heading ── */}
-        <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-5 text-text-primary">
+        <h1 className="mb-5 text-4xl font-bold leading-tight md:text-5xl text-text-primary">
           BISINDO{' '}
           <span className="text-brand-blue-light">Continuous</span>
           <br />
@@ -47,7 +46,7 @@ const HeroSection = React.memo(function HeroSection({
         </h1>
 
         {/* ── Description ── */}
-        <p className="text-text-secondary text-base leading-relaxed mb-8 max-w-xl">
+        <p className="max-w-xl mb-8 text-base leading-relaxed text-text-secondary">
           Upload a sign language video and run end-to-end inference from raw RGB video to
           precise gloss prediction. Leveraging state-of-the-art skeleton extraction and
           temporal feature fusion.

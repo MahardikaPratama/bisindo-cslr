@@ -8,6 +8,7 @@
  */
 
 import React from 'react';
+import Navbar from './components/navbar/Navbar';
 import HeroSection from './components/hero-section/HeroSection';
 import VideoInputPanel from './components/video-input-panel/VideoInputPanel';
 import ConsoleLogPanel from './components/console-log-panel/ConsoleLogPanel';
@@ -38,11 +39,12 @@ function App() {
       return;
     }
     // Load first demo
-    await loadDemo(demos[0].id);
+    await loadDemo();
   };
 
   return (
     <div className="relative flex flex-col min-h-screen overflow-hidden bg-surface-bg">
+      <Navbar />
       {/* Background Grid Decoration */}
       <div className="absolute inset-0 z-0 pointer-events-none bg-hero-grid" />
 

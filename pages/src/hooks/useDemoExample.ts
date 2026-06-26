@@ -23,12 +23,12 @@ export function useDemoExample() {
   }));
   const { setSelectedGroundTruth } = useGroundTruthStore();
 
-  const loadDemo = useCallback(async (demoId: string) => {
+  const loadDemo = useCallback(async () => {
     try {
       // Find demo
-      const demo = DEMO_EXAMPLES.find((d) => d.id === demoId);
+      const demo = DEMO_EXAMPLES[0];
       if (!demo) {
-        console.error(`Demo ${demoId} tidak ditemukan`);
+        console.error(`Demo tidak ditemukan`);
         return;
       }
 
@@ -48,7 +48,7 @@ export function useDemoExample() {
       }
 
       const blob = await response.blob();
-      const file = new File([blob], `${demo.id}.mp4`, { type: 'video/mp4' });
+      const file = new File([blob], `demo-video.mp4`, { type: 'video/mp4' });
 
       // Create object URL
       const objectUrl = URL.createObjectURL(blob);
@@ -59,11 +59,11 @@ export function useDemoExample() {
       
       video.onloadedmetadata = () => {
         const metadata = {
+          filename: file.name,
           duration: video.duration,
-          width: video.videoWidth,
-          height: video.videoHeight,
           fps: 30, // Default, ideally extract dari file
           resolution: `${video.videoWidth}x${video.videoHeight}`,
+          fileSize: file.size,
         };
 
         // Set video ke store
