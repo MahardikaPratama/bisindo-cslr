@@ -16,7 +16,7 @@
 
 **Undergraduate Thesis · Politeknik Negeri Bandung · 2026**
 
-[Mahardika Pratama](mailto:) (221524044) &nbsp;·&nbsp; [Sarah](mailto:) (221524059)
+**Mahardika Pratama** (221524044) &nbsp;·&nbsp; **Sarah** (221524059)
 
 *D-IV Teknik Informatika — Jurusan Teknik Komputer dan Informatika*
 
@@ -49,7 +49,7 @@ The pipeline operates in four main stages:
 This repository provides three interfaces:
 - **CLI (`main.py`)**: For headless bulk processing and evaluation.
 - **REST API (`app.py`)**: A FastAPI backend providing inference endpoints.
-- **Web App (`pages/`)**: An interactive React-based dashboard for real-time visualization.
+- **Web App (`pages/`)**: An interactive React-based dashboard for real-time visualization, experiment results analysis, and model configuration comparisons.
 
 ---
 
@@ -86,7 +86,7 @@ conda activate bisindo-cslr
 
 ### 3. Model Weights
 Download the pre-trained model weights (~680 MB) and place them in the correct directory:
-- **Destination**: `mslr_iccv2025/model/best_dev_01.30_epoch39_model.pt`
+- **Destination**: `mslr_iccv2025/model/O4_model.pt`
 - **Download Link**: [Google Drive](https://drive.google.com/file/d/1PzImlzsB-D21kZogX9qR4DPaiNm65f5z/view?usp=drive_link)
 
 ### 4. Frontend Setup

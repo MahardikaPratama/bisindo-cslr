@@ -1,29 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { cn } from '../utils/cn';
-
-const AVAILABLE_CONFIGS = [
-  'B1', 'B2', 'D2', 'D4', 'D6', 'D7', 'D8',
-  'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9', 'M10',
-  'O2', 'O3', 'O4'
-];
+import ConfigDropdown from '../common/ConfigDropdown/ConfigDropdown';
 
 export default function ExperimentResultsPage() {
   const [selectedConfig, setSelectedConfig] = useState('D2');
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [filterMode, setFilterMode] = useState<'all' | 'errors'>('all');
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setDropdownOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   useEffect(() => {
     async function loadData() {
@@ -94,28 +77,11 @@ export default function ExperimentResultsPage() {
 
         <div className="flex items-center gap-4 bg-surface-card p-2 rounded-xl border border-surface-border">
           <label className="text-sm font-medium text-text-secondary pl-2">Config:</label>
-          <div className="relative" ref={dropdownRef}>
-            <button
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="bg-surface-bg border border-surface-border text-text-primary text-sm rounded-lg focus:ring-brand-blue focus:border-brand-blue flex items-center justify-between p-2.5 min-w-[120px]"
-            >
-              {selectedConfig}
-              <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-            </button>
-            {dropdownOpen && (
-              <div className="absolute top-full mt-1 left-0 w-full bg-surface-bg border border-surface-border rounded-lg shadow-lg z-50 max-h-48 overflow-y-auto">
-                {AVAILABLE_CONFIGS.map(cfg => (
-                  <div
-                    key={cfg}
-                    className={cn("p-2 cursor-pointer hover:bg-surface-hover text-sm", selectedConfig === cfg ? "bg-surface-hover font-bold text-brand-blue" : "text-text-primary")}
-                    onClick={() => { setSelectedConfig(cfg); setDropdownOpen(false); }}
-                  >
-                    {cfg}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          <ConfigDropdown
+            value={selectedConfig}
+            onChange={setSelectedConfig}
+            buttonClassName="border-surface-border focus:ring-brand-blue focus:border-brand-blue p-2.5 min-w-[120px]"
+          />
 
           <div className="h-6 w-px bg-surface-border mx-2"></div>
 

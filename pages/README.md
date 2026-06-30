@@ -17,7 +17,7 @@
 
 **Undergraduate Thesis · Politeknik Negeri Bandung · 2026**
 
-[Mahardika Pratama](mailto:) (221524044) &nbsp;·&nbsp; [Sarah](mailto:) (221524059)
+**Mahardika Pratama** (221524044) &nbsp;·&nbsp; **Sarah** (221524059)
 
 *D-IV Teknik Informatika — Jurusan Teknik Komputer dan Informatika*
 
@@ -39,6 +39,8 @@ This front-end application connects to the PyTorch/FastAPI backend to simulate t
 - **🔄 5-Stage Pipeline Visualization**: Real-time status tracking of the inference pipeline (RGB Video → Skeleton Extraction → Preprocessing → Inference → Prediction).
 - **👁️ Synchronized Dual-View**: A side-by-side video playback overlaying the MediaPipe 2D skeletal mapping on top of the raw RGB footage.
 - **📊 System Telemetry & Metrics**: Detailed reporting on system performance, including Inference Latency, Inference Speed (seq/s), and Word Error Rate (WER) evaluations.
+- **📈 Experiment Results Dashboard**: Analyze predictions against ground truth, view WER, and evaluate model performance metrics from exported experiment data.
+- **⚖️ Configuration Comparison**: Side-by-side comparison of different model configurations to easily track inference speed and error rate improvements.
 - **📝 Live Console Logging**: An integrated terminal panel that streams background execution logs, facilitating seamless debugging and monitoring.
 - **⚡ Domain-Driven State Management**: A highly performant architecture powered by Zustand, ensuring isolated domain states and eliminating prop-drilling.
 

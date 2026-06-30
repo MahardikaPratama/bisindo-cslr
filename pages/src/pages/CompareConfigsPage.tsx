@@ -1,12 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { cn } from '../utils/cn';
 import { TrendingDown, TrendingUp, Minus } from 'lucide-react';
-
-const AVAILABLE_CONFIGS = [
-  'B1', 'B2', 'D2', 'D4', 'D6', 'D7', 'D8',
-  'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9', 'M10',
-  'O2', 'O3', 'O4'
-];
+import ConfigDropdown from '../common/ConfigDropdown/ConfigDropdown';
 
 export default function CompareConfigsPage() {
   const [configA, setConfigA] = useState('D2');
@@ -14,23 +9,6 @@ export default function CompareConfigsPage() {
   const [dataA, setDataA] = useState<any>(null);
   const [dataB, setDataB] = useState<any>(null);
   const [loading, setLoading] = useState(false);
-  const [dropdownAOpen, setDropdownAOpen] = useState(false);
-  const [dropdownBOpen, setDropdownBOpen] = useState(false);
-  const dropdownARef = useRef<HTMLDivElement>(null);
-  const dropdownBRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (dropdownARef.current && !dropdownARef.current.contains(event.target as Node)) {
-        setDropdownAOpen(false);
-      }
-      if (dropdownBRef.current && !dropdownBRef.current.contains(event.target as Node)) {
-        setDropdownBOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   useEffect(() => {
     async function loadData() {
@@ -130,28 +108,12 @@ export default function CompareConfigsPage() {
         <div className="flex items-center gap-4 bg-surface-card p-3 rounded-xl border border-surface-border shadow-sm">
           <div className="flex flex-col">
             <label className="text-xs font-semibold text-brand-blue mb-1 uppercase tracking-wider">Base (A)</label>
-            <div className="relative" ref={dropdownARef}>
-              <button 
-                onClick={() => setDropdownAOpen(!dropdownAOpen)}
-                className="bg-surface-bg border border-brand-blue/30 text-text-primary text-sm rounded-lg focus:ring-brand-blue focus:border-brand-blue flex items-center justify-between p-2 min-w-[100px] outline-none"
-              >
-                {configA}
-                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-              </button>
-              {dropdownAOpen && (
-                <div className="absolute top-full mt-1 left-0 w-full bg-surface-bg border border-surface-border rounded-lg shadow-lg z-50 max-h-48 overflow-y-auto">
-                  {AVAILABLE_CONFIGS.map(cfg => (
-                    <div 
-                      key={cfg} 
-                      className={cn("p-2 cursor-pointer hover:bg-surface-hover text-sm", configA === cfg ? "bg-surface-hover font-bold text-brand-blue" : "text-text-primary")}
-                      onClick={() => { setConfigA(cfg); setDropdownAOpen(false); }}
-                    >
-                      {cfg}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+            <ConfigDropdown
+              value={configA}
+              onChange={setConfigA}
+              buttonClassName="border-brand-blue/30 focus:ring-brand-blue focus:border-brand-blue"
+              activeItemClassName="text-brand-blue"
+            />
           </div>
 
           <div className="flex items-center justify-center text-text-muted mt-5">
@@ -160,28 +122,12 @@ export default function CompareConfigsPage() {
 
           <div className="flex flex-col">
             <label className="text-xs font-semibold text-purple-400 mb-1 uppercase tracking-wider">Compare (B)</label>
-            <div className="relative" ref={dropdownBRef}>
-              <button 
-                onClick={() => setDropdownBOpen(!dropdownBOpen)}
-                className="bg-surface-bg border border-purple-500/30 text-text-primary text-sm rounded-lg focus:ring-purple-400 focus:border-purple-400 flex items-center justify-between p-2 min-w-[100px] outline-none"
-              >
-                {configB}
-                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-              </button>
-              {dropdownBOpen && (
-                <div className="absolute top-full mt-1 left-0 w-full bg-surface-bg border border-surface-border rounded-lg shadow-lg z-50 max-h-48 overflow-y-auto">
-                  {AVAILABLE_CONFIGS.map(cfg => (
-                    <div 
-                      key={cfg} 
-                      className={cn("p-2 cursor-pointer hover:bg-surface-hover text-sm", configB === cfg ? "bg-surface-hover font-bold text-purple-400" : "text-text-primary")}
-                      onClick={() => { setConfigB(cfg); setDropdownBOpen(false); }}
-                    >
-                      {cfg}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+            <ConfigDropdown
+              value={configB}
+              onChange={setConfigB}
+              buttonClassName="border-purple-500/30 focus:ring-purple-400 focus:border-purple-400"
+              activeItemClassName="text-purple-400"
+            />
           </div>
         </div>
       </div>
