@@ -87,7 +87,7 @@ conda activate bisindo-cslr
 ### 3. Model Weights
 Download the pre-trained model weights (~680 MB) and place them in the correct directory:
 - **Destination**: `mslr_iccv2025/model/O4_model.pt`
-- **Download Link**: [Google Drive](https://drive.google.com/file/d/1PzImlzsB-D21kZogX9qR4DPaiNm65f5z/view?usp=drive_link)
+- **Download Link**: [Google Drive](https://drive.google.com/file/d/18bqBybTXWK7tm80RHJxxYZ4t0PyjUzfQ/view?usp=drive_link)
 
 ### 4. Frontend Setup
 ```bash
