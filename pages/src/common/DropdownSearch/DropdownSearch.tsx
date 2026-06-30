@@ -17,7 +17,7 @@ export interface DropdownSearchItem {
   [key: string]: any;
 }
 
-interface DropdownSearchProps<T extends DropdownSearchItem> {
+export interface DropdownSearchProps<T extends DropdownSearchItem> {
   /** Label untuk dropdown */
   label: string;
   /** Placeholder text */

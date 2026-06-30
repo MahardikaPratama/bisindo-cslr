@@ -25,7 +25,7 @@ const getStatusClasses = (status: PipelineStatus) => {
   }
 };
 
-const getLineClasses = (status: PipelineStatus, nextStatus?: PipelineStatus) => {
+const getLineClasses = (status: PipelineStatus, _nextStatus?: PipelineStatus) => {
   if (status === 'completed' || status === 'running') {
     return 'bg-brand-blue';
   }

@@ -18,7 +18,7 @@ import GroundTruthSelector from '../ground-truth-selector/GroundTruthSelector';
 import type { VideoInputPanelProps } from './VideoInputPanel.types';
 import { cn } from '../../utils/cn';
 
-const VideoInputPanel = React.memo(function VideoInputPanel({ onFileInputRef }: VideoInputPanelProps) {
+const VideoInputPanel = React.memo(function VideoInputPanel(_props: VideoInputPanelProps) {
   const { videoFile, videoMetadata, videoObjectUrl, videoStatus } = useVideoStore();
 
   return (

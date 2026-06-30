@@ -10,7 +10,6 @@ import React from 'react';
 import DropdownSearch from '../../common/DropdownSearch/DropdownSearch';
 import { useGroundTruthStore } from '../../store/useGroundTruthStore';
 import { GROUND_TRUTH_SENTENCES } from '../../constants/ground-truth.constants';
-import { cn } from '../../utils/cn';
 import type { GroundTruthItem } from '../../store/useGroundTruthStore';
 
 interface GroundTruthSelectorProps {
