@@ -3,6 +3,7 @@
   "configuration_name": "M8",
   "tests": {
     "test_si_major": {
+      "inference_speed": 29.85,
       "summary": {
         "global": {
           "sentences": 30,
@@ -512,6 +513,7 @@
       ]
     },
     "test_si_minor": {
+      "inference_speed": 30.65,
       "summary": {
         "global": {
           "sentences": 27,

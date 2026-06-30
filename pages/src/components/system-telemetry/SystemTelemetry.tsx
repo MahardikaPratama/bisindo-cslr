@@ -38,9 +38,9 @@ const SystemTelemetry = React.memo(function SystemTelemetry() {
           </span>
         </div>
 
-        {/* FPS */}
+        {/* Speed (seq/s) */}
         <div className="flex items-center justify-between">
-          <span className="text-text-secondary">FPS</span>
+          <span className="text-text-secondary">Speed (seq/s)</span>
           <span className="font-bold text-text-primary font-mono">
             {telemetry?.fps ? formatFps(telemetry.fps) : '-'}
           </span>

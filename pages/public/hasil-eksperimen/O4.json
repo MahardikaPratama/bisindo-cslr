@@ -3,6 +3,7 @@
   "configuration_name": "O4",
   "tests": {
     "test_si_major": {
+      "inference_speed": 27.76,
       "summary": {
         "global": {
           "sentences": 30,
@@ -512,6 +513,7 @@
       ]
     },
     "test_si_minor": {
+      "inference_speed": 27.66,
       "summary": {
         "global": {
           "sentences": 27,

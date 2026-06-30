@@ -3,6 +3,7 @@
   "configuration_name": "M9",
   "tests": {
     "test_si_major": {
+      "inference_speed": 30.84,
       "summary": {
         "global": {
           "sentences": 30,
@@ -512,6 +513,7 @@
       ]
     },
     "test_si_minor": {
+      "inference_speed": 29.83,
       "summary": {
         "global": {
           "sentences": 27,

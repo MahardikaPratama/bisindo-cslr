@@ -3,6 +3,7 @@
   "configuration_name": "M6",
   "tests": {
     "test_si_major": {
+      "inference_speed": 28.91,
       "summary": {
         "global": {
           "sentences": 30,
@@ -512,6 +513,7 @@
       ]
     },
     "test_si_minor": {
+      "inference_speed": 29.4,
       "summary": {
         "global": {
           "sentences": 27,

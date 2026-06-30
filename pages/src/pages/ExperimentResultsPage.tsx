@@ -43,6 +43,8 @@ export default function ExperimentResultsPage() {
 
   const majorGlobal = data?.tests?.test_si_major?.summary?.global;
   const minorGlobal = data?.tests?.test_si_minor?.summary?.global;
+  const majorSpeed = data?.tests?.test_si_major?.inference_speed;
+  const minorSpeed = data?.tests?.test_si_minor?.inference_speed;
 
   const majorPreds = data?.tests?.test_si_major?.predictions || [];
   const minorPreds = data?.tests?.test_si_minor?.predictions || [];
@@ -57,7 +59,7 @@ export default function ExperimentResultsPage() {
     const minorEvalStr = minor?.alignment?.eval || '';
 
     const hasError = majorEvalStr.includes('D') || majorEvalStr.includes('S') || majorEvalStr.includes('I') ||
-                     minorEvalStr.includes('D') || minorEvalStr.includes('S') || minorEvalStr.includes('I');
+      minorEvalStr.includes('D') || minorEvalStr.includes('S') || minorEvalStr.includes('I');
 
     return {
       utterance_id: major.utterance_id,
@@ -89,11 +91,11 @@ export default function ExperimentResultsPage() {
           <h1 className="text-3xl font-bold text-text-primary tracking-tight">Experiment Results</h1>
           <p className="text-text-secondary mt-1">Analyze major and minor predictions side-by-side.</p>
         </div>
-        
+
         <div className="flex items-center gap-4 bg-surface-card p-2 rounded-xl border border-surface-border">
           <label className="text-sm font-medium text-text-secondary pl-2">Config:</label>
           <div className="relative" ref={dropdownRef}>
-            <button 
+            <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
               className="bg-surface-bg border border-surface-border text-text-primary text-sm rounded-lg focus:ring-brand-blue focus:border-brand-blue flex items-center justify-between p-2.5 min-w-[120px]"
             >
@@ -103,8 +105,8 @@ export default function ExperimentResultsPage() {
             {dropdownOpen && (
               <div className="absolute top-full mt-1 left-0 w-full bg-surface-bg border border-surface-border rounded-lg shadow-lg z-50 max-h-48 overflow-y-auto">
                 {AVAILABLE_CONFIGS.map(cfg => (
-                  <div 
-                    key={cfg} 
+                  <div
+                    key={cfg}
                     className={cn("p-2 cursor-pointer hover:bg-surface-hover text-sm", selectedConfig === cfg ? "bg-surface-hover font-bold text-brand-blue" : "text-text-primary")}
                     onClick={() => { setSelectedConfig(cfg); setDropdownOpen(false); }}
                   >
@@ -118,7 +120,7 @@ export default function ExperimentResultsPage() {
           <div className="h-6 w-px bg-surface-border mx-2"></div>
 
           <label className="text-sm font-medium text-text-secondary">Filter:</label>
-          <select 
+          <select
             value={filterMode}
             onChange={(e) => setFilterMode(e.target.value as 'all' | 'errors')}
             className="bg-surface-bg border border-surface-border text-text-primary text-sm rounded-lg focus:ring-brand-blue focus:border-brand-blue block p-2.5"
@@ -136,7 +138,10 @@ export default function ExperimentResultsPage() {
           {/* Summary Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-surface-card border border-brand-blue/30 rounded-2xl p-6 shadow-panel-glow">
-              <h3 className="text-lg font-bold text-brand-blue mb-4">SI Major Summary</h3>
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-bold text-brand-blue">SI Major Summary</h3>
+                {majorSpeed !== undefined && <span className="text-xs font-semibold bg-brand-blue/10 text-brand-blue px-2.5 py-1 rounded-lg border border-brand-blue/20">Inference Speed: {majorSpeed} ms</span>}
+              </div>
               {majorGlobal ? (
                 <div className="grid grid-cols-4 gap-4 text-center">
                   <div className="bg-surface-bg rounded-lg p-3">
@@ -161,7 +166,10 @@ export default function ExperimentResultsPage() {
             </div>
 
             <div className="bg-surface-card border border-purple-500/30 rounded-2xl p-6 shadow-panel">
-              <h3 className="text-lg font-bold text-purple-400 mb-4">SI Minor Summary</h3>
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-bold text-purple-400">SI Minor Summary</h3>
+                {minorSpeed !== undefined && <span className="text-xs font-semibold bg-purple-500/10 text-purple-400 px-2.5 py-1 rounded-lg border border-purple-500/20">Inference Speed: {minorSpeed} ms</span>}
+              </div>
               {minorGlobal ? (
                 <div className="grid grid-cols-4 gap-4 text-center">
                   <div className="bg-surface-bg rounded-lg p-3">
@@ -194,25 +202,25 @@ export default function ExperimentResultsPage() {
               <div className="col-span-5 text-center text-text-primary">Ground Truth (Ref)</div>
               <div className="col-span-3 text-purple-400">SI Minor Pred (Hyp & Eval)</div>
             </div>
-            
+
             <div className="overflow-y-auto max-h-[800px] flex flex-col">
               {filteredCombined.map((item: any, idx: number) => (
                 <div key={item.utterance_id} className={cn("grid grid-cols-12 gap-4 p-4 border-b border-surface-border/50 hover:bg-surface-hover transition-colors font-mono text-sm", idx % 2 === 0 ? 'bg-transparent' : 'bg-surface-bg/30')}>
                   <div className="col-span-1 text-text-muted">{item.utterance_id}</div>
-                  
+
                   {/* SI Major */}
                   <div className="col-span-3 min-w-0 overflow-x-auto whitespace-pre pb-2">
                     <div className="text-text-secondary">{item.majorHyp}</div>
                     <div className="text-text-primary mt-1">{renderColoredEval(item.majorEval)}</div>
                   </div>
-                  
+
                   {/* Ground Truth */}
                   <div className="col-span-5 min-w-0 text-center flex items-center justify-center overflow-x-auto whitespace-pre pb-2">
                     <div className="bg-surface-bg px-4 py-2 rounded-lg border border-surface-border text-text-primary font-bold">
                       {item.ref.trim()}
                     </div>
                   </div>
-                  
+
                   {/* SI Minor */}
                   <div className="col-span-3 min-w-0 overflow-x-auto whitespace-pre pb-2">
                     <div className="text-text-secondary">{item.minorHyp}</div>

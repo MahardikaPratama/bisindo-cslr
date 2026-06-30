@@ -157,7 +157,7 @@ const GlossOutput = React.memo(function GlossOutput() {
                 Inference Speed
               </span>
               <span className="text-sm font-bold font-mono text-brand-blue-light">
-                {inferenceResult.inferenceFps > 0 ? `${formatFps(inferenceResult.inferenceFps)} fps` : '-'}
+                {inferenceResult.inferenceFps > 0 ? `${formatFps(inferenceResult.inferenceFps)} seq/s` : '-'}
               </span>
             </div>
           </div>

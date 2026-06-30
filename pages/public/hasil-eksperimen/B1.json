@@ -3,6 +3,7 @@
   "configuration_name": "B1",
   "tests": {
     "test_si_major": {
+      "inference_speed": 18.9,
       "summary": {
         "global": {
           "sentences": 30,
@@ -512,6 +513,7 @@
       ]
     },
     "test_si_minor": {
+      "inference_speed": 19.21,
       "summary": {
         "global": {
           "sentences": 27,

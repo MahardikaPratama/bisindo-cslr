@@ -3,6 +3,7 @@
   "configuration_name": "O2",
   "tests": {
     "test_si_major": {
+      "inference_speed": 29.08,
       "summary": {
         "global": {
           "sentences": 30,
@@ -512,6 +513,7 @@
       ]
     },
     "test_si_minor": {
+      "inference_speed": 28.34,
       "summary": {
         "global": {
           "sentences": 27,

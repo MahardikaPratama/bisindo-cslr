@@ -1,87 +1,95 @@
-# bisindo-cslr
+<div align="center">
 
-Pipeline inference **Continuous Sign Language Recognition (CSLR)** berbasis skeleton untuk dataset BISINDO, dilengkapi dengan demo web app interaktif.
+# 🤟 BISINDO-CSLR Pipeline
 
-## Overview
+### End-to-End Skeleton-based Continuous Sign Language Recognition
+### for BISINDO (Bandung Variant)
 
-Project ini menerima satu file video RGB dan menjalankan pipeline lengkap:
+<br/>
 
-1. **Skeleton Extraction** — konversi video RGB ke keypoint skeleton 86 titik menggunakan MediaPipe Holistic
-2. **Preprocessing** — seleksi keypoint, fitur motion, normalisasi, dan padding sesuai konfigurasi model
-3. **CSLR Inference** — inferensi model `TwoStream CoSign` untuk menghasilkan prediksi gloss sequence
-4. **WER Evaluation** — perhitungan Word Error Rate terhadap ground truth kalimat
+[![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.0.0-EE4C2C?style=flat-square&logo=pytorch&logoColor=white)](https://pytorch.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.103.1-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/React-18.x-20232a?style=flat-square&logo=react&logoColor=61DAFB)](https://react.dev/)
 
-Tersedia tiga mode operasi: **CLI** (`main.py`), **Web App** (`app.py` + `pages/`), dan **Google Colab** (`bisindo_cslr_colab.ipynb`).
+<br/>
+
+**Undergraduate Thesis · Politeknik Negeri Bandung · 2026**
+
+[Mahardika Pratama](mailto:) (221524044) &nbsp;·&nbsp; [Sarah](mailto:) (221524059)
+
+*D-IV Teknik Informatika — Jurusan Teknik Komputer dan Informatika*
+
+</div>
 
 ---
 
-## Struktur Project
+## 📋 Table of Contents
+- [Overview](#-overview)
+- [Repository Structure](#-repository-structure)
+- [Quick Start (Local)](#-quick-start-local)
+- [Google Colab Setup (Recommended)](#-google-colab-setup-recommended)
+- [Running the Application](#-running-the-application)
+- [REST API Reference](#-rest-api-reference)
+- [CLI Usage](#-cli-usage)
+- [Acknowledgements](#-acknowledgements)
 
-```
+---
+
+## 🔍 Overview
+
+**BISINDO-CSLR** is a complete, end-to-end inference pipeline for Continuous Sign Language Recognition. It processes raw RGB videos of sign language (BISINDO - Bandung Variant) and translates them into sequences of words (glosses).
+
+The pipeline operates in four main stages:
+1. **Skeleton Extraction**: Converts raw RGB video into an 86-point skeletal representation using **MediaPipe Holistic**.
+2. **Preprocessing**: Applies spatial normalization, missing keypoint reconstruction, temporal normalization, and motion feature extraction.
+3. **Inference**: Passes the normalized skeleton data through a **GCN-1DCNN-BiLSTM (TwoStream CoSign)** model.
+4. **Evaluation**: Computes the Word Error Rate (WER) against the ground truth.
+
+This repository provides three interfaces:
+- **CLI (`main.py`)**: For headless bulk processing and evaluation.
+- **REST API (`app.py`)**: A FastAPI backend providing inference endpoints.
+- **Web App (`pages/`)**: An interactive React-based dashboard for real-time visualization.
+
+---
+
+## 📁 Repository Structure
+
+```text
 bisindo-cslr/
 ├── app.py                       # FastAPI backend (REST API)
 ├── main.py                      # CLI entry point
-├── bisindo_cslr_colab.ipynb     # Notebook untuk menjalankan backend di Google Colab
-├── inference/                   # Modul inference CSLR
-│   ├── ground_truth.py          # Modul pembaca file .stm untuk ground truth
-│   ├── preprocessor.py          # SkeletonPreprocessor untuk penyesuaian skala MediaPipe
-│   └── runner.py                # InferenceRunner, eksekusi model TwoStream CoSign
-├── rgb-to-skeleton-mediapipe/   # Modul konversi video → skeleton 86-keypoint
-│   ├── data/                    # Output sementara video preview & json
-│   ├── src/
-│   │   ├── core/                # Pipeline orchestration & CLI
-│   │   ├── extractor/           # MediaPipe Holistic extractor
-│   │   ├── visualizer/          # Generator preview video (skeleton, overlay)
-│   │   └── config/              # Path & keypoint layout config
-├── mslr_iccv2025/               # Model CSLR TwoStream CoSign
-│   ├── configs/                 # YAML konfigurasi model & dataset
-│   ├── datasets/                # SkeletonFeeder & data loader
-│   ├── model/                   # Checkpoint model (.pt)
-│   ├── modules/                 # Temporal conv & BiLSTM layers
-│   ├── slr_network.py           # Definisi model TwoStream_Cosign
-│   └── evaluation/              # WER evaluation (python + sclite)
-├── pages/                       # Frontend React + TypeScript (Vite)
-│   └── src/
-│       ├── components/          # UI components (pipeline, visualization, result)
-│       ├── hooks/               # useInference, useVideoUpload
-│       ├── store/               # Zustand state management
-│       └── constants/           # Ground truth sentences, pipeline steps
+├── bisindo_cslr_colab.ipynb     # Jupyter Notebook for Colab deployment
+├── inference/                   # High-level inference orchestration
+├── rgb-to-skeleton-mediapipe/   # Skeleton extraction submodule (MediaPipe)
+├── mslr_iccv2025/               # Core CSLR Neural Network (PyTorch)
+└── pages/                       # Frontend Web App (React + Vite)
 ```
-```
-
 
 ---
 
-## Setup (Lokal)
+## 🚀 Quick Start (Local)
 
-### 1. Clone repository
-
+### 1. Clone the Repository
+Due to the use of submodules, you **must** use the `--recursive` flag:
 ```bash
 git clone --recursive https://github.com/MahardikaPratama/bisindo-cslr.git
 cd bisindo-cslr
 ```
 
-> **`--recursive`** wajib digunakan karena project ini mengandung submodule (`rgb-to-skeleton-mediapipe`).
-
-### 2. Buat environment Conda
-
+### 2. Environment Setup
+Create and activate the Conda environment:
 ```bash
 conda env create -f environment.yml
 conda activate bisindo-cslr
 ```
 
-### 3. Download model checkpoint
+### 3. Model Weights
+Download the pre-trained model weights (~680 MB) and place them in the correct directory:
+- **Destination**: `mslr_iccv2025/model/best_dev_01.30_epoch39_model.pt`
+- **Download Link**: [Google Drive](https://drive.google.com/file/d/1PzImlzsB-D21kZogX9qR4DPaiNm65f5z/view?usp=drive_link)
 
-Unduh file model (±680 MB) dari Google Drive dan letakkan di:
-
-```
-mslr_iccv2025/model/best_dev_01.30_epoch39_model.pt
-```
-
-🔗 **Link download:** [best_dev_01.30_epoch39_model.pt](https://drive.google.com/file/d/1Uw6nJnR74DtNp3xhGi5kCT702I8II_As/view?usp=drive_link)
-
-### 4. Install frontend dependencies
-
+### 4. Frontend Setup
 ```bash
 cd pages
 pnpm install
@@ -89,173 +97,66 @@ pnpm install
 
 ---
 
-## 🚀 Menjalankan Backend di Google Colab (Direkomendasikan)
+## ☁️ Google Colab Setup (Recommended)
 
-Untuk memanfaatkan GPU T4 gratis dari Google Colab sebagai backend inference:
+Due to heavy computational requirements, utilizing a free T4 GPU via Google Colab is highly recommended for backend inference.
 
-### Langkah 1 — Buka Notebook
-
-Import file `bisindo_cslr_colab.ipynb` ke Google Colab:
-
-1. Buka [Google Colab](https://colab.research.google.com)
-2. **File → Upload notebook** → pilih `bisindo_cslr_colab.ipynb`
-3. Atur runtime ke **GPU**: Runtime → Change runtime type → **T4 GPU**
-
-### Langkah 2 — Jalankan Sel Secara Berurutan
-
-| Sel | Deskripsi |
-|---|---|
-| Step 0 | Verifikasi GPU tersedia |
-| Step 1 | Clone repo dengan `--recursive` |
-| Step 2 | Install semua dependencies |
-| Step 3 | Download model (~680 MB) dari Google Drive |
-| Step 4 | Input ngrok authtoken |
-| Step 5 | Jalankan uvicorn server di background |
-| Step 6 | Buat tunnel ngrok → dapatkan **URL publik** |
-| Step 7 | Verifikasi endpoint (opsional) |
-
-### Langkah 3 — Hubungkan Frontend ke Colab
-
-Setelah Step 6 selesai, Anda akan mendapat URL publik seperti:
-
-```
-https://xxxx-xx-xx-xxx-xx.ngrok-free.app
-```
-
-Update `pages/vite.config.ts` di komputer lokal:
-
-```ts
-proxy: {
-  '/api'    : { target: 'https://xxxx-xx-xx-xxx-xx.ngrok-free.app', changeOrigin: true },
-  '/preview': { target: 'https://xxxx-xx-xx-xxx-xx.ngrok-free.app', changeOrigin: true },
-},
-```
-
-Lalu jalankan frontend:
-
-```bash
-cd pages
-npm run dev
-```
-
-Buka `http://localhost:5173` — frontend akan terhubung ke backend Colab dengan GPU.
-
-> **Catatan ngrok free tier:** URL berubah setiap sesi. Perbarui `vite.config.ts` setiap kali memulai Colab baru.
+1. **Upload Notebook**: Open [Google Colab](https://colab.research.google.com) and upload `bisindo_cslr_colab.ipynb`.
+2. **Enable GPU**: Go to `Runtime` → `Change runtime type` → Select **T4 GPU**.
+3. **Run Cells**: Execute the cells sequentially. You will need to provide an **ngrok authtoken**.
+4. **Get Public URL**: The final cell will generate a public URL (e.g., `https://xxxx.ngrok-free.app`).
+5. **Configure Frontend**: Update `pages/vite.config.ts` on your local machine to proxy requests to this URL.
+6. **Launch UI**: Run the frontend locally via `pnpm dev`.
 
 ---
 
+## 💻 Running the Application
 
-## Menjalankan Web App (Cara Utama)
+If you have a local GPU and wish to run the entire stack locally:
 
-### Terminal 1 — Backend API
-
+**Terminal 1 (Backend)**:
 ```bash
 uvicorn app:app --host 127.0.0.1 --port 8000 --reload
 ```
 
-### Terminal 2 — Frontend Dev Server
-
+**Terminal 2 (Frontend)**:
 ```bash
 cd pages
-npm run dev
+pnpm dev
 ```
-
-Buka browser di `http://localhost:5173`.
-
-### Alur penggunaan
-
-1. Upload file video RGB (.mp4 / .webm / .avi / .mov)
-2. Pilih **Sentence ID** (S001–S030) dari dropdown
-3. Klik **Run Pipeline Inference**
-4. Pantau progress di **Processing Pipeline** bar
-5. Lihat hasil di panel **Inference Result**:
-   - Kalimat Ground Truth
-   - Kalimat Hasil Prediksi
-   - Word Error Rate (WER)
+Navigate to `http://localhost:5173` in your browser to access the interactive dashboard.
 
 ---
 
-## REST API
+## 🌐 REST API Reference
 
-Backend berjalan di `http://127.0.0.1:8000`.
+The FastAPI backend runs on `http://127.0.0.1:8000`.
 
-### `GET /health`
-
-Cek status server.
-
+### Health Check
 ```bash
 curl http://127.0.0.1:8000/health
 ```
+**Response**: `{"status": "ok"}`
 
-```json
-{ "status": "ok" }
-```
-
----
-
-### `POST /api/inference`
-
-**Full pipeline**: skeleton extraction → preprocessing → inference → WER.
-
-| Field | Type | Keterangan |
-|---|---|---|
-| `video` | file | File video RGB (mp4/webm/avi/mov/mkv) |
-| `sentence_id` | string | ID kalimat ground truth, contoh: `S001` |
+### Inference Endpoint
+Executes the full pipeline (Extraction → Preprocessing → Inference → Evaluation).
+- **Endpoint**: `POST /api/inference`
+- **Payload**: `multipart/form-data`
+  - `video` (File): The RGB video file.
+  - `sentence_id` (String): Ground truth ID (e.g., `S001`).
 
 ```bash
 curl -X POST "http://127.0.0.1:8000/api/inference" \
-  -F "video=@data/raw/sample.mp4" \
-  -F "sentence_id=S001"
-```
-
-**Response:**
-
-```json
-{
-  "video_id": "P01_S001",
-  "num_frames": 94,
-  "num_keypoints": 86,
-  "previews": {
-    "rgb": "/preview/rgb/P01_S001_rgb.mp4",
-    "skeleton": "/preview/skeleton_only/P01_S001_skeleton.mp4",
-    "overlay": "/preview/overlay_rgb_skeleton/P01_S001_overlay.mp4"
-  },
-  "inference": {
-    "ground_truth": "AYAH SAMA IBU MANA",
-    "prediction": "AYAH SAMA IBU MANA",
-    "wer": 0.0,
-    "wer_percent": "0.00%",
-    "inference_ms": 312
-  },
-  "total_ms": 4821
-}
+  -F "video=@sample.mp4" -F "sentence_id=S001"
 ```
 
 ---
 
-### `POST /api/preview/process`
+## ⌨️ CLI Usage
 
-Skeleton extraction dan preview saja (tanpa inference CSLR).
+You can process videos directly from the terminal without starting the web server.
 
-```bash
-curl -X POST "http://127.0.0.1:8000/api/preview/process" \
-  -F "video=@data/raw/sample.mp4"
-```
-
----
-
-## CLI (`main.py`)
-
-Jalankan pipeline dari terminal tanpa web app.
-
-### Tanpa inference (skeleton + preview saja)
-
-```bash
-python main.py --input data/raw/sample.mp4
-```
-
-### Dengan inference CSLR
-
+**Full Inference Pipeline**:
 ```bash
 python main.py \
   --input data/raw/sample.mp4 \
@@ -265,66 +166,13 @@ python main.py \
   --cslr-config mslr_iccv2025/configs/Double_Cosign_sd.yaml
 ```
 
-**Output:**
-
-```text
-============================================================
-CSLR INFERENCE RESULT
-============================================================
-Sentence ID          : S001
-Ground Truth         : AYAH SAMA IBU MANA
-Inference Prediction : AYAH SAMA IBU MANA
-WER                  : 0.00%
-============================================================
+**Skeleton Extraction Only (No Inference)**:
+```bash
+python main.py --input data/raw/sample.mp4
 ```
 
-### CLI Parameters
-
-| Parameter | Wajib | Default | Keterangan |
-|---|---|---|---|
-| `--input` / `-i` | ✅ | — | Path ke file video input |
-| `--checkpoint` | — | — | Path ke file `.pt` bobot model. Jika tidak diisi, inference dilewati |
-| `--sentence-id` | — | `UNKNOWN` | ID kalimat ground truth (S001–S030) |
-| `--cslr-config` | — | `Double_Cosign_sd.yaml` | Path ke config YAML model |
-| `--annotation-split` | — | `test_sd` | Split anotasi untuk lookup ground truth |
-| `--save-to-disk` | — | `False` | Simpan skeleton JSON ke disk |
-| `--async-save` | — | `False` | Disk write secara background thread |
-
 ---
 
-## Model
-
-| Property | Value |
-|---|---|
-| Arsitektur | TwoStream CoSign (Two-Stream + CTC) |
-| Input | Skeleton keypoint 86 titik (hand21 = 42 titik) |
-| Dataset | BISINDO (Signer Dependent) |
-| Checkpoint | `mslr_iccv2025/model/best_dev_01.30_epoch39_model.pt` |
-| Config | `mslr_iccv2025/configs/Double_Cosign_sd.yaml` |
-| WER terbaik | 1.30% (dev set) |
-
----
-
-## Ground Truth Sentences
-
-Tersedia 30 kalimat (S001–S030) yang dapat dipilih sebagai ground truth. Daftar lengkap tersedia di:
-
-- Frontend: `pages/src/constants/ground-truth.constants.ts`
-- Backend: `GROUND_TRUTH_TABLE` di `app.py`
-
----
-
-## `rgb-to-skeleton-mediapipe` Module
-
-Modul ini bertanggung jawab atas konversi video RGB ke skeleton keypoint.
-
-| Submodul | Fungsi |
-|---|---|
-| `extractor/` | Ekstraksi keypoint menggunakan MediaPipe Holistic (86 titik) |
-| `data/` | Output sementara video preview & json |
-| `visualizer/` | Generator preview: RGB, skeleton-only, overlay |
-| `core/pipeline.py` | Orkestrasi pipeline |
-| `core/cli.py` | Argument parser CLI |
-| `config/` | Path & keypoint layout config |
-
-> **Catatan:** MediaPipe Holistic membutuhkan versi `<= 0.10.14`.
+<div align="center">
+<sub>Made with ❤️ for the Indonesian Deaf community · Politeknik Negeri Bandung · 2026</sub>
+</div>

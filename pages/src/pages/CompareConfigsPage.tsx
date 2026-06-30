@@ -67,8 +67,14 @@ export default function CompareConfigsPage() {
     );
   };
 
-  const renderComparisonTable = (title: string, sumA: any, sumB: any) => {
+  const renderComparisonTable = (title: string, testA: any, testB: any) => {
+    if (!testA || !testB) return null;
+    const sumA = testA.summary?.global;
+    const sumB = testB.summary?.global;
     if (!sumA || !sumB) return null;
+
+    const dataA = { ...sumA, inference_speed: testA.inference_speed };
+    const dataB = { ...sumB, inference_speed: testB.inference_speed };
     
     const metrics = [
       { key: 'word_error_rate', label: 'Word Error Rate (WER)', lowerIsBetter: true, isPercentage: true },
@@ -77,6 +83,7 @@ export default function CompareConfigsPage() {
       { key: 'substitutions', label: 'Substitutions', lowerIsBetter: true, isPercentage: false },
       { key: 'deletions', label: 'Deletions', lowerIsBetter: true, isPercentage: false },
       { key: 'insertions', label: 'Insertions', lowerIsBetter: true, isPercentage: false },
+      { key: 'inference_speed', label: 'Inference Speed (ms)', lowerIsBetter: true, isPercentage: false },
     ];
 
     return (
@@ -97,13 +104,13 @@ export default function CompareConfigsPage() {
             <div key={m.key} className={cn("grid grid-cols-4 gap-4 p-4 text-center items-center transition-colors", idx % 2 === 0 ? 'bg-transparent' : 'bg-surface-bg/20 hover:bg-surface-hover')}>
               <div className="col-span-1 text-left pl-4 font-medium text-text-primary">{m.label}</div>
               <div className="col-span-1 text-xl font-bold text-text-secondary">
-                {sumA[m.key]}{m.isPercentage ? '%' : ''}
+                {dataA[m.key] !== undefined ? dataA[m.key] : '-'}{m.isPercentage && dataA[m.key] !== undefined ? '%' : ''}
               </div>
               <div className="col-span-1 text-xl font-bold text-text-primary">
-                {sumB[m.key]}{m.isPercentage ? '%' : ''}
+                {dataB[m.key] !== undefined ? dataB[m.key] : '-'}{m.isPercentage && dataB[m.key] !== undefined ? '%' : ''}
               </div>
               <div className="col-span-1 bg-surface-bg py-2 rounded-lg border border-surface-border/50">
-                {renderDelta(sumA[m.key], sumB[m.key], m.lowerIsBetter, m.isPercentage)}
+                {dataA[m.key] !== undefined && dataB[m.key] !== undefined ? renderDelta(dataA[m.key], dataB[m.key], m.lowerIsBetter, m.isPercentage) : '-'}
               </div>
             </div>
           ))}
@@ -183,8 +190,8 @@ export default function CompareConfigsPage() {
 
       {!loading && dataA && dataB && (
         <div className="flex-1 flex flex-col">
-          {renderComparisonTable('SI Major Performance', dataA?.tests?.test_si_major?.summary?.global, dataB?.tests?.test_si_major?.summary?.global)}
-          {renderComparisonTable('SI Minor Performance', dataA?.tests?.test_si_minor?.summary?.global, dataB?.tests?.test_si_minor?.summary?.global)}
+          {renderComparisonTable('SI Major Performance', dataA?.tests?.test_si_major, dataB?.tests?.test_si_major)}
+          {renderComparisonTable('SI Minor Performance', dataA?.tests?.test_si_minor, dataB?.tests?.test_si_minor)}
         </div>
       )}
     </div>

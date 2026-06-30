@@ -3,6 +3,7 @@
   "configuration_name": "D4",
   "tests": {
     "test_si_major": {
+      "inference_speed": 18.86,
       "summary": {
         "global": {
           "sentences": 30,
@@ -512,6 +513,7 @@
       ]
     },
     "test_si_minor": {
+      "inference_speed": 19.07,
       "summary": {
         "global": {
           "sentences": 27,

@@ -3,13 +3,14 @@
   "configuration_name": "D7",
   "tests": {
     "test_si_major": {
+      "inference_speed": 28.58,
       "summary": {
         "global": {
           "sentences": 30,
           "words": 145,
           "correct": 143,
-          "substitutions": 2,
-          "deletions": 0,
+          "substitutions": 1,
+          "deletions": 1,
           "insertions": 0,
           "word_error_rate": 2.0,
           "sentence_error_rate": 2.0
@@ -19,8 +20,8 @@
             "sentences": 30,
             "words": 145,
             "correct": 143,
-            "substitutions": 2,
-            "deletions": 0,
+            "substitutions": 1,
+            "deletions": 1,
             "insertions": 0,
             "word_error_rate": 2.0,
             "sentence_error_rate": 2.0,
@@ -66,15 +67,15 @@
           "filename": "p6_s03_mj",
           "speaker_id": "p6",
           "scores": {
-            "correct": 2,
-            "substitutions": 1,
+            "correct": 3,
+            "substitutions": 0,
             "deletions": 0,
             "insertions": 0
           },
           "alignment": {
-            "ref": "  aku nilai JELEK ",
-            "hyp": "  aku nilai KAMU  ",
-            "eval": "           S"
+            "ref": "  aku nilai jelek ",
+            "hyp": "  aku nilai jelek ",
+            "eval": ""
           }
         },
         {
@@ -114,15 +115,15 @@
           "filename": "p6_s06_mj",
           "speaker_id": "p6",
           "scores": {
-            "correct": 3,
-            "substitutions": 1,
+            "correct": 4,
+            "substitutions": 0,
             "deletions": 0,
             "insertions": 0
           },
           "alignment": {
-            "ref": "  AYAH sama ibu mana ",
-            "hyp": "  KAMU sama ibu mana ",
-            "eval": " S"
+            "ref": "  ayah sama ibu mana ",
+            "hyp": "  ayah sama ibu mana ",
+            "eval": ""
           }
         },
         {
@@ -162,15 +163,15 @@
           "filename": "p6_s09_mj",
           "speaker_id": "p6",
           "scores": {
-            "correct": 7,
+            "correct": 6,
             "substitutions": 0,
-            "deletions": 0,
+            "deletions": 1,
             "insertions": 0
           },
           "alignment": {
-            "ref": "  dia anak baik sampai banyak orang suka ",
-            "hyp": "  dia anak baik sampai banyak orang suka ",
-            "eval": ""
+            "ref": "  dia anak baik SAMPAI banyak orang suka ",
+            "hyp": "  dia anak baik ****** banyak orang suka ",
+            "eval": "               D"
           }
         },
         {
@@ -498,41 +499,42 @@
           "filename": "p6_s30_mj",
           "speaker_id": "p6",
           "scores": {
-            "correct": 4,
-            "substitutions": 0,
+            "correct": 3,
+            "substitutions": 1,
             "deletions": 0,
             "insertions": 0
           },
           "alignment": {
-            "ref": "  ular sana makan kambing ",
-            "hyp": "  ular sana makan kambing ",
-            "eval": ""
+            "ref": "  ular sana makan KAMBING ",
+            "hyp": "  ular sana makan PENCURI ",
+            "eval": "                 S"
           }
         }
       ]
     },
     "test_si_minor": {
+      "inference_speed": 28.29,
       "summary": {
         "global": {
           "sentences": 27,
           "words": 132,
-          "correct": 120,
-          "substitutions": 6,
+          "correct": 118,
+          "substitutions": 8,
           "deletions": 6,
-          "insertions": 0,
-          "word_error_rate": 12.0,
-          "sentence_error_rate": 5.0
+          "insertions": 1,
+          "word_error_rate": 15.0,
+          "sentence_error_rate": 6.0
         },
         "by_speaker": [
           {
             "sentences": 27,
             "words": 132,
-            "correct": 120,
-            "substitutions": 6,
+            "correct": 118,
+            "substitutions": 8,
             "deletions": 6,
-            "insertions": 0,
-            "word_error_rate": 12.0,
-            "sentence_error_rate": 5.0,
+            "insertions": 1,
+            "word_error_rate": 15.0,
+            "sentence_error_rate": 6.0,
             "speaker_id": "p6"
           }
         ]
@@ -607,15 +609,15 @@
           "filename": "p6_s05_mn",
           "speaker_id": "p6",
           "scores": {
-            "correct": 5,
+            "correct": 6,
             "substitutions": 0,
-            "deletions": 2,
+            "deletions": 1,
             "insertions": 0
           },
           "alignment": {
-            "ref": "  apa kamu pernah baca BUKU BAHASA inggris ",
-            "hyp": "  apa kamu pernah baca **** ****** inggris ",
-            "eval": "                      D    D"
+            "ref": "  apa kamu pernah baca buku BAHASA inggris ",
+            "hyp": "  apa kamu pernah baca buku ****** inggris ",
+            "eval": "                           D"
           }
         },
         {
@@ -671,15 +673,15 @@
           "filename": "p6_s09_mn",
           "speaker_id": "p6",
           "scores": {
-            "correct": 3,
-            "substitutions": 2,
-            "deletions": 2,
+            "correct": 4,
+            "substitutions": 0,
+            "deletions": 3,
             "insertions": 0
           },
           "alignment": {
-            "ref": "  DIA   anak baik sampai BANYAK ORANG SUKA  ",
-            "hyp": "  ORANG anak baik sampai ****** ***** MAHAL ",
-            "eval": " S                      D      D     S"
+            "ref": "  dia anak baik SAMPAI BANYAK ORANG suka ",
+            "hyp": "  dia anak baik ****** ****** ***** suka ",
+            "eval": "               D      D      D"
           }
         },
         {
@@ -693,8 +695,8 @@
             "insertions": 0
           },
           "alignment": {
-            "ref": "  DIA  MENGEJEK AKU  ",
-            "hyp": "  KAMU PERGI    MANA ",
+            "ref": "  DIA  MENGEJEK AKU   ",
+            "hyp": "  SANA TOILET   KOTOR ",
             "eval": " S    S        S"
           }
         },
@@ -767,15 +769,15 @@
           "filename": "p6_s15_mn",
           "speaker_id": "p6",
           "scores": {
-            "correct": 1,
+            "correct": 2,
             "substitutions": 1,
-            "deletions": 1,
-            "insertions": 0
+            "deletions": 0,
+            "insertions": 1
           },
           "alignment": {
-            "ref": "  KAMU PERGI mana ",
-            "hyp": "  **** SANA  mana ",
-            "eval": " D    S"
+            "ref": "  kamu **** pergi MANA    ",
+            "hyp": "  kamu SANA pergi KAMBING ",
+            "eval": "      I          S"
           }
         },
         {
@@ -863,15 +865,15 @@
           "filename": "p6_s21_mn",
           "speaker_id": "p6",
           "scores": {
-            "correct": 4,
-            "substitutions": 0,
+            "correct": 0,
+            "substitutions": 4,
             "deletions": 1,
             "insertions": 0
           },
           "alignment": {
-            "ref": "  obat bisa beli TOKO mana ",
-            "hyp": "  obat bisa beli **** mana ",
-            "eval": "                D"
+            "ref": "  OBAT BISA        BELI TOKO  MANA  ",
+            "hyp": "  **** TONG-SAMPAH ADA  SEMUT KELAS ",
+            "eval": " D    S           S    S     S"
           }
         },
         {
@@ -879,15 +881,15 @@
           "filename": "p6_s22_mn",
           "speaker_id": "p6",
           "scores": {
-            "correct": 6,
+            "correct": 5,
             "substitutions": 0,
-            "deletions": 0,
+            "deletions": 1,
             "insertions": 0
           },
           "alignment": {
-            "ref": "  orang jahat sana pukul aku berulang ",
-            "hyp": "  orang jahat sana pukul aku berulang ",
-            "eval": ""
+            "ref": "  orang jahat sana pukul AKU berulang ",
+            "hyp": "  orang jahat sana pukul *** berulang ",
+            "eval": "                        D"
           }
         },
         {
