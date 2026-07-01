@@ -8,7 +8,7 @@
  */
 
 import React from 'react';
-import { Moon, Sun, Beaker, FileBarChart, LayoutDashboard } from 'lucide-react';
+import { Moon, Sun, Beaker, FileBarChart, LayoutDashboard, GitCompare, Activity } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useTheme } from '../../hooks/useTheme';
 import { NavLink } from 'react-router-dom';
@@ -18,8 +18,10 @@ const Navbar = React.memo(function Navbar() {
   
   const navItems = [
     { name: 'Demo', path: '/', icon: <LayoutDashboard size={18} /> },
+    { name: 'Dashboard', path: '/dashboard', icon: <Activity size={18} /> },
     { name: 'Experiment Results', path: '/results', icon: <Beaker size={18} /> },
     { name: 'Compare Configs', path: '/compare', icon: <FileBarChart size={18} /> },
+    { name: 'Compare Predictions', path: '/compare-preds', icon: <GitCompare size={18} /> },
   ];
 
   return (
