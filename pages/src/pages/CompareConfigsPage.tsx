@@ -4,8 +4,8 @@ import { TrendingDown, TrendingUp, Minus } from 'lucide-react';
 import ConfigDropdown from '../common/ConfigDropdown/ConfigDropdown';
 
 export default function CompareConfigsPage() {
-  const [configA, setConfigA] = useState('D2');
-  const [configB, setConfigB] = useState('M1');
+  const [configA, setConfigA] = useState('B1');
+  const [configB, setConfigB] = useState('B2');
   const [dataA, setDataA] = useState<any>(null);
   const [dataB, setDataB] = useState<any>(null);
   const [loading, setLoading] = useState(false);
@@ -51,13 +51,20 @@ export default function CompareConfigsPage() {
     const sumB = testB.summary?.global;
     if (!sumA || !sumB) return null;
 
-    const dataA = { ...sumA, inference_speed: testA.inference_speed };
-    const dataB = { ...sumB, inference_speed: testB.inference_speed };
+    const dataA = {
+      ...sumA,
+      inference_speed: testA.inference_speed,
+      word_error_rate: testA.word_error_rate
+    };
+    const dataB = {
+      ...sumB,
+      inference_speed: testB.inference_speed,
+      word_error_rate: testB.word_error_rate
+    };
 
     const metrics = [
       { key: 'word_error_rate', label: 'Word Error Rate (WER)', lowerIsBetter: true, isPercentage: true },
-      { key: 'sentence_error_rate', label: 'Sentence Error Rate (SER)', lowerIsBetter: true, isPercentage: false },
-      { key: 'correct', label: 'Correct Words', lowerIsBetter: false, isPercentage: false },
+      { key: 'sentence_errors', label: 'Sentence Errors', lowerIsBetter: true, isPercentage: false },
       { key: 'substitutions', label: 'Substitutions', lowerIsBetter: true, isPercentage: false },
       { key: 'deletions', label: 'Deletions', lowerIsBetter: true, isPercentage: false },
       { key: 'insertions', label: 'Insertions', lowerIsBetter: true, isPercentage: false },

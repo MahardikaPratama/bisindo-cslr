@@ -3,7 +3,7 @@ import { cn } from '../utils/cn';
 import ConfigDropdown from '../common/ConfigDropdown/ConfigDropdown';
 
 export default function ExperimentResultsPage() {
-  const [selectedConfig, setSelectedConfig] = useState('D2');
+  const [selectedConfig, setSelectedConfig] = useState('B1');
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [filterMode, setFilterMode] = useState<'all' | 'errors'>('all');
@@ -109,20 +109,12 @@ export default function ExperimentResultsPage() {
                 {majorSpeed !== undefined && <span className="text-xs font-semibold bg-brand-blue/10 text-brand-blue px-2.5 py-1 rounded-lg border border-brand-blue/20">Inference Speed: {majorSpeed} ms</span>}
               </div>
               {majorGlobal ? (
-                <div className="grid grid-cols-4 gap-4 text-center">
+                <div className="grid grid-cols-2 gap-4 text-center">
                   <div className="bg-surface-bg rounded-lg p-3">
-                    <div className="text-2xl font-bold text-text-primary">{majorGlobal.word_error_rate}%</div>
+                    <div className="text-2xl font-bold text-text-primary">{data.tests.test_si_major.word_error_rate}%</div>
                     <div className="text-xs text-text-secondary">WER</div>
                   </div>
-                  <div className="bg-surface-bg rounded-lg p-3">
-                    <div className="text-2xl font-bold text-text-primary">{majorGlobal.sentence_error_rate}%</div>
-                    <div className="text-xs text-text-secondary">SER</div>
-                  </div>
-                  <div className="bg-surface-bg rounded-lg p-3">
-                    <div className="text-xl font-bold text-green-400">{majorGlobal.correct}</div>
-                    <div className="text-xs text-text-secondary">Correct</div>
-                  </div>
-                  <div className="bg-surface-bg rounded-lg p-3 text-red-400">
+                  <div className="bg-surface-bg rounded-lg p-3 text-red-400 flex flex-col justify-center">
                     <div className="text-sm font-semibold">S: {majorGlobal.substitutions}</div>
                     <div className="text-sm font-semibold">D: {majorGlobal.deletions}</div>
                     <div className="text-sm font-semibold">I: {majorGlobal.insertions}</div>
@@ -137,20 +129,12 @@ export default function ExperimentResultsPage() {
                 {minorSpeed !== undefined && <span className="text-xs font-semibold bg-purple-500/10 text-purple-400 px-2.5 py-1 rounded-lg border border-purple-500/20">Inference Speed: {minorSpeed} ms</span>}
               </div>
               {minorGlobal ? (
-                <div className="grid grid-cols-4 gap-4 text-center">
+                <div className="grid grid-cols-2 gap-4 text-center">
                   <div className="bg-surface-bg rounded-lg p-3">
-                    <div className="text-2xl font-bold text-text-primary">{minorGlobal.word_error_rate}%</div>
+                    <div className="text-2xl font-bold text-text-primary">{data.tests.test_si_minor.word_error_rate}%</div>
                     <div className="text-xs text-text-secondary">WER</div>
                   </div>
-                  <div className="bg-surface-bg rounded-lg p-3">
-                    <div className="text-2xl font-bold text-text-primary">{minorGlobal.sentence_error_rate}%</div>
-                    <div className="text-xs text-text-secondary">SER</div>
-                  </div>
-                  <div className="bg-surface-bg rounded-lg p-3">
-                    <div className="text-xl font-bold text-green-400">{minorGlobal.correct}</div>
-                    <div className="text-xs text-text-secondary">Correct</div>
-                  </div>
-                  <div className="bg-surface-bg rounded-lg p-3 text-red-400">
+                  <div className="bg-surface-bg rounded-lg p-3 text-red-400 flex flex-col justify-center">
                     <div className="text-sm font-semibold">S: {minorGlobal.substitutions}</div>
                     <div className="text-sm font-semibold">D: {minorGlobal.deletions}</div>
                     <div className="text-sm font-semibold">I: {minorGlobal.insertions}</div>
