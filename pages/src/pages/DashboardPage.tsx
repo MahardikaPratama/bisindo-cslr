@@ -164,7 +164,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="pt-24 pb-20 px-6 max-w-screen-2xl mx-auto flex flex-col min-h-screen">
+    <div className="pt-24 pb-20 px-6 w-full max-w-screen-2xl mx-auto flex flex-col min-h-screen overflow-x-hidden">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
           <h1 className="text-3xl font-bold text-text-primary tracking-tight">Statistical Dashboard</h1>
@@ -200,7 +200,7 @@ export default function DashboardPage() {
           <p className="text-lg font-medium">Crunching data across all models...</p>
         </div>
       ) : (
-        <div className="flex-1 flex flex-col gap-8 animate-fade-in">
+        <div className="flex-1 flex flex-col gap-8 animate-fade-in w-full min-w-0">
           
           {/* Top Row: Best Configs & Global Errors */}
           <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
@@ -211,7 +211,7 @@ export default function DashboardPage() {
                 <Trophy size={20} className="text-yellow-500" />
                 <h2 className="text-lg font-bold text-text-primary">Top 4 Configurations (by WER)</h2>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 flex-1">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 flex-1">
                 {top4.map((cfg, idx) => (
                   <div key={cfg.config} className="bg-surface-card border border-surface-border rounded-2xl p-5 flex flex-col justify-between shadow-panel hover:border-brand-blue/50 transition-colors relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-brand-blue/10 to-transparent opacity-50 rounded-bl-3xl"></div>
@@ -280,7 +280,7 @@ export default function DashboardPage() {
               <Activity size={20} className="text-brand-blue" />
               <h2 className="text-lg font-bold text-text-primary">Detailed Configuration Metrics</h2>
             </div>
-            <div className="bg-surface-card border border-surface-border rounded-2xl overflow-x-auto shadow-panel-glow">
+            <div className="bg-surface-card border border-surface-border rounded-2xl overflow-x-auto shadow-panel-glow w-full">
               <table className="w-full min-w-[1000px] text-sm text-left">
                 <thead className="bg-surface-bg/80 border-b border-surface-border">
                   <tr>

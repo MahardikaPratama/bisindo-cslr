@@ -7,14 +7,15 @@
  * @created     2024-01-01
  */
 
-import React from 'react';
-import { Moon, Sun, Beaker, FileBarChart, LayoutDashboard, GitCompare, Activity } from 'lucide-react';
+import React, { useState } from 'react';
+import { Moon, Sun, Beaker, FileBarChart, LayoutDashboard, GitCompare, Activity, Menu, X } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useTheme } from '../../hooks/useTheme';
 import { NavLink } from 'react-router-dom';
 
 const Navbar = React.memo(function Navbar() {
   const { theme, toggleTheme } = useTheme();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   const navItems = [
     { name: 'Demo', path: '/', icon: <LayoutDashboard size={18} /> },
@@ -76,8 +77,41 @@ const Navbar = React.memo(function Navbar() {
           >
             {theme === 'dark' ? <Moon size={16} /> : <Sun size={16} />}
           </button>
+          
+          {/* Mobile Menu Toggle */}
+          <button
+            className="md:hidden p-2 transition-colors duration-200 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-hover"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle Menu"
+          >
+            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
         </div>
       </div>
+
+      {/* ── Mobile Menu ── */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-surface-bg border-b border-surface-border px-4 pt-2 pb-4 flex flex-col gap-2 animate-fade-in">
+          {navItems.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={({ isActive }) =>
+                cn(
+                  'flex items-center gap-2 px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-200',
+                  isActive 
+                    ? 'bg-brand-blue/10 text-brand-blue' 
+                    : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'
+                )
+              }
+            >
+              {item.icon}
+              {item.name}
+            </NavLink>
+          ))}
+        </div>
+      )}
     </nav>
   );
 });

@@ -14,7 +14,7 @@ const Footer = React.memo(function Footer() {
     <footer className="w-full border-t border-surface-border bg-surface-bg mt-auto py-6">
       <div className="max-w-screen-xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
         {/* Left */}
-        <div className="flex flex-col">
+        <div className="flex flex-col items-center md:items-start text-center md:text-left">
           <span className="font-bold text-sm text-text-primary">BISINDO CSLR</span>
           <span className="font-bold text-sm text-text-primary">KoTA 502</span>
         </div>
@@ -25,7 +25,7 @@ const Footer = React.memo(function Footer() {
         </div>
 
         {/* Right */}
-        <div className="flex flex-wrap items-center justify-center gap-6 text-xs font-medium text-text-secondary">
+        <div className="flex flex-wrap items-center justify-center md:justify-end gap-x-6 gap-y-3 text-xs font-medium text-text-secondary">
           {FOOTER_LINKS.map((link) => (
             <a
               key={link.label}

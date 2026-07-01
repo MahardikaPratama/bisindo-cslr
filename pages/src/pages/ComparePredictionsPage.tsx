@@ -66,43 +66,43 @@ export default function ComparePredictionsPage() {
   };
 
   return (
-    <div className="pt-24 pb-20 px-6 max-w-screen-2xl mx-auto flex flex-col min-h-screen">
+    <div className="pt-24 pb-20 px-6 w-full max-w-screen-2xl mx-auto flex flex-col min-h-screen overflow-x-hidden">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
           <h1 className="text-3xl font-bold text-text-primary tracking-tight">Compare Predictions</h1>
           <p className="text-text-secondary mt-1">Compare actual hypothesis predictions side-by-side between two configurations.</p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-4 bg-surface-card p-2 rounded-xl border border-surface-border">
-          <div className="flex items-center gap-2">
-            <label className="text-xs font-semibold text-brand-blue uppercase tracking-wider pl-2">Config A:</label>
+        <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-4 bg-surface-card p-4 rounded-xl border border-surface-border w-full md:w-auto">
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <label className="text-xs font-semibold text-brand-blue uppercase tracking-wider pl-2 w-20 sm:w-auto">Config A:</label>
             <ConfigDropdown
               value={configA}
               onChange={setConfigA}
-              buttonClassName="border-brand-blue/30 focus:ring-brand-blue focus:border-brand-blue p-2 min-w-[100px]"
+              buttonClassName="border-brand-blue/30 focus:ring-brand-blue focus:border-brand-blue p-2 flex-1 sm:min-w-[100px]"
               activeItemClassName="text-brand-blue"
             />
           </div>
 
           <div className="h-6 w-px bg-surface-border hidden md:block"></div>
 
-          <div className="flex items-center gap-2">
-            <label className="text-xs font-semibold text-purple-400 uppercase tracking-wider pl-2">Config B:</label>
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <label className="text-xs font-semibold text-purple-400 uppercase tracking-wider pl-2 w-20 sm:w-auto">Config B:</label>
             <ConfigDropdown
               value={configB}
               onChange={setConfigB}
-              buttonClassName="border-purple-500/30 focus:ring-purple-400 focus:border-purple-400 p-2 min-w-[100px]"
+              buttonClassName="border-purple-500/30 focus:ring-purple-400 focus:border-purple-400 p-2 flex-1 sm:min-w-[100px]"
               activeItemClassName="text-purple-400"
             />
           </div>
 
           <div className="h-6 w-px bg-surface-border hidden md:block"></div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 w-full sm:w-auto">
             <select
               value={testType}
               onChange={(e) => setTestType(e.target.value as 'major' | 'minor')}
-              className="bg-surface-bg border border-surface-border text-text-primary text-sm rounded-lg focus:ring-brand-blue focus:border-brand-blue block p-2"
+              className="bg-surface-bg border border-surface-border text-text-primary text-sm rounded-lg focus:ring-brand-blue focus:border-brand-blue block p-2 w-full"
             >
               <option value="major">SI Major</option>
               <option value="minor">SI Minor</option>
@@ -111,11 +111,11 @@ export default function ComparePredictionsPage() {
 
           <div className="h-6 w-px bg-surface-border hidden md:block"></div>
 
-          <div className="flex items-center gap-2 pr-2">
+          <div className="flex items-center gap-2 w-full sm:w-auto">
             <select
               value={filterMode}
               onChange={(e) => setFilterMode(e.target.value as 'all' | 'errors')}
-              className="bg-surface-bg border border-surface-border text-text-primary text-sm rounded-lg focus:ring-brand-blue focus:border-brand-blue block p-2"
+              className="bg-surface-bg border border-surface-border text-text-primary text-sm rounded-lg focus:ring-brand-blue focus:border-brand-blue block p-2 w-full"
             >
               <option value="all">All Utterances</option>
               <option value="errors">With Errors</option>
@@ -127,44 +127,48 @@ export default function ComparePredictionsPage() {
       {loading && <div className="text-center py-20 text-brand-blue animate-pulse">Loading prediction data...</div>}
 
       {!loading && dataA && dataB && (
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col w-full min-w-0">
           {/* Detailed Table */}
-          <div className="bg-surface-card border border-surface-border rounded-2xl overflow-hidden flex-1 flex flex-col shadow-panel-glow">
-            <div className="grid grid-cols-12 gap-4 p-4 border-b border-surface-border bg-surface-bg/50 font-semibold text-text-secondary text-sm">
-              <div className="col-span-1">ID</div>
-              <div className="col-span-3 text-brand-blue">{configA} Pred ({testType === 'major' ? 'Major' : 'Minor'})</div>
-              <div className="col-span-5 text-center text-text-primary">Ground Truth (Ref)</div>
-              <div className="col-span-3 text-purple-400">{configB} Pred ({testType === 'major' ? 'Major' : 'Minor'})</div>
-            </div>
-
-            <div className="overflow-y-auto max-h-[800px] flex flex-col">
-              {filteredCombined.map((item: any, idx: number) => (
-                <div key={item.utterance_id} className={cn("grid grid-cols-12 gap-4 p-4 border-b border-surface-border/50 hover:bg-surface-hover transition-colors font-mono text-sm", idx % 2 === 0 ? 'bg-transparent' : 'bg-surface-bg/30')}>
-                  <div className="col-span-1 text-text-muted">{item.utterance_id}</div>
-
-                  {/* Config A */}
-                  <div className="col-span-3 min-w-0 overflow-x-auto whitespace-pre pb-2">
-                    <div className="text-text-secondary">{item.hypA}</div>
-                    <div className="text-text-primary mt-1">{renderColoredEval(item.evalA)}</div>
-                  </div>
-
-                  {/* Ground Truth */}
-                  <div className="col-span-5 min-w-0 text-center flex items-center justify-center overflow-x-auto whitespace-pre pb-2">
-                    <div className="bg-surface-bg px-4 py-2 rounded-lg border border-surface-border text-text-primary font-bold">
-                      {item.ref.trim()}
-                    </div>
-                  </div>
-
-                  {/* Config B */}
-                  <div className="col-span-3 min-w-0 overflow-x-auto whitespace-pre pb-2">
-                    <div className="text-text-secondary">{item.hypB}</div>
-                    <div className="text-text-primary mt-1">{renderColoredEval(item.evalB)}</div>
-                  </div>
+          <div className="bg-surface-card border border-surface-border rounded-2xl flex-1 flex flex-col overflow-hidden shadow-panel-glow">
+            <div className="overflow-x-auto w-full">
+              <div className="min-w-[800px] flex flex-col h-full">
+                <div className="grid grid-cols-12 gap-4 p-4 border-b border-surface-border bg-surface-bg/50 font-semibold text-text-secondary text-sm">
+                  <div className="col-span-1">ID</div>
+                  <div className="col-span-3 text-brand-blue">{configA} Pred ({testType === 'major' ? 'Major' : 'Minor'})</div>
+                  <div className="col-span-5 text-center text-text-primary">Ground Truth (Ref)</div>
+                  <div className="col-span-3 text-purple-400">{configB} Pred ({testType === 'major' ? 'Major' : 'Minor'})</div>
                 </div>
-              ))}
-              {filteredCombined.length === 0 && (
-                <div className="p-8 text-center text-text-muted">No utterances found matching the criteria.</div>
-              )}
+
+                <div className="overflow-y-auto max-h-[800px] flex flex-col">
+                  {filteredCombined.map((item: any, idx: number) => (
+                    <div key={item.utterance_id} className={cn("grid grid-cols-12 gap-4 p-4 border-b border-surface-border/50 hover:bg-surface-hover transition-colors font-mono text-sm", idx % 2 === 0 ? 'bg-transparent' : 'bg-surface-bg/30')}>
+                      <div className="col-span-1 text-text-muted">{item.utterance_id}</div>
+
+                      {/* Config A */}
+                      <div className="col-span-3 min-w-0 overflow-x-auto whitespace-pre pb-2">
+                        <div className="text-text-secondary">{item.hypA}</div>
+                        <div className="text-text-primary mt-1">{renderColoredEval(item.evalA)}</div>
+                      </div>
+
+                      {/* Ground Truth */}
+                      <div className="col-span-5 min-w-0 text-center flex items-center justify-center overflow-x-auto whitespace-pre pb-2">
+                        <div className="bg-surface-bg px-4 py-2 rounded-lg border border-surface-border text-text-primary font-bold">
+                          {item.ref.trim()}
+                        </div>
+                      </div>
+
+                      {/* Config B */}
+                      <div className="col-span-3 min-w-0 overflow-x-auto whitespace-pre pb-2">
+                        <div className="text-text-secondary">{item.hypB}</div>
+                        <div className="text-text-primary mt-1">{renderColoredEval(item.evalB)}</div>
+                      </div>
+                    </div>
+                  ))}
+                  {filteredCombined.length === 0 && (
+                    <div className="p-8 text-center text-text-muted">No utterances found matching the criteria.</div>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>

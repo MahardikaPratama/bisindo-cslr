@@ -66,14 +66,14 @@ export default function ExperimentResultsPage() {
 
 
   return (
-    <div className="pt-24 pb-20 px-6 max-w-screen-2xl mx-auto flex flex-col min-h-screen">
+    <div className="pt-24 pb-20 px-6 w-full max-w-screen-2xl mx-auto flex flex-col min-h-screen overflow-x-hidden">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
           <h1 className="text-3xl font-bold text-text-primary tracking-tight">Experiment Results</h1>
           <p className="text-text-secondary mt-1">Analyze major and minor predictions side-by-side.</p>
         </div>
 
-        <div className="flex items-center gap-4 bg-surface-card p-2 rounded-xl border border-surface-border">
+        <div className="flex flex-wrap items-center gap-4 bg-surface-card p-3 rounded-xl border border-surface-border w-full md:w-auto">
           <label className="text-sm font-medium text-text-secondary pl-2">Config:</label>
           <ConfigDropdown
             value={selectedConfig}
@@ -98,7 +98,7 @@ export default function ExperimentResultsPage() {
       {loading && <div className="text-center py-20 text-brand-blue animate-pulse">Loading data...</div>}
 
       {!loading && data && (
-        <div className="flex-1 flex flex-col gap-6">
+        <div className="flex-1 flex flex-col gap-6 w-full min-w-0">
           {data.inference_speed !== undefined && (
             <div className="flex justify-start">
               <span className="text-sm font-semibold bg-green-500/10 text-green-400 px-3 py-1.5 rounded-lg border border-green-500/20 shadow-sm flex items-center gap-2">
@@ -153,42 +153,46 @@ export default function ExperimentResultsPage() {
           </div>
 
           {/* Detailed Table */}
-          <div className="bg-surface-card border border-surface-border rounded-2xl overflow-hidden flex-1 flex flex-col">
-            <div className="grid grid-cols-12 gap-4 p-4 border-b border-surface-border bg-surface-bg/50 font-semibold text-text-secondary text-sm">
-              <div className="col-span-1">ID</div>
-              <div className="col-span-3 text-brand-blue">SI Major Pred (Hyp & Eval)</div>
-              <div className="col-span-5 text-center text-text-primary">Ground Truth (Ref)</div>
-              <div className="col-span-3 text-purple-400">SI Minor Pred (Hyp & Eval)</div>
-            </div>
-
-            <div className="overflow-y-auto max-h-[800px] flex flex-col">
-              {filteredCombined.map((item: any, idx: number) => (
-                <div key={item.utterance_id} className={cn("grid grid-cols-12 gap-4 p-4 border-b border-surface-border/50 hover:bg-surface-hover transition-colors font-mono text-sm", idx % 2 === 0 ? 'bg-transparent' : 'bg-surface-bg/30')}>
-                  <div className="col-span-1 text-text-muted">{item.utterance_id}</div>
-
-                  {/* SI Major */}
-                  <div className="col-span-3 min-w-0 overflow-x-auto whitespace-pre pb-2">
-                    <div className="text-text-secondary">{item.majorHyp}</div>
-                    <div className="text-text-primary mt-1">{renderColoredEval(item.majorEval)}</div>
-                  </div>
-
-                  {/* Ground Truth */}
-                  <div className="col-span-5 min-w-0 text-center flex items-center justify-center overflow-x-auto whitespace-pre pb-2">
-                    <div className="bg-surface-bg px-4 py-2 rounded-lg border border-surface-border text-text-primary font-bold">
-                      {item.ref.trim()}
-                    </div>
-                  </div>
-
-                  {/* SI Minor */}
-                  <div className="col-span-3 min-w-0 overflow-x-auto whitespace-pre pb-2">
-                    <div className="text-text-secondary">{item.minorHyp}</div>
-                    <div className="text-text-primary mt-1">{renderColoredEval(item.minorEval)}</div>
-                  </div>
+          <div className="bg-surface-card border border-surface-border rounded-2xl flex-1 flex flex-col overflow-hidden">
+            <div className="overflow-x-auto w-full">
+              <div className="min-w-[800px] flex flex-col h-full">
+                <div className="grid grid-cols-12 gap-4 p-4 border-b border-surface-border bg-surface-bg/50 font-semibold text-text-secondary text-sm">
+                  <div className="col-span-1">ID</div>
+                  <div className="col-span-3 text-brand-blue">SI Major Pred (Hyp & Eval)</div>
+                  <div className="col-span-5 text-center text-text-primary">Ground Truth (Ref)</div>
+                  <div className="col-span-3 text-purple-400">SI Minor Pred (Hyp & Eval)</div>
                 </div>
-              ))}
-              {filteredCombined.length === 0 && (
-                <div className="p-8 text-center text-text-muted">No utterances found matching the criteria.</div>
-              )}
+
+                <div className="overflow-y-auto max-h-[800px] flex flex-col">
+                  {filteredCombined.map((item: any, idx: number) => (
+                    <div key={item.utterance_id} className={cn("grid grid-cols-12 gap-4 p-4 border-b border-surface-border/50 hover:bg-surface-hover transition-colors font-mono text-sm", idx % 2 === 0 ? 'bg-transparent' : 'bg-surface-bg/30')}>
+                      <div className="col-span-1 text-text-muted">{item.utterance_id}</div>
+
+                      {/* SI Major */}
+                      <div className="col-span-3 min-w-0 overflow-x-auto whitespace-pre pb-2">
+                        <div className="text-text-secondary">{item.majorHyp}</div>
+                        <div className="text-text-primary mt-1">{renderColoredEval(item.majorEval)}</div>
+                      </div>
+
+                      {/* Ground Truth */}
+                      <div className="col-span-5 min-w-0 text-center flex items-center justify-center overflow-x-auto whitespace-pre pb-2">
+                        <div className="bg-surface-bg px-4 py-2 rounded-lg border border-surface-border text-text-primary font-bold">
+                          {item.ref.trim()}
+                        </div>
+                      </div>
+
+                      {/* SI Minor */}
+                      <div className="col-span-3 min-w-0 overflow-x-auto whitespace-pre pb-2">
+                        <div className="text-text-secondary">{item.minorHyp}</div>
+                        <div className="text-text-primary mt-1">{renderColoredEval(item.minorEval)}</div>
+                      </div>
+                    </div>
+                  ))}
+                  {filteredCombined.length === 0 && (
+                    <div className="p-8 text-center text-text-muted">No utterances found matching the criteria.</div>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>
