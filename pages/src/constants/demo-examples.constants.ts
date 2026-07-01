@@ -13,7 +13,7 @@ export interface DemoExample {
 
 export const DEMO_EXAMPLES: DemoExample[] = [
   {
-    videoPath: 'demos/videos/P6_S24_MJ.mp4',
+    videoPath: '/demos/videos/P6_S24_MJ.mp4',
     groundTruthId: 'S24', // RUMAH DIMANA KAMU
   },
 ];

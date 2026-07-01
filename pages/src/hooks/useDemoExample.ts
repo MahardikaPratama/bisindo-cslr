@@ -40,8 +40,7 @@ export function useDemoExample() {
       }
 
       // Fetch video file
-      const videoUrl = new URL(demo.videoPath, window.location.origin).href;
-      const response = await fetch(videoUrl);
+      const response = await fetch(demo.videoPath);
       
       if (!response.ok) {
         throw new Error(`Failed to load demo video: ${response.statusText}`);
