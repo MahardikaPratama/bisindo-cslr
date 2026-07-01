@@ -1,9 +1,10 @@
 {
-  "category": "baseline",
+  "category": "normalisasi-skeleton",
   "configuration_name": "B2",
   "tests": {
     "test_si_major": {
       "inference_speed": 18.78,
+      "word_error_rate": 9.7,
       "summary": {
         "global": {
           "sentences": 30,
@@ -12,8 +13,8 @@
           "substitutions": 9,
           "deletions": 3,
           "insertions": 2,
-          "word_error_rate": 14.0,
-          "sentence_error_rate": 9.0
+          "errors": 14,
+          "sentence_errors": 9.0
         },
         "by_speaker": [
           {
@@ -23,8 +24,8 @@
             "substitutions": 9,
             "deletions": 3,
             "insertions": 2,
-            "word_error_rate": 14.0,
-            "sentence_error_rate": 9.0,
+            "errors": 14,
+            "sentence_errors": 9.0,
             "speaker_id": "p6"
           }
         ]
@@ -514,6 +515,7 @@
     },
     "test_si_minor": {
       "inference_speed": 19.22,
+      "word_error_rate": 28.0,
       "summary": {
         "global": {
           "sentences": 27,
@@ -522,8 +524,8 @@
           "substitutions": 24,
           "deletions": 13,
           "insertions": 0,
-          "word_error_rate": 37.0,
-          "sentence_error_rate": 14.0
+          "errors": 37,
+          "sentence_errors": 14.0
         },
         "by_speaker": [
           {
@@ -533,8 +535,8 @@
             "substitutions": 24,
             "deletions": 13,
             "insertions": 0,
-            "word_error_rate": 37.0,
-            "sentence_error_rate": 14.0,
+            "errors": 37,
+            "sentence_errors": 14.0,
             "speaker_id": "p6"
           }
         ]

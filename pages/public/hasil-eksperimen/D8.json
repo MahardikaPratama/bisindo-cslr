@@ -1,9 +1,10 @@
 {
-  "category": "baseline",
+  "category": "augmentasi",
   "configuration_name": "D8",
   "tests": {
     "test_si_major": {
-      "inference_speed": 28.77,
+      "inference_speed": 29.08,
+      "word_error_rate": 0.7,
       "summary": {
         "global": {
           "sentences": 30,
@@ -12,8 +13,8 @@
           "substitutions": 4,
           "deletions": 1,
           "insertions": 0,
-          "word_error_rate": 5.0,
-          "sentence_error_rate": 4.0
+          "errors": 5,
+          "sentence_errors": 4.0
         },
         "by_speaker": [
           {
@@ -23,8 +24,8 @@
             "substitutions": 4,
             "deletions": 1,
             "insertions": 0,
-            "word_error_rate": 5.0,
-            "sentence_error_rate": 4.0,
+            "errors": 5,
+            "sentence_errors": 4.0,
             "speaker_id": "p6"
           }
         ]
@@ -513,7 +514,8 @@
       ]
     },
     "test_si_minor": {
-      "inference_speed": 28.77,
+      "inference_speed": 28.34,
+      "word_error_rate": 8.3,
       "summary": {
         "global": {
           "sentences": 27,
@@ -522,8 +524,8 @@
           "substitutions": 20,
           "deletions": 10,
           "insertions": 1,
-          "word_error_rate": 31.0,
-          "sentence_error_rate": 14.0
+          "errors": 31,
+          "sentence_errors": 14.0
         },
         "by_speaker": [
           {
@@ -533,8 +535,8 @@
             "substitutions": 20,
             "deletions": 10,
             "insertions": 1,
-            "word_error_rate": 31.0,
-            "sentence_error_rate": 14.0,
+            "errors": 31,
+            "sentence_errors": 14.0,
             "speaker_id": "p6"
           }
         ]
