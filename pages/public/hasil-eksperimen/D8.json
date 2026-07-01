@@ -1,9 +1,9 @@
 {
   "category": "augmentasi",
   "configuration_name": "D8",
+  "inference_speed": 26.3,
   "tests": {
     "test_si_major": {
-      "inference_speed": 29.08,
       "word_error_rate": 0.7,
       "summary": {
         "global": {
@@ -514,7 +514,6 @@
       ]
     },
     "test_si_minor": {
-      "inference_speed": 28.34,
       "word_error_rate": 8.3,
       "summary": {
         "global": {

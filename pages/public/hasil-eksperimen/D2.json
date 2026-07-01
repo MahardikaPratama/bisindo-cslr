@@ -1,9 +1,9 @@
 {
   "category": "augmentasi",
   "configuration_name": "D2",
+  "inference_speed": 25.97,
   "tests": {
     "test_si_major": {
-      "inference_speed": 18.86,
       "word_error_rate": 16.6,
       "summary": {
         "global": {
@@ -514,7 +514,6 @@
       ]
     },
     "test_si_minor": {
-      "inference_speed": 19.07,
       "word_error_rate": 41.7,
       "summary": {
         "global": {

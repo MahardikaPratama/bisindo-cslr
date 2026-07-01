@@ -1,9 +1,9 @@
 {
   "category": "normalisasi-skeleton",
   "configuration_name": "B2",
+  "inference_speed": 17.78,
   "tests": {
     "test_si_major": {
-      "inference_speed": 18.78,
       "word_error_rate": 9.7,
       "summary": {
         "global": {
@@ -514,7 +514,6 @@
       ]
     },
     "test_si_minor": {
-      "inference_speed": 19.22,
       "word_error_rate": 28.0,
       "summary": {
         "global": {

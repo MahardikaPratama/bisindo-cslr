@@ -53,12 +53,10 @@ export default function CompareConfigsPage() {
 
     const dataA = {
       ...sumA,
-      inference_speed: testA.inference_speed,
       word_error_rate: testA.word_error_rate
     };
     const dataB = {
       ...sumB,
-      inference_speed: testB.inference_speed,
       word_error_rate: testB.word_error_rate
     };
 
@@ -68,7 +66,6 @@ export default function CompareConfigsPage() {
       { key: 'substitutions', label: 'Substitutions', lowerIsBetter: true, isPercentage: false },
       { key: 'deletions', label: 'Deletions', lowerIsBetter: true, isPercentage: false },
       { key: 'insertions', label: 'Insertions', lowerIsBetter: true, isPercentage: false },
-      { key: 'inference_speed', label: 'Inference Speed (ms)', lowerIsBetter: true, isPercentage: false },
     ];
 
     return (
@@ -99,6 +96,40 @@ export default function CompareConfigsPage() {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+    );
+  };
+
+  const renderGlobalTable = (title: string, dataA: any, dataB: any) => {
+    if (!dataA || !dataB) return null;
+
+    return (
+      <div className="bg-surface-card border border-surface-border rounded-2xl overflow-hidden shadow-panel mb-8">
+        <div className="bg-surface-bg/80 px-6 py-4 border-b border-surface-border flex justify-between items-center">
+          <h3 className="text-lg font-bold text-text-primary">{title}</h3>
+        </div>
+
+        <div className="grid grid-cols-4 gap-4 p-4 border-b border-surface-border/50 bg-surface-bg/30 font-semibold text-text-secondary text-sm text-center">
+          <div className="col-span-1 text-left pl-4">Metric</div>
+          <div className="col-span-1 text-brand-blue">{configA} (Base)</div>
+          <div className="col-span-1 text-purple-400">{configB} (Compare)</div>
+          <div className="col-span-1">Delta</div>
+        </div>
+
+        <div className="flex flex-col">
+          <div className="grid grid-cols-4 gap-4 p-4 text-center items-center bg-transparent transition-colors hover:bg-surface-hover">
+            <div className="col-span-1 text-left pl-4 font-medium text-text-primary">Inference Speed (ms)</div>
+            <div className="col-span-1 text-xl font-bold text-text-secondary">
+              {dataA.inference_speed !== undefined ? dataA.inference_speed : '-'}
+            </div>
+            <div className="col-span-1 text-xl font-bold text-text-primary">
+              {dataB.inference_speed !== undefined ? dataB.inference_speed : '-'}
+            </div>
+            <div className="col-span-1 bg-surface-bg py-2 rounded-lg border border-surface-border/50">
+              {dataA.inference_speed !== undefined && dataB.inference_speed !== undefined ? renderDelta(dataA.inference_speed, dataB.inference_speed, true, false) : '-'}
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -143,6 +174,7 @@ export default function CompareConfigsPage() {
 
       {!loading && dataA && dataB && (
         <div className="flex-1 flex flex-col">
+          {renderGlobalTable('Global Performance', dataA, dataB)}
           {renderComparisonTable('SI Major Performance', dataA?.tests?.test_si_major, dataB?.tests?.test_si_major)}
           {renderComparisonTable('SI Minor Performance', dataA?.tests?.test_si_minor, dataB?.tests?.test_si_minor)}
         </div>

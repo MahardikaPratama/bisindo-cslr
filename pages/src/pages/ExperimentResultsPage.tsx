@@ -26,8 +26,6 @@ export default function ExperimentResultsPage() {
 
   const majorGlobal = data?.tests?.test_si_major?.summary?.global;
   const minorGlobal = data?.tests?.test_si_minor?.summary?.global;
-  const majorSpeed = data?.tests?.test_si_major?.inference_speed;
-  const minorSpeed = data?.tests?.test_si_minor?.inference_speed;
 
   const majorPreds = data?.tests?.test_si_major?.predictions || [];
   const minorPreds = data?.tests?.test_si_minor?.predictions || [];
@@ -101,12 +99,23 @@ export default function ExperimentResultsPage() {
 
       {!loading && data && (
         <div className="flex-1 flex flex-col gap-6">
+          {data.inference_speed !== undefined && (
+            <div className="flex justify-start">
+              <span className="text-sm font-semibold bg-green-500/10 text-green-400 px-3 py-1.5 rounded-lg border border-green-500/20 shadow-sm flex items-center gap-2">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                </span>
+                Inference Speed: {data.inference_speed} ms
+              </span>
+            </div>
+          )}
+
           {/* Summary Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-surface-card border border-brand-blue/30 rounded-2xl p-6 shadow-panel-glow">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-bold text-brand-blue">SI Major Summary</h3>
-                {majorSpeed !== undefined && <span className="text-xs font-semibold bg-brand-blue/10 text-brand-blue px-2.5 py-1 rounded-lg border border-brand-blue/20">Inference Speed: {majorSpeed} ms</span>}
               </div>
               {majorGlobal ? (
                 <div className="grid grid-cols-2 gap-4 text-center">
@@ -126,7 +135,6 @@ export default function ExperimentResultsPage() {
             <div className="bg-surface-card border border-purple-500/30 rounded-2xl p-6 shadow-panel">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-bold text-purple-400">SI Minor Summary</h3>
-                {minorSpeed !== undefined && <span className="text-xs font-semibold bg-purple-500/10 text-purple-400 px-2.5 py-1 rounded-lg border border-purple-500/20">Inference Speed: {minorSpeed} ms</span>}
               </div>
               {minorGlobal ? (
                 <div className="grid grid-cols-2 gap-4 text-center">

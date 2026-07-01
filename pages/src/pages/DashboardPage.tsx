@@ -46,7 +46,7 @@ export default function DashboardPage() {
             config: AVAILABLE_CONFIGS[index],
             major: {
               wer: major?.word_error_rate ?? 0,
-              speed: major?.inference_speed ?? 0,
+              speed: res.inference_speed ?? 0,
               sentenceErrors: major?.summary?.global?.sentence_errors ?? 0,
               substitutions: major?.summary?.global?.substitutions ?? 0,
               deletions: major?.summary?.global?.deletions ?? 0,
@@ -54,7 +54,7 @@ export default function DashboardPage() {
             },
             minor: {
               wer: minor?.word_error_rate ?? 0,
-              speed: minor?.inference_speed ?? 0,
+              speed: res.inference_speed ?? 0,
               sentenceErrors: minor?.summary?.global?.sentence_errors ?? 0,
               substitutions: minor?.summary?.global?.substitutions ?? 0,
               deletions: minor?.summary?.global?.deletions ?? 0,
