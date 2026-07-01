@@ -33,13 +33,13 @@ export default function CompareConfigsPage() {
   const renderDelta = (valA: number, valB: number, isLowerBetter: boolean, isPercentage = false) => {
     if (valA === undefined || valB === undefined) return null;
     const diff = valB - valA;
-    if (diff === 0) return <div className="text-text-muted flex items-center justify-center gap-1 text-sm"><Minus size={14}/> 0</div>;
-    
+    if (diff === 0) return <div className="text-text-muted flex items-center justify-center gap-1 text-sm"><Minus size={14} /> 0</div>;
+
     const isGood = isLowerBetter ? diff < 0 : diff > 0;
-    
+
     return (
       <div className={cn("flex items-center justify-center gap-1 text-sm font-bold", isGood ? "text-green-400" : "text-red-400")}>
-        {diff > 0 ? <TrendingUp size={14}/> : <TrendingDown size={14}/>}
+        {diff > 0 ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
         {Math.abs(diff).toFixed(isPercentage ? 2 : 0)}{isPercentage ? '%' : ''}
       </div>
     );
@@ -53,10 +53,10 @@ export default function CompareConfigsPage() {
 
     const dataA = { ...sumA, inference_speed: testA.inference_speed };
     const dataB = { ...sumB, inference_speed: testB.inference_speed };
-    
+
     const metrics = [
       { key: 'word_error_rate', label: 'Word Error Rate (WER)', lowerIsBetter: true, isPercentage: true },
-      { key: 'sentence_error_rate', label: 'Sentence Error Rate (SER)', lowerIsBetter: true, isPercentage: true },
+      { key: 'sentence_error_rate', label: 'Sentence Error Rate (SER)', lowerIsBetter: true, isPercentage: false },
       { key: 'correct', label: 'Correct Words', lowerIsBetter: false, isPercentage: false },
       { key: 'substitutions', label: 'Substitutions', lowerIsBetter: true, isPercentage: false },
       { key: 'deletions', label: 'Deletions', lowerIsBetter: true, isPercentage: false },
@@ -69,7 +69,7 @@ export default function CompareConfigsPage() {
         <div className="bg-surface-bg/80 px-6 py-4 border-b border-surface-border flex justify-between items-center">
           <h3 className="text-lg font-bold text-text-primary">{title}</h3>
         </div>
-        
+
         <div className="grid grid-cols-4 gap-4 p-4 border-b border-surface-border/50 bg-surface-bg/30 font-semibold text-text-secondary text-sm text-center">
           <div className="col-span-1 text-left pl-4">Metric</div>
           <div className="col-span-1 text-brand-blue">{configA} (Base)</div>
@@ -104,7 +104,7 @@ export default function CompareConfigsPage() {
           <h1 className="text-3xl font-bold text-text-primary tracking-tight">Compare Configurations</h1>
           <p className="text-text-secondary mt-1">Select two configs to compare their global evaluation metrics side-by-side.</p>
         </div>
-        
+
         <div className="flex items-center gap-4 bg-surface-card p-3 rounded-xl border border-surface-border shadow-sm">
           <div className="flex flex-col">
             <label className="text-xs font-semibold text-brand-blue mb-1 uppercase tracking-wider">Base (A)</label>
