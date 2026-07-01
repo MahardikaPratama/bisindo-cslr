@@ -5,3 +5,6 @@ coverage/
 *.tsbuildinfo
 .env
 .env.*
+
+# Allow demo videos to be committed despite root .gitignore
+!public/demos/videos/*.mp4
