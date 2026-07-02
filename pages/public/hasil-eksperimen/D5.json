@@ -4,7 +4,7 @@
   "inference_speed": 25.8,
   "tests": {
     "test_si_major": {
-      "word_error_rate": 1.4,
+      "word_error_rate": 77.9,
       "summary": {
         "global": {
           "sentences": 30,
@@ -514,7 +514,7 @@
       ]
     },
     "test_si_minor": {
-      "word_error_rate": 9.1,
+      "word_error_rate": 87.9,
       "summary": {
         "global": {
           "sentences": 27,
