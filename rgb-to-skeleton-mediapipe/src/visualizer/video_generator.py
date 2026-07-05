@@ -16,7 +16,7 @@ class VideoGenerator:
         os.makedirs(VIDEO_OUT_SKELETON_DIR, exist_ok=True)
         os.makedirs(VIDEO_OUT_OVERLAY_DIR, exist_ok=True)
 
-    def generate(self, raw_video_path: str, keypoints: np.ndarray, video_id: str, output_subpath: str = "", save_skeleton: bool = True, save_overlay: bool = True):
+    def generate(self, raw_video_path: str, keypoints: np.ndarray, video_id: str, output_subpath: str = "", save_skeleton: bool = True, save_overlay: bool = True, frame_indices: np.ndarray | None = None, normalized_keypoints: bool = False):
         """
         Generates and saves the videos.
         Args:
@@ -27,6 +27,14 @@ class VideoGenerator:
         """
         if not save_skeleton and not save_overlay:
             return
+
+        if frame_indices is None:
+            frame_indices = np.arange(keypoints.shape[0])
+
+        frame_indices = np.asarray(frame_indices, dtype=int)
+        frame_count = min(len(frame_indices), keypoints.shape[0])
+        frame_indices = frame_indices[:frame_count]
+        keypoints = keypoints[:frame_count]
 
         cap = cv2.VideoCapture(raw_video_path)
         if not cap.isOpened():
@@ -58,17 +66,11 @@ class VideoGenerator:
             over_path = os.path.join(over_dir, f"{video_id}_overlay.mp4")
             out_over = cv2.VideoWriter(over_path, fourcc, fps, (width, height))
 
-        frame_idx = 0
-        T = keypoints.shape[0]
-
         try:
-            while True:
+            for frame_idx, source_frame_idx in enumerate(frame_indices):
+                cap.set(cv2.CAP_PROP_POS_FRAMES, int(source_frame_idx))
                 ret, frame = cap.read()
                 if not ret:
-                    break
-
-                # Stop if we run out of keypoints (should match exactly unless there was a drop)
-                if frame_idx >= T:
                     break
 
                 frame_kps = keypoints[frame_idx]
@@ -76,17 +78,15 @@ class VideoGenerator:
                 # Generate skeleton only (black background)
                 if save_skeleton:
                     bg_skel = np.zeros((height, width, 3), dtype=np.uint8)
-                    draw_skeleton(bg_skel, frame_kps)
+                    draw_skeleton(bg_skel, frame_kps, normalized=normalized_keypoints)
                     out_skel.write(bg_skel)
 
                 # Generate overlay
                 if save_overlay:
                     # Make a copy so we don't accidentally modify the raw frame if used elsewhere
                     bg_over = frame.copy()
-                    draw_skeleton(bg_over, frame_kps)
+                    draw_skeleton(bg_over, frame_kps, normalized=normalized_keypoints)
                     out_over.write(bg_over)
-
-                frame_idx += 1
         finally:
             cap.release()
             if out_skel:

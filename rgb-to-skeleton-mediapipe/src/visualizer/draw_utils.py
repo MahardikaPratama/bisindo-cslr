@@ -46,13 +46,16 @@ def draw_hand(image: np.ndarray, keypoints: np.ndarray, color: tuple, width: int
         if pt is not None:
             cv2.circle(image, pt, radius=3, color=COLOR_POINT, thickness=-1, lineType=cv2.LINE_AA)
 
-def draw_skeleton(image: np.ndarray, frame_keypoints: np.ndarray):
+def draw_skeleton(image: np.ndarray, frame_keypoints: np.ndarray, normalized: bool = False):
     """
     Draws the full skeleton (Left Hand + Right Hand) on the image.
     frame_keypoints shape: (42, 2) where values are normalized [0.0, 1.0].
     [0:21] is Left Hand, [21:42] is Right Hand.
     """
     h, w, _ = image.shape
+
+    if normalized:
+        frame_keypoints = np.clip(frame_keypoints, 0.0, 1.0)
     
     # Left Hand (0 - 21)
     left_hand_kps = frame_keypoints[0:21]

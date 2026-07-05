@@ -14,6 +14,7 @@ from fastapi.responses import JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 import re
 import numpy as np
+import yaml
 
 
 # Silence noisy third-party logs before importing MediaPipe / TensorFlow.
@@ -33,6 +34,9 @@ from contextlib import nullcontext as NativeStderrFilter
 
 get_logger = importlib.import_module("src.utils.logger").get_logger
 SkeletonPipeline = importlib.import_module("src.core.pipeline").SkeletonPipeline
+VideoGenerator = importlib.import_module("src.visualizer.video_generator").VideoGenerator
+
+from inference.preprocessor import SkeletonPreprocessor
 
 logger = get_logger(__name__)
 
@@ -181,6 +185,27 @@ def _get_available_configs() -> list[str]:
         configs = [DEFAULT_CSLR_CONFIG_NAME]
     return configs
 
+
+def _resolve_config_path(config_name: Optional[str]) -> str:
+    if config_name == "Double_Cosign_sd.yaml":
+        return str(CSLR_PROJECT_DIR / "configs" / "Double_Cosign_sd.yaml")
+
+    baseline_path = CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "baseline" / (config_name or "")
+    if config_name and baseline_path.exists():
+        return str(baseline_path)
+
+    normalization_path = CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "normalization" / (config_name or "")
+    if config_name and normalization_path.exists():
+        return str(normalization_path)
+
+    return CSLR_CONFIG_PATH
+
+
+def _load_feeder_args(config_path: str) -> dict:
+    with open(config_path, "r", encoding="utf-8") as f:
+        cfg = yaml.load(f, Loader=yaml.FullLoader)
+    return cfg.get("feeder_args", {}) if cfg else {}
+
 @app.get("/health")
 def health() -> Dict[str, str]:
     return {"status": "ok"}
@@ -284,7 +309,7 @@ async def process_preview(video: UploadFile = File(...)) -> JSONResponse:
 # Endpoint 2: Full inference pipeline (skeleton + inference + WER)
 # ---------------------------------------------------------------------------
 @app.post("/api/extract_skeleton")
-async def extract_skeleton(video: UploadFile = File(...)) -> JSONResponse:
+async def extract_skeleton(video: UploadFile = File(...), config_name: Optional[str] = Form(None)) -> JSONResponse:
     if not video.filename:
         raise HTTPException(status_code=400, detail="Filename is required")
 
@@ -302,6 +327,23 @@ async def extract_skeleton(video: UploadFile = File(...)) -> JSONResponse:
             raise HTTPException(status_code=500, detail="Failed to produce skeleton output")
 
         video_id = temp_path.stem
+
+        config_path = _resolve_config_path(config_name)
+        feeder_args = _load_feeder_args(config_path)
+        preview_preprocessor = SkeletonPreprocessor(feeder_args, CSLR_PROJECT_DIR)
+        _, frame_indices, preview_keypoints = preview_preprocessor.preprocess_preview(keypoints, sentence_id=video_id)
+
+        preview_generator = VideoGenerator()
+        preview_generator.generate(
+            raw_video_path=str(temp_path),
+            keypoints=preview_keypoints,
+            video_id=video_id,
+            output_subpath="",
+            save_skeleton=True,
+            save_overlay=True,
+            frame_indices=frame_indices,
+            normalized_keypoints=True,
+        )
         
         # Simpan sementara keypoints ke format npy
         np.save(str(TEMP_KPS_DIR / f"{video_id}.npy"), keypoints)
@@ -371,12 +413,7 @@ async def predict(
         logger.info("[API] Current preprocessor before optional update: %s", runner.describe_preprocessor())
 
         if config_name:
-            if config_name == "Double_Cosign_sd.yaml":
-                config_path = str(CSLR_PROJECT_DIR / "configs" / "Double_Cosign_sd.yaml")
-            elif (CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "baseline" / config_name).exists():
-                config_path = str(CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "baseline" / config_name)
-            else:
-                config_path = str(CSLR_PROJECT_DIR / "configs" / "experiment_configs" / "normalization" / config_name)
+            config_path = _resolve_config_path(config_name)
             runner.update_preprocessor(config_path)
         else:
             logger.info("[API] Using backend default preprocessor from InferenceRunner initialization.")

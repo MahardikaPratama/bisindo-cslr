@@ -1,5 +1,7 @@
 import math
 import logging
+import sys
+from importlib import util as importlib_util
 from pathlib import Path
 import numpy as np
 import torch
@@ -8,12 +10,27 @@ logger = logging.getLogger(__name__)
 
 class SkeletonPreprocessor:
     def __init__(self, feeder_args: dict, cslr_project_dir: Path) -> None:
-        import sys
-        mslr_path = str(cslr_project_dir / "mslr_iccv2025")
+        candidate_roots = [cslr_project_dir, cslr_project_dir / "mslr_iccv2025"]
+        mslr_root = next(
+            (
+                root
+                for root in candidate_roots
+                if (root / "datasets" / "skeleton_feeder.py").exists()
+            ),
+            cslr_project_dir,
+        )
+        mslr_path = str(mslr_root)
         if mslr_path not in sys.path:
-            sys.path.append(mslr_path)
-            
-        from datasets.skeleton_feeder import SkeletonFeeder
+            sys.path.insert(0, mslr_path)
+
+        feeder_path = mslr_root / "datasets" / "skeleton_feeder.py"
+        spec = importlib_util.spec_from_file_location("mslr_iccv2025_skeleton_feeder", feeder_path)
+        if spec is None or spec.loader is None:
+            raise ImportError(f"Cannot load SkeletonFeeder from {feeder_path}")
+
+        feeder_module = importlib_util.module_from_spec(spec)
+        spec.loader.exec_module(feeder_module)
+        SkeletonFeeder = feeder_module.SkeletonFeeder
         
         self.feeder = SkeletonFeeder.__new__(SkeletonFeeder)
         
@@ -47,6 +64,28 @@ class SkeletonPreprocessor:
                 
         self.feeder.data_aug = self.feeder.pose_transform()
 
+    def _ensure_tensor(self, value):
+        if isinstance(value, np.ndarray):
+            return torch.from_numpy(value).float()
+        return value
+
+    def _make_final_tensor(self, frames: np.ndarray) -> np.ndarray:
+        input_data = frames[:, self.feeder.pose_idx, :2] * 10240.0
+        conf = np.zeros_like(input_data)[:, :, 0]
+
+        total_motion = np.zeros(input_data.shape[0:2] + (4,))
+        total_motion[1:, :, 0:2] = input_data[1:, :, 0:2] - input_data[0:-1, :, 0:2]
+        total_motion[0:-1, :, 2:4] = input_data[:-1, :, 0:2] - input_data[1:, :, 0:2]
+
+        return np.concatenate([input_data, total_motion, conf[:, :, None]], axis=-1)
+
+    def _downsample_indices(self, frame_count: int) -> np.ndarray:
+        if not self.feeder.downsampling:
+            return np.arange(frame_count)
+
+        step = max(1, int(round(1.0 / self.feeder.downsampling_ratio)))
+        return np.arange(0, frame_count, step)
+
     def summary(self) -> dict:
         return {
             "used_part": self.feeder.used_part,
@@ -58,19 +97,23 @@ class SkeletonPreprocessor:
         }
 
     def preprocess(self, frames: np.ndarray, sentence_id: str = None) -> torch.Tensor:
-        # MediaPipe outputs 0.0 to 1.0. 
+        # MediaPipe outputs 0.0 to 1.0.
         # SkeletonFeeder expects coordinates up to 10240 (because norm_div = 5119.5)
-        input_data = frames[:, self.feeder.pose_idx, :2] * 10240.0
-        conf = np.zeros_like(input_data)[:, :, 0]
+        final = self._make_final_tensor(frames)
+        tensor = self._ensure_tensor(self.feeder.normalize(final, sentence_id=sentence_id))
 
-        total_motion = np.zeros(input_data.shape[0:2] + (4,))
-        total_motion[1:, :, 0:2] = input_data[1:, :, 0:2] - input_data[0:-1, :, 0:2]
-        total_motion[0:-1, :, 2:4] = input_data[:-1, :, 0:2] - input_data[1:, :, 0:2]
-
-        final = np.concatenate([input_data, total_motion, conf[:, :, None]], axis=-1)
-        tensor = self.feeder.normalize(final, sentence_id=sentence_id)
-        
         return tensor
+
+    def preprocess_preview(self, frames: np.ndarray, sentence_id: str = None) -> tuple[torch.Tensor, np.ndarray, np.ndarray]:
+        indices = self._downsample_indices(frames.shape[0])
+        sampled_frames = frames[indices]
+        final = self._make_final_tensor(sampled_frames)
+        augmented = self.feeder.data_aug(final, sentence_id=sentence_id)
+        tensor = self._ensure_tensor(self.feeder.simple_normalize(augmented))
+
+        preview_keypoints = tensor[:, :, :2].detach().cpu().numpy()
+        preview_keypoints = np.clip((preview_keypoints + 1.0) / 2.0, 0.0, 1.0)
+        return tensor, indices, preview_keypoints
 
     def make_batch(self, tensor: torch.Tensor) -> dict:
         T = len(tensor)

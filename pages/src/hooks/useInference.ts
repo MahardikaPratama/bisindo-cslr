@@ -72,6 +72,7 @@ export function useInference() {
 
       const extractFormData = new FormData();
       extractFormData.append('video', videoFile);
+      if (selectedConfig) extractFormData.append('config_name', selectedConfig);
 
       const extractResponse = await fetch(`${API_BASE}/api/extract_skeleton`, {
         method: 'POST',
