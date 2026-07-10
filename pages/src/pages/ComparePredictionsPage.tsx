@@ -5,7 +5,8 @@ import ConfigDropdown from '../common/ConfigDropdown/ConfigDropdown';
 export default function ComparePredictionsPage() {
   const [configA, setConfigA] = useState('D1');
   const [configB, setConfigB] = useState('D2');
-  const [testType, setTestType] = useState<'major' | 'minor'>('major');
+  const [testTypeA, setTestTypeA] = useState<'major' | 'minor'>('major');
+  const [testTypeB, setTestTypeB] = useState<'major' | 'minor'>('major');
   const [dataA, setDataA] = useState<any>(null);
   const [dataB, setDataB] = useState<any>(null);
   const [loading, setLoading] = useState(false);
@@ -31,9 +32,10 @@ export default function ComparePredictionsPage() {
     loadData();
   }, [configA, configB]);
 
-  const testKey = `test_si_${testType}`;
-  const predsA = dataA?.tests?.[testKey]?.predictions || [];
-  const predsB = dataB?.tests?.[testKey]?.predictions || [];
+  const testKeyA = `test_si_${testTypeA}`;
+  const testKeyB = `test_si_${testTypeB}`;
+  const predsA = dataA?.tests?.[testKeyA]?.predictions || [];
+  const predsB = dataB?.tests?.[testKeyB]?.predictions || [];
 
   const combined = predsA.map((predA: any) => {
     const predB = predsB.find((p: any) => p.utterance_id === predA.utterance_id);
@@ -82,6 +84,14 @@ export default function ComparePredictionsPage() {
               buttonClassName="border-brand-blue/30 focus:ring-brand-blue focus:border-brand-blue p-2 flex-1 sm:min-w-[100px]"
               activeItemClassName="text-brand-blue"
             />
+            <select
+              value={testTypeA}
+              onChange={(e) => setTestTypeA(e.target.value as 'major' | 'minor')}
+              className="bg-surface-bg border border-surface-border text-text-primary text-sm rounded-lg focus:ring-brand-blue focus:border-brand-blue block p-2 w-full sm:w-auto ml-1"
+            >
+              <option value="major">SI Major</option>
+              <option value="minor">SI Minor</option>
+            </select>
           </div>
 
           <div className="h-6 w-px bg-surface-border hidden md:block"></div>
@@ -94,15 +104,10 @@ export default function ComparePredictionsPage() {
               buttonClassName="border-purple-500/30 focus:ring-purple-400 focus:border-purple-400 p-2 flex-1 sm:min-w-[100px]"
               activeItemClassName="text-purple-400"
             />
-          </div>
-
-          <div className="h-6 w-px bg-surface-border hidden md:block"></div>
-
-          <div className="flex items-center gap-2 w-full sm:w-auto">
             <select
-              value={testType}
-              onChange={(e) => setTestType(e.target.value as 'major' | 'minor')}
-              className="bg-surface-bg border border-surface-border text-text-primary text-sm rounded-lg focus:ring-brand-blue focus:border-brand-blue block p-2 w-full"
+              value={testTypeB}
+              onChange={(e) => setTestTypeB(e.target.value as 'major' | 'minor')}
+              className="bg-surface-bg border border-surface-border text-text-primary text-sm rounded-lg focus:ring-purple-400 focus:border-purple-400 block p-2 w-full sm:w-auto ml-1"
             >
               <option value="major">SI Major</option>
               <option value="minor">SI Minor</option>
@@ -134,9 +139,9 @@ export default function ComparePredictionsPage() {
               <div className="min-w-[800px] flex flex-col h-full">
                 <div className="grid grid-cols-12 gap-4 p-4 border-b border-surface-border bg-surface-bg/50 font-semibold text-text-secondary text-sm">
                   <div className="col-span-1">ID</div>
-                  <div className="col-span-3 text-brand-blue">{configA} Pred ({testType === 'major' ? 'Major' : 'Minor'})</div>
+                  <div className="col-span-3 text-brand-blue">{configA} Pred ({testTypeA === 'major' ? 'Major' : 'Minor'})</div>
                   <div className="col-span-5 text-center text-text-primary">Ground Truth (Ref)</div>
-                  <div className="col-span-3 text-purple-400">{configB} Pred ({testType === 'major' ? 'Major' : 'Minor'})</div>
+                  <div className="col-span-3 text-purple-400">{configB} Pred ({testTypeB === 'major' ? 'Major' : 'Minor'})</div>
                 </div>
 
                 <div className="overflow-y-auto max-h-[800px] flex flex-col">

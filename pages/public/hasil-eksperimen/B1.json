@@ -1,7 +1,7 @@
 {
   "category": "normalisasi-skeleton",
   "configuration_name": "B1",
-  "inference_speed": 17.82,
+  "inference_speed": 18.43,
   "tests": {
     "test_si_major": {
       "word_error_rate": 16.6,

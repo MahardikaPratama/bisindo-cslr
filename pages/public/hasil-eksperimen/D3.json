@@ -1,7 +1,7 @@
 {
   "category": "augmentasi",
   "configuration_name": "D3",
-  "inference_speed": 26.41,
+  "inference_speed": 18.18,
   "tests": {
     "test_si_major": {
       "word_error_rate": 0.7,

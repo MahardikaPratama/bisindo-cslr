@@ -1,7 +1,7 @@
 {
   "category": "augmentasi",
   "configuration_name": "D6",
-  "inference_speed": 25.99,
+  "inference_speed": 27.72,
   "tests": {
     "test_si_major": {
       "word_error_rate": 1.4,
