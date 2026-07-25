@@ -41,10 +41,10 @@ export function useInference() {
       alert('Please upload a video first.');
       return;
     }
-    if (!selectedGroundTruth) {
-      alert('Please select a sentence ID (Ground Truth) first.');
-      return;
-    }
+    // if (!selectedGroundTruth) {
+    //   alert('Please select a sentence ID (Ground Truth) first.');
+    //   return;
+    // }
 
     // Reset state sebelum mulai
     resetInference();
@@ -102,7 +102,7 @@ export function useInference() {
 
       const predictFormData = new FormData();
       predictFormData.append('video_id', videoId);
-      predictFormData.append('sentence_id', selectedGroundTruth.id);
+      predictFormData.append('sentence_id', selectedGroundTruth?.id || '001'); // Fallback ke '001' atau dummy
       if (selectedConfig) predictFormData.append('config_name', selectedConfig);
 
       const predictResponse = await fetch(`${API_BASE}/api/predict`, {
@@ -134,7 +134,7 @@ export function useInference() {
 
       setCurrentStep('prediction');
       const prediction: string = inferenceData.prediction || '[EMPTY]';
-      const groundTruth: string = inferenceData.ground_truth || selectedGroundTruth.text;
+      const groundTruth: string = inferenceData.ground_truth || selectedGroundTruth?.text || '-';
       const werPercent: string = inferenceData.wer_percent || 'N/A';
       const wer: number = inferenceData.wer ?? 1.0;
 

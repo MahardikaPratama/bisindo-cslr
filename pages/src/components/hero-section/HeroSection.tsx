@@ -8,16 +8,18 @@
  */
 
 import React from 'react';
-import { Upload, Play } from 'lucide-react';
+import { Upload, Play, Camera } from 'lucide-react';
 import Button from '../../common/Button/Button';
 
 interface HeroSectionProps {
   onUploadClick: () => void;
+  onRecordClick: () => void;
   onDemoClick: () => void;
 }
 
 const HeroSection = React.memo(function HeroSection({
   onUploadClick,
+  onRecordClick,
   onDemoClick,
 }: HeroSectionProps) {
   return (
@@ -29,27 +31,24 @@ const HeroSection = React.memo(function HeroSection({
         {/* ── Tag line ── */}
         <div className="flex items-center gap-2 mb-3">
           <span className="text-xs font-semibold tracking-widest uppercase text-brand-blue-light">
-            KoTA 502 — Research Demo
+            Untuk Teman Tuli & Teman Dengar
           </span>
         </div>
 
         {/* ── H1 Heading ── */}
         <h1 className="mb-4 text-3xl font-bold leading-tight md:text-4xl text-text-primary">
-          BISINDO{' '}
-          <span className="text-brand-blue-light">Continuous</span>
+          Penerjemah{' '}
+          <span className="text-brand-blue-light">Bahasa Isyarat</span>
           <br />
-          Sign Language{' '}
           <span className="relative">
-            Recognition
+            BISINDO
             <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-brand-blue to-transparent" />
           </span>
         </h1>
 
         {/* ── Description ── */}
         <p className="max-w-xl mb-8 text-base leading-relaxed text-text-secondary">
-          Upload a sign language video and run end-to-end inference from raw RGB video to
-          precise gloss prediction. Leveraging state-of-the-art skeleton extraction and
-          temporal feature fusion.
+          Silakan unggah atau rekam video gerakan bahasa isyarat Anda secara langsung untuk diterjemahkan menjadi teks Bahasa Indonesia yang mudah dipahami.
         </p>
 
         {/* ── CTA Buttons ── */}
@@ -61,7 +60,16 @@ const HeroSection = React.memo(function HeroSection({
             onClick={onUploadClick}
             leftIcon={<Upload size={18} />}
           >
-            Upload Video
+            Unggah Video
+          </Button>
+          <Button
+            id="btn-record-video"
+            variant="primary"
+            size="lg"
+            onClick={onRecordClick}
+            leftIcon={<Camera size={18} />}
+          >
+            Rekam Video
           </Button>
           <Button
             id="btn-demo-sample"
@@ -70,7 +78,7 @@ const HeroSection = React.memo(function HeroSection({
             onClick={onDemoClick}
             leftIcon={<Play size={16} />}
           >
-            Try Demo Sample
+            Coba Contoh
           </Button>
         </div>
       </div>

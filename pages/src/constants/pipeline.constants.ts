@@ -10,11 +10,11 @@
 import type { PipelineStep } from '../types/pipeline.types';
 
 export const PIPELINE_STEPS: Omit<PipelineStep, 'status'>[] = [
-  { id: 'rgb-video',    label: 'RGB Video',    stepNumber: 1 },
-  { id: 'skeleton-ext', label: 'Skeleton Ext.', stepNumber: 2 },
-  { id: 'preprocess',   label: 'Preprocess',   stepNumber: 3 },
-  { id: 'inference',    label: 'Inference',    stepNumber: 4 },
-  { id: 'prediction',   label: 'Prediction',   stepNumber: 5 },
+  { id: 'rgb-video',    label: 'Validasi Video',    stepNumber: 1 },
+  { id: 'skeleton-ext', label: 'Ekstraksi Rangka', stepNumber: 2 },
+  { id: 'preprocess',   label: 'Prapemrosesan',   stepNumber: 3 },
+  { id: 'inference',    label: 'Analisis AI',    stepNumber: 4 },
+  { id: 'prediction',   label: 'Penyusunan Teks',   stepNumber: 5 },
 ] as const;
 
 export const ACCEPTED_VIDEO_FORMATS = ['video/mp4', 'video/webm', 'video/avi', 'video/quicktime'];

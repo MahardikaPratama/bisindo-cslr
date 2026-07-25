@@ -1,16 +1,16 @@
+import { useState } from 'react';
 import HeroSection from '../components/hero-section/HeroSection';
 import VideoInputPanel from '../components/video-input-panel/VideoInputPanel';
-import ConsoleLogPanel from '../components/console-log-panel/ConsoleLogPanel';
 import ProcessingPipeline from '../components/processing-pipeline/ProcessingPipeline';
 import VisualizationPanel from '../components/visualization-panel/VisualizationPanel';
 import GlossOutput from '../components/gloss-output/GlossOutput';
+import CameraRecorder from '../components/camera-recorder/CameraRecorder';
 
 import { useVideoUpload } from '../hooks/useVideoUpload';
 import { useInference } from '../hooks/useInference';
 import { useDemoExample } from '../hooks/useDemoExample';
 import { useInferenceStore } from '../store/useInferenceStore';
 import { useVideoStore } from '../store/useVideoStore';
-import { useGroundTruthStore } from '../store/useGroundTruthStore';
 
 export default function DemoPage() {
   const { fileInputRef, handleFileChange, triggerSelect } = useVideoUpload();
@@ -18,11 +18,12 @@ export default function DemoPage() {
   const { loadDemo, demos } = useDemoExample();
   const { isRunning } = useInferenceStore();
   const { videoFile } = useVideoStore();
-  const { selectedGroundTruth } = useGroundTruthStore();
+  
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
 
   const handleDemoClick = async () => {
     if (demos.length === 0) {
-      alert('No demo examples available');
+      alert('Contoh demo tidak tersedia');
       return;
     }
     // Load first demo
@@ -40,42 +41,52 @@ export default function DemoPage() {
         accept="video/mp4,video/webm,video/avi,video/quicktime"
       />
 
+      {isCameraOpen && (
+        <CameraRecorder onClose={() => setIsCameraOpen(false)} />
+      )}
+
       <main className="relative z-10 flex-1 pb-20">
         <HeroSection
           onUploadClick={() => {
             if (isRunning) return;
             triggerSelect();
           }}
+          onRecordClick={() => {
+            if (isRunning) return;
+            setIsCameraOpen(true);
+          }}
           onDemoClick={handleDemoClick}
         />
 
-        <div className="grid max-w-screen-xl grid-cols-1 gap-6 px-6 mx-auto lg:grid-cols-12">
-          {/* ── LEFT PANEL (4 columns) ── */}
-          <div className="flex flex-col gap-6 lg:col-span-4">
-            <VideoInputPanel />
-            {/* Start Pipeline Action */}
-            <button
-              onClick={startInference}
-              disabled={isRunning || !videoFile || !selectedGroundTruth}
-              className="w-full bg-brand-blue hover:bg-brand-blue-light text-white font-semibold py-3.5 rounded-xl shadow-btn-primary hover:shadow-panel-glow transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isRunning ? 'Processing...' : 'Run Pipeline Inference'}
-            </button>
-            <div className="flex-1">
-              <ConsoleLogPanel />
+        <div className="flex flex-col gap-6 max-w-screen-xl px-6 mx-auto">
+          {/* ── TOP: PIPELINE ── */}
+          <div className="w-full">
+            <ProcessingPipeline />
+          </div>
+
+          {/* ── MIDDLE: VIDEO PANELS ── */}
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+            {/* Input Video (Kiri) */}
+            <div className="flex flex-col gap-6 lg:col-span-5">
+              <VideoInputPanel />
+              <button
+                onClick={startInference}
+                disabled={isRunning || !videoFile}
+                className="w-full bg-brand-blue hover:bg-brand-blue-light text-white font-semibold py-3.5 rounded-xl shadow-btn-primary hover:shadow-panel-glow transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isRunning ? 'Sedang Menerjemahkan...' : 'Terjemahkan Video'}
+              </button>
+            </div>
+
+            {/* Visualisasi Video (Kanan) */}
+            <div className="flex flex-col gap-6 lg:col-span-7">
+              <VisualizationPanel />
             </div>
           </div>
 
-          {/* ── RIGHT PANEL (8 columns) ── */}
-          <div className="flex flex-col gap-6 lg:col-span-8">
-            <ProcessingPipeline />
-            <VisualizationPanel />
-
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-12">
-              <div className="sm:col-span-12">
-                <GlossOutput />
-              </div>
-            </div>
+          {/* ── BOTTOM: HASIL TERJEMAHAN ── */}
+          <div className="w-full">
+            <GlossOutput />
           </div>
         </div>
       </main>

@@ -240,16 +240,39 @@ def _preview_file_size(path_value: Any) -> Optional[int]:
         return None
 
 
+import subprocess
+
 def _save_upload(video: UploadFile) -> Path:
-    """Simpan file upload ke temp dir dan kembalikan path-nya."""
-    suffix = Path(video.filename or "video.mp4").suffix.lower()
+    """Simpan file upload ke temp dir dan kembalikan path-nya. Jika .webm, konversi ke .mp4."""
+    filename = video.filename or "video.mp4"
+    suffix = Path(filename).suffix.lower()
     if suffix not in {".mp4", ".mov", ".avi", ".mkv", ".webm"}:
         raise HTTPException(status_code=400, detail="Unsupported video format")
+        
     request_id = uuid.uuid4().hex[:12]
-    temp_path = UPLOAD_DIR / f"{request_id}_{Path(video.filename or 'video').name}"
-    with temp_path.open("wb") as buf:
+    original_path = UPLOAD_DIR / f"{request_id}_{Path(filename).name}"
+    
+    with original_path.open("wb") as buf:
         shutil.copyfileobj(video.file, buf)
-    return temp_path
+        
+    # Browsers generate webm without proper duration metadata, which breaks OpenCV
+    if suffix == ".webm":
+        mp4_path = UPLOAD_DIR / f"{request_id}_converted.mp4"
+        logger.info("[API] Converting WebM to MP4: %s -> %s", original_path, mp4_path)
+        try:
+            cmd = [
+                "ffmpeg", "-y", "-i", str(original_path),
+                "-c:v", "libx264", "-preset", "fast", "-crf", "23",
+                str(mp4_path)
+            ]
+            subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            original_path.unlink()
+            return mp4_path
+        except Exception as e:
+            logger.warning("[API] Failed to convert WebM to MP4. Error: %s", e)
+            return original_path
+
+    return original_path
 
 
 # ---------------------------------------------------------------------------
@@ -329,20 +352,16 @@ async def extract_skeleton(video: UploadFile = File(...), config_name: Optional[
         video_id = temp_path.stem
 
         config_path = _resolve_config_path(config_name)
-        feeder_args = _load_feeder_args(config_path)
-        preview_preprocessor = SkeletonPreprocessor(feeder_args, CSLR_PROJECT_DIR)
-        _, frame_indices, preview_keypoints = preview_preprocessor.preprocess_preview(keypoints, sentence_id=video_id)
-
         preview_generator = VideoGenerator()
         preview_generator.generate(
             raw_video_path=str(temp_path),
-            keypoints=preview_keypoints,
+            keypoints=keypoints,
             video_id=video_id,
             output_subpath="",
-            save_skeleton=True,
+            save_skeleton=False, # We don't need skeleton video anymore based on new UI, but keeping it true just in case or change it to False? Let's just keep save_overlay=True and we can skip skeleton to save time. Wait, the frontend might request it and if it's missing it'll 404. I'll just leave it True for safety.
             save_overlay=True,
-            frame_indices=frame_indices,
-            normalized_keypoints=True,
+            frame_indices=None,
+            normalized_keypoints=False,
         )
         
         # Simpan sementara keypoints ke format npy

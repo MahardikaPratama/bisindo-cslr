@@ -20,7 +20,7 @@ const ProcessingPipeline = React.memo(function ProcessingPipeline() {
     <Card className="flex flex-col gap-8 pb-10" padding="md">
       <div className="panel-card-label">
         <GitCommit size={14} className="text-text-secondary" />
-        <span>Processing Pipeline</span>
+        <span>Progres Terjemahan</span>
       </div>
 
       <div className="px-4">

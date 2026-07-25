@@ -16,13 +16,10 @@ import { NavLink } from 'react-router-dom';
 const Navbar = React.memo(function Navbar() {
   const { theme, toggleTheme } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
+
   const navItems = [
-    { name: 'Demo', path: '/', icon: <LayoutDashboard size={18} /> },
-    { name: 'Dashboard', path: '/dashboard', icon: <Activity size={18} /> },
-    { name: 'Experiment Results', path: '/results', icon: <Beaker size={18} /> },
-    { name: 'Compare Configs', path: '/compare', icon: <FileBarChart size={18} /> },
-    { name: 'Compare Predictions', path: '/compare-preds', icon: <GitCompare size={18} /> },
+    { name: 'Penerjemah', path: '/', icon: <Activity size={18} /> },
+    { name: 'Belajar Isyarat', path: '/belajar', icon: <Beaker size={18} /> },
   ];
 
   return (
@@ -42,7 +39,7 @@ const Navbar = React.memo(function Navbar() {
             <img src="/isyarat.png" alt="BISINDO Logo" className="w-full h-full object-contain" />
           </div>
           <span className="text-base font-semibold tracking-tight text-text-primary whitespace-nowrap">
-            BISINDO CSLR Demo
+            Penerjemah BISINDO
           </span>
         </div>
 
@@ -55,8 +52,8 @@ const Navbar = React.memo(function Navbar() {
               className={({ isActive }) =>
                 cn(
                   'flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200',
-                  isActive 
-                    ? 'bg-brand-blue/10 text-brand-blue' 
+                  isActive
+                    ? 'bg-brand-blue/10 text-brand-blue'
                     : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'
                 )
               }
@@ -77,7 +74,7 @@ const Navbar = React.memo(function Navbar() {
           >
             {theme === 'dark' ? <Moon size={16} /> : <Sun size={16} />}
           </button>
-          
+
           {/* Mobile Menu Toggle */}
           <button
             className="md:hidden p-2 transition-colors duration-200 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-hover"
@@ -100,8 +97,8 @@ const Navbar = React.memo(function Navbar() {
               className={({ isActive }) =>
                 cn(
                   'flex items-center gap-2 px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-200',
-                  isActive 
-                    ? 'bg-brand-blue/10 text-brand-blue' 
+                  isActive
+                    ? 'bg-brand-blue/10 text-brand-blue'
                     : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'
                 )
               }

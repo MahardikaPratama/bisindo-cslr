@@ -12,10 +12,8 @@ import Navbar from './components/navbar/Navbar';
 import Footer from './components/footer/Footer';
 
 import DemoPage from './pages/DemoPage';
-import DashboardPage from './pages/DashboardPage';
-import ExperimentResultsPage from './pages/ExperimentResultsPage';
-import CompareConfigsPage from './pages/CompareConfigsPage';
-import ComparePredictionsPage from './pages/ComparePredictionsPage';
+
+import LearnPage from './pages/LearnPage';
 
 function App() {
   return (
@@ -27,10 +25,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<DemoPage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/results" element={<ExperimentResultsPage />} />
-          <Route path="/compare" element={<CompareConfigsPage />} />
-          <Route path="/compare-preds" element={<ComparePredictionsPage />} />
+          <Route path="/belajar" element={<LearnPage />} />
         </Routes>
 
         <Footer />

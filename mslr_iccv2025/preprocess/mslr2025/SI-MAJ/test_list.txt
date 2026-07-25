@@ -1,7 +1,7 @@
 id|gloss|text
 P6_S01_MJ|AKU CIUM BADAN DIA|Saya mencium bau badan dia
 P6_S02_MJ|AKU LIHAT ADA ULAR MASUK KELAS|Saya melihat ada ular masuk kelas
-P6_S03_MJ|AKU NILAI JELEK|Nilai ku jelek
+P6_S03_MJ|AKU NILAI JELEK|Nilai Aku jelek
 P6_S04_MJ|AKU PUSING AKU HARUS PERIKSA MANA|Saya sering pusing, saya harus periksa ke mana?
 P6_S05_MJ|APA KAMU PERNAH BACA BUKU BAHASA INGGRIS|Apa kamu pernah membaca novel bahasa inggris?
 P6_S06_MJ|AYAH SAMA IBU MANA|Di mana ayah sama Ibu?

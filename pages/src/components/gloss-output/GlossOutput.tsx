@@ -15,10 +15,10 @@ import { useInferenceStore } from '../../store/useInferenceStore';
 import { formatFps } from '../../utils/formatters';
 
 // ── Gloss to Indonesian Mapping ──────────────────────────────────────────────
-const GLOSS_TO_INDONESIAN: Record<string, string> = {
+export const GLOSS_TO_INDONESIAN: Record<string, string> = {
   'AKU CIUM BADAN DIA': 'Saya mencium bau badan dia',
   'AKU LIHAT ADA ULAR MASUK KELAS': 'Saya melihat ada ular masuk kelas',
-  'AKU NILAI JELEK': 'Nilai ku jelek',
+  'AKU NILAI JELEK': 'Nilai Aku jelek',
   'AKU PUSING AKU HARUS PERIKSA MANA': 'Saya sering pusing, saya harus periksa ke mana?',
   'APA KAMU PERNAH BACA BUKU BAHASA INGGRIS': 'Apa kamu pernah membaca novel bahasa inggris?',
   'AYAH SAMA IBU MANA': 'Di mana ayah sama Ibu?',
@@ -79,10 +79,10 @@ const GlossOutput = React.memo(function GlossOutput() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="panel-card-label">
-          <span>Inference Result</span>
+          <span>Hasil Terjemahan</span>
         </div>
         <Badge variant={isRunning ? 'live' : 'neutral'} dot={isRunning}>
-          {isRunning ? 'LIVE' : 'OUTPUT'}
+          {isRunning ? 'PROSES' : 'SELESAI'}
         </Badge>
       </div>
 
@@ -90,74 +90,37 @@ const GlossOutput = React.memo(function GlossOutput() {
       {isEmpty ? (
         <div className="flex items-center justify-center flex-1">
           <p className="text-sm italic text-center text-text-muted">
-            No inference result yet. Upload a video and run the pipeline.
+            Belum ada hasil. Silakan unggah atau rekam video untuk diterjemahkan.
           </p>
         </div>
       ) : (
         <div className="flex flex-col gap-4 animate-fade-in">
           {/* Main Output Card */}
-          <div className="relative w-full rounded-xl p-5 bg-brand-blue/10 border border-brand-blue/30 shadow-panel-glow">
+          <div className="relative w-full rounded-xl p-6 bg-brand-blue/10 border border-brand-blue/30 shadow-panel-glow">
             <button
               onClick={() => playAudio(GLOSS_TO_INDONESIAN[inferenceResult.prediction] || inferenceResult.prediction)}
               className="absolute right-4 top-4 text-brand-blue/70 hover:text-brand-blue-light transition-colors p-1"
               title="Putar Suara"
               aria-label="Play Audio"
             >
-              <Volume2 size={20} />
+              <Volume2 size={24} />
             </button>
-            
-            <div className="flex flex-col gap-1 pr-10">
+
+            <div className="flex flex-col gap-1 pr-10 mb-4">
               <span className="text-[10px] font-semibold tracking-widest uppercase text-brand-blue/60">
-                Prediction (Gloss)
+                Gloss
               </span>
               <span className="font-mono text-sm font-semibold text-brand-blue/80">
                 {inferenceResult.prediction || "—"}
               </span>
             </div>
-            
-            <div className="flex flex-col gap-1 mt-4 pr-10">
-              <span className="text-[10px] font-semibold tracking-widest uppercase text-brand-blue-light/70">
-                Indonesian Translation
-              </span>
-              <span className="font-bold text-xl leading-relaxed text-brand-blue-light">
-                {(GLOSS_TO_INDONESIAN[inferenceResult.prediction] || "Terjemahan tidak tersedia").toUpperCase()}
-              </span>
-            </div>
-          </div>
 
-          {/* Ground Truth Reference */}
-          <div className="flex flex-col gap-1 px-4 py-3 bg-surface-border/10 rounded-lg border border-surface-border/50">
-            <span className="text-[10px] font-semibold tracking-widest uppercase text-text-muted">
-              Ground Truth (Reference)
-            </span>
-            <span className="font-mono text-xs text-text-secondary">
-              {inferenceResult.groundTruth || "—"}
-            </span>
-          </div>
-
-          {/* WER */}
-          <div className="flex items-center justify-between pt-1">
-            <span className="text-xs font-semibold tracking-widest uppercase text-text-muted">
-              Word Error Rate (WER)
-            </span>
-            <span
-              className={`
-                px-3 py-1 rounded-full text-sm font-bold font-mono
-                ${werBadgeClass(inferenceResult.wer)}
-              `}
-            >
-              {inferenceResult.werPercent}
-            </span>
-          </div>
-
-          {/* Inference telemetry */}
-          <div className="pt-1">
-            <div className="flex items-center justify-between rounded-xl border border-brand-blue/20 bg-brand-blue/10 px-4 py-2.5">
-              <span className="text-xs font-semibold tracking-widest uppercase text-text-muted">
-                Inference Speed
+            <div className="flex flex-col gap-2 pr-10">
+              <span className="text-xs font-semibold tracking-widest uppercase text-brand-blue-light/70">
+                Terjemahan Bahasa Indonesia
               </span>
-              <span className="text-sm font-bold font-mono text-brand-blue-light">
-                {inferenceResult.inferenceFps > 0 ? `${formatFps(inferenceResult.inferenceFps)} seq/s` : '-'}
+              <span className="font-bold text-2xl leading-relaxed text-brand-blue-light">
+                {(GLOSS_TO_INDONESIAN[inferenceResult.prediction] || inferenceResult.prediction || "Terjemahan tidak tersedia").toUpperCase()}
               </span>
             </div>
           </div>
